@@ -1,0 +1,3 @@
+drf-spectacular
+docling
+python-dotenv
