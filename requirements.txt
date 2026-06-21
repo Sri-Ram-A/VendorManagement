@@ -9,3 +9,5 @@ neo4j
 redis
 celery
 newspaper4k
+loguru
+cohere

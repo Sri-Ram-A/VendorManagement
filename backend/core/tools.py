@@ -196,7 +196,8 @@ def search_news_breach_signal(vendor_id: str, vendor_name: str) -> dict:
         return {"tool": "gnews", "status": "error", "error": str(err)}
 
 
-def search_sec_edgar(vendor_id: str, company_name: str) -> dict:
+def search_sec_edgar(vendor_id: str, company_name: str = None, query: str = None) -> dict:
+    company_name = company_name or query  # accept either argument name
     """Full-text search engine utility accessing non-authenticated public regulatory filing repositories."""
     v_logger = get_vendor_logger(vendor_id)
     v_logger.info(f"TOOL_CALL: search_sec_edgar query_target={company_name}")

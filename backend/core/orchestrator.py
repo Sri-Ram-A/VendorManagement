@@ -187,7 +187,16 @@ def run_verification_loop(
     # 6.1 set up the running facts summary the agent sees each turn
     v_logger = get_vendor_logger(vendor_id)
     turn_log = []
-    tool_descriptions = "\n".join(f"- {name}" for name in TOOL_REGISTRY.keys())
+    # tool_descriptions = "\n".join(f"- {name}" for name in TOOL_REGISTRY.keys())
+    tool_descriptions = """
+    - query_vendor_rag: Search internal vendor documents. Args: {"question": "<string>"}
+    - search_xposedornot_breach: Check public breach databases. Args: {"domain": "<vendor domain string e.g. nimbus.com>"}
+    - search_tavily: Web search for vendor information. Args: {"query": "<search string>"}
+    - search_serpapi_news: Search Google News. Args: {"query": "<search string>"}
+    - search_news_breach_signal: Search for breach/bankruptcy news. Args: {"vendor_name": "<vendor name string>"}
+    - search_sec_edgar: Search SEC public filings. Args: {"company_name": "<company name string>"}
+    - scrape_public_url_content: Scrape a webpage. Args: {"target_url": "<full URL string>"}
+    """
     facts_summary = json.dumps(
         {k: v.get("value") for k, v in running_bounds.items()}, default=str
     )
