@@ -54,7 +54,7 @@ Create a `.env` file in your `backend/backend/` configuration path:
 
 ```ini
 DEBUG=True
-SECRET_KEY=sg_hackathon_sentinel_risk_secret_token_2026
+SECRET_KEY=sg_hackathon_risk_secret_token_2026
 DATABASE_URL=sqlite:///db.sqlite3
 REDIS_URL=redis://127.0.0.1:6379/0
 COHERE_API_KEY=your_cohere_production_api_key_here
@@ -66,7 +66,7 @@ TAVILY_API_KEY=your_tavily_search_api_key_here
 ```bash
 cd backend
 python manage.py migrate
-python manage.py shell -c "from django.contrib.auth import get_user_model; get_user_model().objects.create_superuser('admin', 'admin@sentinel.ai', 'sg_admin_pass')"
+python manage.py shell -c "from django.contrib.auth import get_user_model; get_user_model().objects.create_superuser('admin', 'admin@rvce.edu.in', 'sg_admin_pass')"
 ```
 
 ### 4. Boot Up the Distributed Async Infrastructure
@@ -96,7 +96,7 @@ celery -A backend worker --loglevel=info
 
 ---
 
-## 🪵 Chronological Journey: Building SentinelRisk in 48 Hours
+## 🪵 Chronological Journey: Building in 48 Hours
 
 ```
 [Data Ingestion] ➔ [Celery Pipelines] ➔ [Agent Loops] ➔ [XGBoost Core] ➔ [Autoencoders]
