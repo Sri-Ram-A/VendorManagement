@@ -113,3 +113,7 @@ curl -X POST http://127.0.0.1:8000/api/vendors/ingest \
   ok while ingesting hopeless people have sent the data sent now hackthon ends in 5 hours 
 
   ok dataset downloaded and then commited to hari_pro
+
+you can check analytics there get request has been implemented
+custom dataset is present in data folder , if you set that folder to obsidian then you will get graphs 
+official dataset is in Problem_06_Vendor_Risk 
