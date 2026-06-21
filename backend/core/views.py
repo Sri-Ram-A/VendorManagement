@@ -1,20 +1,20 @@
-import uuid
+# backend/core/views.py
+from loguru import logger
 from rest_framework import serializers, status
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from drf_spectacular.utils import extend_schema, inline_serializer
 from django.core.files.uploadedfile import UploadedFile
 
 from .models import Vendor, VendorDocument
-from .tasks import orchestrate_vendor_documents
+from .tasks import process_vendor_onboarding_pipeline
 from .serializer import VendorIngestionSerializer
+from backend.logging import get_vendor_logger
 
 
-class VendorIngestionView(APIView):
+class VendorDocumentIngestionView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = VendorIngestionSerializer
 
@@ -22,26 +22,24 @@ class VendorIngestionView(APIView):
         request=VendorIngestionSerializer,
         responses={
             201: inline_serializer(
-                name="IngestionAcceptedResponse",
-                fields={
-                    "message": serializers.CharField(),
-                    "vendor_id": serializers.UUIDField(),
-                    "current_status": serializers.CharField(),
-                },
+                name="AcceptedResponse", fields={"vendor_id": serializers.UUIDField()}
             )
         },
-        description="Onboards a vendor and shifts heavy document processing off to background task workers.",
     )
-    def post(self, request: Request, *args, **kwargs) -> Response:
+    def post(self, request: Request) -> Response:
+        logger.debug("Recieved multipart third-party onboarding gateway validation.")
+
+        # 0. Validate the payload
         serializer = VendorIngestionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         validated_data = serializer.validated_data
         uploaded_files: list[UploadedFile] = validated_data.pop("documents")
+        vendor_name = validated_data["vendor_name"]
 
-        # 1. Initialize the baseline Vendor profile record state
+        # 1. Initialize structural transactional model record state
         vendor = Vendor.objects.create(
-            vendor_name=validated_data["vendor_name"],
+            vendor_name=vendor_name,
             vendor_type=validated_data["vendor_type"],
             business_owner=validated_data["business_owner"],
             annual_spend=validated_data.get("annual_spend"),
@@ -51,23 +49,29 @@ class VendorIngestionView(APIView):
             ),
             status=Vendor.Status.PROCESSING,
         )
+        # Initialize the dynamic contextual logger instance for this vendor path
+        v_logger = get_vendor_logger(vendor_id=str(vendor.vendor_id))
+        v_logger.info(f"Initialized transactional ledger for vendor: '{vendor_name}'")
 
-        # 2. Stage file payloads on local disks to make them accessible to your tasks
+        # 2. Stage file payloads sequentially on local disks
         for file_obj in uploaded_files:
             filename = file_obj.name.upper()
-            doc_type = VendorDocument.DocumentType.MSA
+            document_type = VendorDocument.DocumentType.MSA
             if "DPA" in filename:
-                doc_type = VendorDocument.DocumentType.DPA
+                document_type = VendorDocument.DocumentType.DPA
             elif "SOC" in filename:
-                doc_type = VendorDocument.DocumentType.SOC2
+                document_type = VendorDocument.DocumentType.SOC2
             elif "PCI" in filename or "AOC" in filename:
-                doc_type = VendorDocument.DocumentType.PCI
+                document_type = VendorDocument.DocumentType.PCI
 
-        VendorDocument.objects.create(
-            vendor=vendor, document_type=doc_type, file=file_obj
-        )
-        # 3. Hand processing over to Celery background task workers
-        orchestrate_vendor_documents.delay(vendor_id_str=str(vendor.vendor_id))
+            VendorDocument.objects.create(
+                vendor=vendor, document_type=document_type, file=file_obj
+            )
+            v_logger.debug(f"Mapping: '{file_obj.name}' to type: {document_type}")
+
+        # 3. Hand processing off to background task threads
+        v_logger.info("Task passed on to Asynchronous Celery queue task managers.")
+        process_vendor_onboarding_pipeline.delay(vendor_id=str(vendor.vendor_id))
 
         return Response(
             {

@@ -8,3 +8,4 @@ docling[rapidocr]
 neo4j
 redis
 celery
+newspaper4k

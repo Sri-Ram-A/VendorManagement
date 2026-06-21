@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import VendorIngestionView
+from . import views
 
 urlpatterns = [
     path(
         "vendors/ingest",
-        VendorIngestionView.as_view(),
+        views.VendorDocumentIngestionView.as_view(),
         name="vendor-ingestion-gateway",
     ),
 ]

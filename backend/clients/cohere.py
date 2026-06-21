@@ -1,3 +1,5 @@
+# backend/clients/cohere.py
+
 import cohere
 from django.conf import settings
 
