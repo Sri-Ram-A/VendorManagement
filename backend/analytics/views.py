@@ -166,12 +166,10 @@ class VendorRiskPredictionView(APIView):
         pred_idx = _rf_model.predict(X_input)[0]
         pred_prob = _rf_model.predict_proba(X_input)[0]
         anomaly_type = _label_encoder.inverse_transform([pred_idx])[0]
-
         all_probs = {
             _label_encoder.inverse_transform([i])[0]: round(float(p), 4)
             for i, p in enumerate(pred_prob)
         }
-
         payload = {
             "vendor_id": vendor_dict["vendor_id"],
             "vendor_name": vendor_dict["vendor_name"],

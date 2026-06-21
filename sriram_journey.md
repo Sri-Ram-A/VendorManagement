@@ -39,3 +39,5 @@ If you cannot immediately regenerate your protos, some other possible workaround
 npm install -D openapi-typescript
 npm install openapi-fetch
 npx openapi-typescript /home/srirama/Documents/sr_proj/VendorManagement/schema.yaml -o ./src/types/schema.ts
+
+24097cd2-e08c-4f04-97ad-497ae74c686d
