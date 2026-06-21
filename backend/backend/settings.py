@@ -36,6 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+APPEND_SLASH = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     "core",
     "drf_spectacular",
     "rest_framework",
+    "analytics",  
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+\input{vars.tex}
+\input{preamble.tex}
+\renewcommand{\DocFooterTitle}{SOC 2 Type II Report}
+
+\begin{document}
+
+\DocTitle{INDEPENDENT SERVICE AUDITOR'S REPORT \\[0.3em]
+\large SOC 2 Type II Report on Management's Description of a Service Organization's System \\
+and the Suitability of the Design and Operating Effectiveness of Controls}
+
+\begin{center}
+For the Period \AuditPeriodStart\ to \AuditPeriodEnd \\
+Issued: \SOCReportDate \\[0.5em]
+Independent Auditor: \AuditFirm \\
+Service Organization: \VendorName \\
+System Under Evaluation: \SystemName
+\end{center}
+
+\vspace{1em}
+To the Management of \VendorName\ and the Users of \VendorName's \SystemName:
+
+We have examined management's assertion that \VendorName\ (the ``Service Organization'')
+maintained effective controls over its \SystemName\ (the ``System'') based on the Trust
+Services Criteria for Security, Availability, Processing Integrity, Confidentiality, and
+Privacy (the ``Applicable Trust Services Criteria'') for the period \AuditPeriodStart\ to
+\AuditPeriodEnd. Management is responsible for its assertion and the design, implementation,
+and operation of the controls. Our responsibility is to express an opinion on the fairness of
+the presentation of management's description and the suitability of the design and operating
+effectiveness of the controls.
+
+\section*{1. Scope}
+The System consists of the infrastructure, software, people, procedures, and data necessary
+to provide payment authorization, settlement, and transaction routing services to clients
+such as \ClientName.
+
+\section*{2. Opinion}
+In our opinion, except for the matter described in the Trust Services Criteria Exceptions
+section of this report, the controls stated were fairly presented and operated with
+effective efficiency throughout the review period.
+
+\section*{3. Management's Description of the System}
+[Management's description of the system, policies, and procedures has been included in the
+full report and is fairly presented in all material respects.]
+
+\section*{4. Testing of Operating Effectiveness}
+We performed tests of the operating effectiveness of controls over the Applicable Trust
+Services Criteria. The nature, timing, and extent of testing performed are described in the
+accompanying Test of Controls matrix.
+
+\section*{5. Trust Services Criteria Exceptions}
+The following exceptions were noted during our testing:
+
+\begin{longtable}{p{3.2cm} p{2.2cm} p{8cm}}
+\toprule
+\textbf{Criteria} & \textbf{Exception ID} & \textbf{Description} \\
+\midrule
+\endhead
+\ExceptionCriteria &
+\ExceptionID &
+Testing of a random sample of \ExceptionSampleSize\ production servers revealed that
+automated cryptographic key rotation routines failed to fire at the required
+\ExceptionThresholdDays-day intervals. \ExceptionAffectedCount\ core database instances were
+running keys older than \ExceptionActualDays\ days due to \ExceptionRootCause. \\
+\bottomrule
+\end{longtable}
+
+This exception represents a deviation from the control objectives related to cryptographic
+key management and secure data protection practices within the Core Production Infrastructure.
+
+\section*{6. Management's Response}
+\VendorName\ management acknowledges the identified exception related to cryptographic key
+rotation. A manual remediation process was implemented immediately upon notification. Full
+system compliance with automated key rotation controls was restored on \RemediationDate.
+Management has enhanced monitoring and alerting mechanisms to prevent recurrence and will
+conduct a comprehensive review of all related system scripts.
+
+\section*{7. Other Information}
+This report is intended solely for the information and use of \VendorName\ management, its
+clients (including but not limited to \ClientName), and other specified parties who have a
+business relationship with \VendorName\ and who are subject to the Applicable Trust Services
+Criteria. This report is not intended for any other purpose.
+
+The report, including any exceptions noted, does not provide any assurance regarding future
+periods. Controls are subject to inherent limitations, including the possibility of
+management override.
+
+\vspace{2em}
+\AuditFirm \\
+Date: \SOCReportDate \\
+\SOCEngagementTitle
+
+\newpage
+\section*{Appendix: Summary of Tests of Controls}
+
+\begin{longtable}{p{3.2cm} p{3.6cm} p{2.8cm} p{4.5cm}}
+\toprule
+\textbf{Trust Services Criteria} & \textbf{Control Activity} & \textbf{Test Method} & \textbf{Results / Exceptions} \\
+\midrule
+\endhead
+CC6.3 -- Cryptographic Key Management &
+Automated key rotation every \ExceptionThresholdDays\ days &
+Inspection of logs and sample testing of \ExceptionSampleSize\ servers &
+Exception \ExceptionID: \ExceptionAffectedCount\ core database instances with keys older than
+\ExceptionActualDays\ days \\
+\bottomrule
+\end{longtable}
+
+\end{document}

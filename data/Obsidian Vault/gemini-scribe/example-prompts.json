@@ -1,0 +1,18 @@
+[
+  {
+    "icon": "search",
+    "text": "Find all information and notes related to vendor1"
+  },
+  {
+    "icon": "folder-tree",
+    "text": "Organize the Untitled folder and suggest better names for notes like hai how are you"
+  },
+  {
+    "icon": "file-plus",
+    "text": "Create a vendor profile template inside the vendor1 folder"
+  },
+  {
+    "icon": "globe",
+    "text": "Research standard vendor onboarding checklists to add to the vendor1 folder"
+  }
+]

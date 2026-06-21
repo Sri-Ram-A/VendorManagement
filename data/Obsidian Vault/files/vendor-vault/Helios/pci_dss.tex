@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\input{vars.tex}
+\input{preamble.tex}
+\renewcommand{\DocFooterTitle}{PCI-DSS v\PCIVersion\ AoC}
+
+\begin{document}
+
+\DocTitle{PAYMENT CARD INDUSTRY (PCI) DATA SECURITY STANDARD \\[0.3em]
+\large ATTESTATION OF COMPLIANCE (AoC) \\
+Version \PCIVersion\ --- For Service Providers}
+
+\begin{center}
+Date of Attestation: \PCIAttestationDate \\
+Attestation Reference: \PCIAttestationRef
+\end{center}
+
+\section*{1. Section 1: Assessment Information}
+\begin{itemize}[leftmargin=2em]
+  \item[1.1] Service Provider Name: \VendorName
+  \item[1.2] Corporate Address: \VendorAddress
+  \item[1.3] Service Provider Type: \PCIServiceType
+  \item[1.4] PCI-DSS Version: \PCIVersion
+  \item[1.5] Date of Assessment: \PCIAssessmentStart\ -- \PCIAssessmentEnd
+  \item[1.6] Assessment Type: Annual Revalidation for Level 1 Service Provider
+\end{itemize}
+
+\section*{2. Section 2: Report on Compliance Summary}
+\VendorName\ confirms that its \SystemName\ has been assessed against the requirements of
+PCI-DSS v\PCIVersion. The assessment covered all applicable requirements for a service
+provider handling cardholder data.
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Data Store Context:} Full Primary Account Numbers (PANs) and Sensitive
+  Authentication Data (SAD/CVV) are stored only in an encrypted state post-authorization,
+  using industry-standard \PCIEncryptionStandard\ encryption with secure key management
+  practices.
+  \item Scope of assessment includes network segmentation, cardholder data environments
+  (CDE), and all systems involved in payment processing, authorization, and settlement.
+\end{itemize}
+
+\section*{3. Section 3: Validation State}
+All key validation pillars have been determined to be In Place:
+
+\begin{longtable}{p{9cm} p{4cm}}
+\toprule
+\textbf{PCI-DSS Requirement Area} & \textbf{Validation Status} \\
+\midrule
+\endhead
+Build and Maintain a Secure Network and Systems & In Place \\
+Protect Account Data & In Place \\
+Maintain a Vulnerability Management Program & In Place \\
+Implement Strong Access Control Measures & In Place \\
+Regularly Monitor and Test Networks & In Place \\
+Maintain an Information Security Policy & In Place \\
+\bottomrule
+\end{longtable}
+
+\section*{4. Section 4: Attestation}
+The undersigned attests that the information provided in this Attestation of Compliance is
+true and correct to the best of their knowledge.
+
+\textbf{Attestor Signature Block}
+
+Assessor Name: \PCIAssessorName \\
+Assessor Title: \PCIAssessorTitle \\
+QSA Company / Assessor Entity: \PCIAssessmentMode \\
+Date: \PCIAttestationDate
+
+\vspace{1em}
+\textbf{Service Provider Authorization:}
+
+Authorized Officer, \VendorName \hfill Date
+
+\newpage
+\section*{Appendix: Compliance Checklist Summary}
+
+\begin{longtable}{p{3.5cm} p{2.2cm} p{8cm}}
+\toprule
+\textbf{Requirement} & \textbf{Status} & \textbf{Notes} \\
+\midrule
+\endhead
+12.3.1 -- Security Policy & In Place & Documented and disseminated \\
+3.5.1 -- PAN Encryption & In Place & \PCIEncryptionStandard\ at rest and \PCITransitStandard\ in transit \\
+6.3.1 -- Vulnerability Management & In Place & Regular scanning and patching \\
+9.1 -- Physical Access Controls & In Place & Facility and data center controls \\
+10.2.1 -- Audit Logging & In Place & Centralized monitoring \\
+\bottomrule
+\end{longtable}
+
+This Attestation of Compliance is valid for one year from the Date of Attestation, subject
+to ongoing compliance and any material changes to the assessed environment.
+
+\end{document}

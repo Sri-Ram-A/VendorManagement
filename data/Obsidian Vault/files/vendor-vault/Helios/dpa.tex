@@ -1,0 +1,175 @@
+\documentclass[11pt]{article}
+\input{vars.tex}
+\input{preamble.tex}
+\renewcommand{\DocFooterTitle}{Data Processing Addendum to \MSARef}
+
+\begin{document}
+
+\DocTitle{DATA PROCESSING ADDENDUM (DPA) \\[0.3em] \large to Master Services Agreement \MSARef}
+
+\begin{center}
+Effective Date: \EffectiveDate
+\end{center}
+
+This Data Processing Addendum (the ``DPA'') is entered into by and between:
+
+\textbf{\ClientName}\ (the ``Controller''),
+
+and
+
+\textbf{\VendorName}\ (the ``Processor'').
+
+This DPA forms an integral part of the Master Services Agreement referenced above (the
+``MSA'') and is subject to all terms and conditions thereof. In the event of any conflict
+between this DPA and the MSA, the terms of this DPA shall prevail with respect to the
+processing of Personal Data.
+
+WHEREAS, the Controller and Processor have entered into the MSA pursuant to which the
+Processor will provide certain services to the Controller involving the processing of
+Personal Data;
+
+WHEREAS, the Parties wish to ensure compliance with Regulation (EU) 2016/679 (the ``GDPR'')
+and other applicable data protection laws, particularly Article 28 thereof;
+
+NOW, THEREFORE, the Parties agree as follows:
+
+\section*{1. Definitions}
+\textbf{1.1 ``Personal Data''} means any information relating to an identified or
+identifiable natural person.
+
+\textbf{1.2 ``Processing''} means any operation or set of operations performed on Personal
+Data.
+
+\textbf{1.3 ``Data Subject''} means the identified or identifiable natural person to whom
+Personal Data relates.
+
+\textbf{1.4 ``Subprocessor''} means any third party engaged by the Processor that processes
+Personal Data on behalf of the Controller.
+
+\section*{2. Processing Specifications}
+The Processor shall process Personal Data solely on behalf of and in accordance with the
+documented instructions of the Controller, as set forth in this DPA and the MSA.
+
+\textbf{2.1 Categories of Data Subjects:} \DataSubjectCategories\ of the Controller.
+
+\textbf{2.2 Nature and Purpose of Processing:} Real-time transaction authorization,
+settlement capture, transaction routing, card processing routines, and related payment
+facilitation activities necessary for the performance of the Services under the MSA.
+
+\textbf{2.3 Types of Personal Data:} Full names, billing addresses, credit card numbers
+(Primary Account Numbers or PANs), card expiration dates, card verification values (where
+applicable), account histories, transaction records, and any other personal data provided
+by the Controller or generated during the provision of Services.
+
+\textbf{2.4 Duration of Processing:} For the duration of the MSA and for a period not
+exceeding \PostTerminationRetentionDays\ days after termination or expiry thereof, unless
+otherwise instructed by the Controller.
+
+\section*{3. Subprocessors}
+\textbf{3.1} The Processor shall not engage any Subprocessor without the prior written
+consent of the Controller.
+
+\textbf{3.2} The Controller hereby authorizes the Processor to engage the following
+Subprocessors as of the Effective Date:
+\begin{itemize}[leftmargin=2em]
+  \item \SubprocessorOneName, Region: \SubprocessorOneRegion, for \SubprocessorOnePurpose.
+  \item \SubprocessorTwoName, for \SubprocessorTwoPurpose.
+\end{itemize}
+
+\textbf{3.3} The Processor shall enter into written agreements with each Subprocessor that
+impose obligations no less protective than those set out in this DPA.
+
+\textbf{3.4} The Processor shall notify the Controller in writing at least
+\SubprocessorNoticeDays\ days in advance of any intended addition or replacement of a
+Subprocessor. The Controller may object to such change within \SubprocessorObjectionDays\
+days. If the Controller objects, the Parties shall work together in good faith to resolve
+the objection or find an alternative solution.
+
+\section*{4. Technical and Organizational Measures (TOMs)}
+The Processor shall implement and maintain appropriate technical and organizational measures
+to ensure the security of Personal Data, including but not limited to:
+\begin{enumerate}[leftmargin=2em]
+  \item Encryption of Personal Data at rest using \PCIEncryptionStandard\ or equivalent
+  industry-standard algorithm.
+  \item Encryption of Personal Data in transit using \PCITransitStandard\ or higher.
+  \item Strict access controls, including role-based access, multi-factor authentication,
+  and least privilege principles.
+  \item Regular security audits, vulnerability scanning, and penetration testing.
+  \item Employee training on data protection and confidentiality obligations.
+  \item Incident response procedures and business continuity measures.
+  \item Measures to ensure the ongoing confidentiality, integrity, availability, and
+  resilience of processing systems.
+\end{enumerate}
+
+The Processor shall provide the Controller with a summary of its current TOMs upon request
+and shall notify the Controller of any material changes.
+
+\section*{5. Data Breach Notification}
+\textbf{5.1} In the event of a confirmed or reasonably suspected Personal Data Breach
+affecting Controller Personal Data, the Processor shall notify the Controller via
+\BreachNotificationEmail\ within exactly \BreachNotificationHours\ hours of initial
+discovery.
+
+\textbf{5.2} Such notification shall include, at a minimum: (i) a description of the nature
+of the breach, (ii) the categories and approximate number of Data Subjects and records
+concerned, (iii) the likely consequences, and (iv) the measures taken or proposed to address
+the breach.
+
+\textbf{5.3} The Processor shall cooperate fully with the Controller in investigating and
+remediating any such breach and in fulfilling the Controller's obligations under Articles 33
+and 34 of the GDPR.
+
+\section*{6. Assistance to the Controller}
+The Processor shall assist the Controller in ensuring compliance with GDPR obligations,
+including with respect to data subject rights, data protection impact assessments, and
+prior consultations with supervisory authorities. Such assistance shall be provided at the
+Controller's reasonable request and expense (unless the request arises from the Processor's
+breach).
+
+\section*{7. Return or Deletion of Personal Data}
+Upon termination or expiry of the MSA, or at any time upon the Controller's request, the
+Processor shall, at the Controller's choice, return or securely delete all Personal Data and
+certify in writing that it has done so, except to the extent retention is required by
+applicable law.
+
+\section*{8. Audits}
+The Controller or its designated auditor shall have the right to audit the Processor's
+compliance with this DPA upon \AuditNoticeContext, not more than \AuditFrequency, unless
+there is reasonable suspicion of non-compliance.
+
+\section*{9. Governing Law}
+This DPA shall be governed by \DPAGoverningLaw.
+
+IN WITNESS WHEREOF, the Parties have executed this DPA as of the Effective Date.
+
+\SignBlock{\ClientName\ (Controller)}{\VendorName\ (Processor)}
+
+\newpage
+\section*{Appendix A: Processing Details}
+
+\begin{longtable}{p{4cm} p{9cm}}
+\toprule
+\textbf{Element} & \textbf{Description} \\
+\midrule
+\endhead
+Categories of Data Subjects & \DataSubjectCategories \\
+Nature of Processing & Real-time authorization, settlement capture, and transaction routing \\
+Types of Personal Data & Full names, billing addresses, credit card numbers (PANs), card
+expiration dates, account histories, transaction records \\
+Duration & Term of the MSA plus up to \PostTerminationRetentionDays\ days post-termination \\
+\bottomrule
+\end{longtable}
+
+\section*{Appendix B: Approved Subprocessors}
+
+\begin{longtable}{p{4cm} p{4cm} p{5cm}}
+\toprule
+\textbf{Subprocessor} & \textbf{Location / Region} & \textbf{Purpose} \\
+\midrule
+\endhead
+\SubprocessorOneName & \SubprocessorOneRegion & \SubprocessorOnePurpose \\
+\SubprocessorTwoName & \SubprocessorTwoRegion & \SubprocessorTwoPurpose \\
+\bottomrule
+\end{longtable}
+
+\end{document}

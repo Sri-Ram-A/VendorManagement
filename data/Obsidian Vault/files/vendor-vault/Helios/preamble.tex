@@ -1,0 +1,39 @@
+% =====================================================================
+% preamble.tex — shared styling, included by all 4 documents
+% =====================================================================
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+
+\newcommand{\DocFooterTitle}{} % set per-document before \begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \VendorName\ --- \DocFooterTitle}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\DocTitle}[1]{%
+  \begin{center}
+    {\Large\bfseries #1}
+  \end{center}
+  \vspace{0.5em}
+}
+
+\newcommand{\SignBlock}[2]{%
+  \par\vspace{2em}
+  \begin{tabularx}{\linewidth}{X X}
+    \textbf{For #1:} & \textbf{For #2:} \\[2.5em]
+    Name: \rule{4cm}{0.4pt} & Name: \rule{4cm}{0.4pt} \\[1em]
+    Title: \rule{4cm}{0.4pt} & Title: \rule{4cm}{0.4pt} \\[1em]
+    Date: \rule{4cm}{0.4pt} & Date: \rule{4cm}{0.4pt} \\
+  \end{tabularx}
+}

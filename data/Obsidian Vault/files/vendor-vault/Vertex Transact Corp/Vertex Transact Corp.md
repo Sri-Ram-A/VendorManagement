@@ -1,0 +1,5 @@
+[[Vertex Transact Corp]]
+[[files/vendor-vault/Vertex Transact Corp/Data_Processing_Addendum.pdf|Data_Processing_Addendum]]
+[[files/vendor-vault/Vertex Transact Corp/MasterServicesAgreement.pdf|MasterServicesAgreement]]
+[[files/vendor-vault/Vertex Transact Corp/Data_Processing_Addendum.pdf|Data_Processing_Addendum]]
+[[files/vendor-vault/Vertex Transact Corp/SOC2.pdf|SOC2]]

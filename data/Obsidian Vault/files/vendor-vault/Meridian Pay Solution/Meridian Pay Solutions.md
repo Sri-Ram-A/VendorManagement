@@ -1,0 +1,5 @@
+[[Meridian Pay Solutions]]
+[[files/vendor-vault/Meridian Pay Solution/MasterServicesAgreement.pdf|MasterServicesAgreement]]
+[[files/vendor-vault/Meridian Pay Solution/Data_Processing_Addendum.pdf|Data_Processing_Addendum]]
+[[files/vendor-vault/Meridian Pay Solution/PCI_DSS.pdf|PCI_DSS]]
+[[files/vendor-vault/Meridian Pay Solution/SOC2.pdf|SOC2]]

@@ -1,0 +1,5 @@
+[[vendor1]]
+[[files/vendor-vault/vendor1/MasterServicesAgreement.pdf]]
+[[files/vendor-vault/vendor1/Data_Processing_Addendum.pdf]]
+[[files/vendor-vault/vendor1/PCI_DSS.pdf]]
+[[files/vendor-vault/vendor1/SOC2.pdf]]

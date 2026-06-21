@@ -1,0 +1,93 @@
+% =====================================================================
+% vars.tex
+% Single source of truth for every field that varies across synthetic
+% samples. Regenerate THIS FILE PROGRAMMATICALLY (e.g. from a Python
+% dict / CSV row) and recompile soc2.tex, pci_dss.tex, msa.tex, dpa.tex
+% to produce a new, internally-consistent 4-document sample.
+%
+% Naming convention: \New<Field> — all are plain \newcommand so a
+% generator script can just string-replace the RHS values.
+% =====================================================================
+
+% ---------------------------------------------------------------
+% PARTIES
+% ---------------------------------------------------------------
+\newcommand{\VendorName}{Sentrix Cyber Solutions LLC}
+\newcommand{\VendorAddress}{1820 Meridian Way, Suite 400, Austin, TX 78701}
+\newcommand{\VendorState}{Delaware}
+\newcommand{\SystemName}{Unified Payment Gateway Platform}
+
+\newcommand{\ClientName}{Helios Capital Markets N.V.}
+\newcommand{\ClientCountry}{the Netherlands}
+\newcommand{\ClientAddress}{Zuidplein 80, 1077 XV Amsterdam, the Netherlands}
+\newcommand{\ClientLegalForm}{naamloze vennootschap}
+
+% ---------------------------------------------------------------
+% SOC 2 REPORT FIELDS
+% ---------------------------------------------------------------
+\newcommand{\AuditFirm}{Granite Peak Assurance \& Risk Advisory LLP}
+\newcommand{\AuditPeriodStart}{April 1, 2025}
+\newcommand{\AuditPeriodEnd}{March 31, 2026}
+\newcommand{\SOCReportDate}{May 12, 2026}
+\newcommand{\SOCEngagementTitle}{Partner, Risk Advisory Services Engagement Director}
+
+\newcommand{\ExceptionCriteria}{Security and Confidentiality (CC6.3)}
+\newcommand{\ExceptionID}{CC6.3-07}
+\newcommand{\ExceptionSampleSize}{30}
+\newcommand{\ExceptionAffectedCount}{6}
+\newcommand{\ExceptionThresholdDays}{90}
+\newcommand{\ExceptionActualDays}{275}
+\newcommand{\ExceptionRootCause}{a misconfigured cron scheduler that silently failed after a credential rotation}
+\newcommand{\RemediationDate}{June 8, 2026}
+
+% ---------------------------------------------------------------
+% PCI-DSS ATTESTATION FIELDS
+% ---------------------------------------------------------------
+\newcommand{\PCIVersion}{4.0}
+\newcommand{\PCIAttestationDate}{February 18, 2026}
+\newcommand{\PCIAttestationRef}{SENTRIX-AoC-PCIv4-2026}
+\newcommand{\PCIAssessmentStart}{February 2, 2026}
+\newcommand{\PCIAssessmentEnd}{February 13, 2026}
+\newcommand{\PCIServiceType}{Payment Gateway Services, Authorization Routing}
+\newcommand{\PCIAssessorName}{Renata Oduya}
+\newcommand{\PCIAssessorTitle}{Director of Infrastructure Operations, \VendorName}
+\newcommand{\PCIAssessmentMode}{Self-Assessed / Vendor Internal Certification Program}
+\newcommand{\PCIEncryptionStandard}{AES-256}
+\newcommand{\PCITransitStandard}{TLS 1.3}
+
+% ---------------------------------------------------------------
+% MSA FIELDS
+% ---------------------------------------------------------------
+\newcommand{\MSARef}{HCM-MSA-2026-SENTRIX-04}
+\newcommand{\EffectiveDate}{January 1, 2026}
+\newcommand{\InitialTermMonths}{24}
+\newcommand{\GoverningLawState}{New York}
+\newcommand{\VenueCounty}{New York County, New York}
+\newcommand{\LiabilityCapAmount}{Four Million United States Dollars (USD \$4,000,000.00)}
+\newcommand{\PaymentTermDays}{30}
+\newcommand{\LatePaymentRate}{1.5\%}
+\newcommand{\CureDays}{30}
+\newcommand{\ConfidentialitySurvivalYears}{5}
+\newcommand{\RequiredCertifications}{PCI DSS Level 1 certification, ISO 27001, and SOC 2 Type II}
+
+% ---------------------------------------------------------------
+% DPA FIELDS
+% ---------------------------------------------------------------
+\newcommand{\DPAGoverningLaw}{the laws of the Netherlands and applicable EU data protection law}
+\newcommand{\BreachNotificationEmail}{security-incidents@helioscm.example}
+\newcommand{\BreachNotificationHours}{24}
+\newcommand{\PostTerminationRetentionDays}{30}
+\newcommand{\DataSubjectCategories}{Retail Brokerage Customers and Institutional Counterparties}
+\newcommand{\AuditFrequency}{once per year}
+\newcommand{\AuditNoticeContext}{reasonable notice}
+
+\newcommand{\SubprocessorOneName}{Amazon Web Services (AWS)}
+\newcommand{\SubprocessorOneRegion}{eu-central-1 (Frankfurt)}
+\newcommand{\SubprocessorOnePurpose}{Secure cloud infrastructure and data hosting}
+
+\newcommand{\SubprocessorTwoName}{Databricks Data Cloud}
+\newcommand{\SubprocessorTwoRegion}{As designated by Processor (subject to EU adequacy or safeguards)}
+\newcommand{\SubprocessorTwoPurpose}{Data warehousing and analytics processing}
+
+\newcommand{\SubprocessorNoticeDays}{30}
+\newcommand{\SubprocessorObjectionDays}{15}
