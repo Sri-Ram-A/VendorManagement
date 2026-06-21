@@ -1,312 +1,1957 @@
 {
   "nodes": [
     {
-      "id": "vendor:b9bfd356-8190-450a-acd4-da92b51400d3",
-      "label": "b9bfd356-8190-450a-acd4-da92b51400d3",
+      "id": "vendor:2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "label": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
       "type": "vendor",
       "val": 20
     },
     {
-      "id": "fn:core.views:post",
+      "id": "fn:2c21a4ba:core.views:post",
       "label": "core.views:post",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.tasks:process_vendor_onboarding_pipeline",
+      "id": "fn:2c21a4ba:core.tasks:process_vendor_onboarding_pipeline",
       "label": "core.tasks:process_vendor_onboarding_pipeline",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.tasks:parse_and_vectorize_document",
+      "id": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
       "label": "core.tasks:parse_and_vectorize_document",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "doc:MSA",
-      "label": "MSA",
-      "type": "document",
-      "val": 10
-    },
-    {
-      "id": "doc:SOC2_TYPE2",
+      "id": "doc:2c21a4ba:SOC2_TYPE2",
       "label": "SOC2_TYPE2",
       "type": "document",
-      "val": 10
+      "val": 10,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "doc:PCI_DSS_AOC",
+      "id": "doc:2c21a4ba:MSA",
+      "label": "MSA",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
+    },
+    {
+      "id": "doc:2c21a4ba:PCI_DSS_AOC",
       "label": "PCI_DSS_AOC",
       "type": "document",
-      "val": 10
+      "val": 10,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:clients.chroma:vectorize_markdown_content",
+      "id": "err:2c21a4ba:fn:2c21a4ba:core.tasks:parse_and_vectorize_document:1782077145.6801",
+      "label": "document_conversion_pipeline_failed",
+      "type": "error",
+      "val": 8,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "full_message": "document_conversion_pipeline_failed"
+    },
+    {
+      "id": "fn:2c21a4ba:clients.chroma:vectorize_markdown_content",
       "label": "clients.chroma:vectorize_markdown_content",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.tasks:execute_vendor_compliance_audit",
+      "id": "fn:2c21a4ba:core.tasks:execute_vendor_compliance_audit",
       "label": "core.tasks:execute_vendor_compliance_audit",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "id": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
       "label": "core.orchestrator:run_compliance_audit_orchestrator",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.orchestrator:extract_all_documents",
+      "id": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
       "label": "core.orchestrator:extract_all_documents",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:backend.vendor_logging:ai",
+      "id": "fn:2c21a4ba:backend.vendor_logging:ai",
       "label": "backend.vendor_logging:ai",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.orchestrator:run_verification_loop",
+      "id": "field:2c21a4ba:MSA:contract_start_date",
+      "label": "contract_start_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "2024-08-01",
+      "source_excerpt": "Effective Date: August 1, 2024"
+    },
+    {
+      "id": "field:2c21a4ba:MSA:breach_notification_hours",
+      "label": "breach_notification_hours",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "72",
+      "source_excerpt": "the Processor shall notify the Controller via security-alerts@socgen.com within seventy-two (72) hours of initial discovery."
+    },
+    {
+      "id": "field:2c21a4ba:MSA:data_return_deadline_days",
+      "label": "data_return_deadline_days",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "30",
+      "source_excerpt": "Client shall remit payment within thirty (30) days of receipt."
+    },
+    {
+      "id": "field:2c21a4ba:MSA:subprocessors_disclosed",
+      "label": "subprocessors_disclosed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "[\"Amazon Web Services (AWS)\", \"DataSphere Analytics Pvt. Ltd.\"]",
+      "source_excerpt": "- Amazon Web Services (AWS), Region: us-east-1 (Virginia), for secure cloud infrastructure and data hosting.\n- DataSphere Analytics Pvt. Ltd., Region: Mumbai, India, for fraud-screening analytics processing."
+    },
+    {
+      "id": "field:2c21a4ba:MSA:data_categories_processed",
+      "label": "data_categories_processed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "[\"Retail Banking Customers\", \"Institutional Traders of the Controller\"]",
+      "source_excerpt": "- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller"
+    },
+    {
+      "id": "field:2c21a4ba:MSA:liability_cap_usd",
+      "label": "liability_cap_usd",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "2000000",
+      "source_excerpt": "the total aggregate liability of Provider to Client under this Agreement shall not exceed Two Million United States Dollars (USD $2,000,000.00)."
+    },
+    {
+      "id": "field:2c21a4ba:MSA:liability_uncapped_for_security_breach",
+      "label": "liability_uncapped_for_security_breach",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "true",
+      "source_excerpt": "The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law."
+    },
+    {
+      "id": "field:2c21a4ba:MSA:cert_termination_right",
+      "label": "cert_termination_right",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "true",
+      "source_excerpt": "Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current PCI DSS Level 1 certification."
+    },
+    {
+      "id": "field:2c21a4ba:PCI_DSS_AOC:pci_assessor_type",
+      "label": "pci_assessor_type",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "self_assessed",
+      "source_excerpt": "QSA  Company  /  Assessor  Entity:  Self-Assessed  /  Vendor  Internal  Certification  Program  (no  external  QSA engaged)"
+    },
+    {
+      "id": "field:2c21a4ba:PCI_DSS_AOC:pci_dss_level",
+      "label": "pci_dss_level",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "value": "1",
+      "source_excerpt": "Annual Self-Assessment Questionnaire D (SAQ D) -Internally Validated, Level 1 Service Pr"
+    },
+    {
+      "id": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
       "label": "core.orchestrator:run_verification_loop",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "id": "fn:2c21a4ba:core.orchestrator:dispatch_agent_tool_call",
       "label": "core.orchestrator:dispatch_agent_tool_call",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.tools:search_tavily",
+      "id": "fn:2c21a4ba:core.tools:search_tavily",
       "label": "core.tools:search_tavily",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.tools:query_vendor_rag",
-      "label": "core.tools:query_vendor_rag",
+      "id": "fn:2c21a4ba:core.tools:search_news_breach_signal",
+      "label": "core.tools:search_news_breach_signal",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
     },
     {
-      "id": "fn:core.scoring:compute_and_save_score",
+      "id": "fn:2c21a4ba:core.tools:search_xposedornot_breach",
+      "label": "core.tools:search_xposedornot_breach",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
+    },
+    {
+      "id": "fn:2c21a4ba:core.scoring:compute_and_save_score",
       "label": "core.scoring:compute_and_save_score",
       "type": "function",
-      "val": 6
+      "val": 6,
+      "vendor_id": "2c21a4ba-1f34-46cc-ac4f-810d60367637"
+    },
+    {
+      "id": "vendor:708456d5-ab05-4eb4-ba09-3641dff82813",
+      "label": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "type": "vendor",
+      "val": 20
+    },
+    {
+      "id": "fn:708456d5:core.views:post",
+      "label": "core.views:post",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.tasks:process_vendor_onboarding_pipeline",
+      "label": "core.tasks:process_vendor_onboarding_pipeline",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "label": "core.tasks:parse_and_vectorize_document",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "doc:708456d5:PCI_DSS_AOC",
+      "label": "PCI_DSS_AOC",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "doc:708456d5:MSA",
+      "label": "MSA",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "doc:708456d5:SOC2_TYPE2",
+      "label": "SOC2_TYPE2",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:clients.chroma:vectorize_markdown_content",
+      "label": "clients.chroma:vectorize_markdown_content",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.tasks:execute_vendor_compliance_audit",
+      "label": "core.tasks:execute_vendor_compliance_audit",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "label": "core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "label": "core.orchestrator:extract_all_documents",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:backend.vendor_logging:ai",
+      "label": "backend.vendor_logging:ai",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "field:708456d5:MSA:contract_start_date",
+      "label": "contract_start_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "2023-03-01",
+      "source_excerpt": "Effective Date: March 1, 2023"
+    },
+    {
+      "id": "field:708456d5:MSA:breach_notification_hours",
+      "label": "breach_notification_hours",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "120",
+      "source_excerpt": "the Processor shall notify the Controller via security-alerts@socgen.com within five (5) business days of initial discovery."
+    },
+    {
+      "id": "field:708456d5:MSA:data_return_deadline_days",
+      "label": "data_return_deadline_days",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "60",
+      "source_excerpt": "For the duration of the MSA and for a period not exceeding sixty (60) days after termination or expiry thereof, unless otherwise instructed by the Controller"
+    },
+    {
+      "id": "field:708456d5:MSA:subprocessors_disclosed",
+      "label": "subprocessors_disclosed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "[\"Amazon Web Services (AWS)\", \"QuickServe BPO Solutions\"]",
+      "source_excerpt": "- Amazon Web Services (AWS), Region: us-east-1 (Virginia), for secure cloud infrastructure and data hosting.\n-  QuickServe  BPO  Solutions,  Region:  Manila,  Philippines,  for  Tier-1  customer  support  and  chargeback  case handling, with access to transaction metadata."
+    },
+    {
+      "id": "field:708456d5:MSA:data_categories_processed",
+      "label": "data_categories_processed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "[\"Retail Banking Customers\", \"Institutional Traders\"]",
+      "source_excerpt": "- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller"
+    },
+    {
+      "id": "field:708456d5:MSA:liability_cap_usd",
+      "label": "liability_cap_usd",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "1000000",
+      "source_excerpt": "the total aggregate liability of Provider to Client under this Agreement shall not exceed One Million United States Dollars (USD $1,000,000.00)."
+    },
+    {
+      "id": "field:708456d5:MSA:liability_uncapped_for_security_breach",
+      "label": "liability_uncapped_for_security_breach",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "true",
+      "source_excerpt": "The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law."
+    },
+    {
+      "id": "field:708456d5:MSA:cert_termination_right",
+      "label": "cert_termination_right",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "true",
+      "source_excerpt": "Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification."
+    },
+    {
+      "id": "field:708456d5:MSA:pci_dss_level",
+      "label": "pci_dss_level",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "1",
+      "source_excerpt": "Provider's PCI DSS attestation (dated February 25, 2025) has not been renewed within the standard one-year validity window, and Client has not yet exercised this termination right."
+    },
+    {
+      "id": "field:708456d5:PCI_DSS_AOC:pci_assessor_type",
+      "label": "pci_assessor_type",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "self_assessed",
+      "source_excerpt": "QSA  Company  /  Assessor  Entity:  Self-Assessed  /  Vendor  Internal  Certification  Program  (no  external  QSA engaged)"
+    },
+    {
+      "id": "field:708456d5:PCI_DSS_AOC:pci_dss_level",
+      "label": "pci_dss_level",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "1",
+      "source_excerpt": "Annual Self-Assessment Questionnaire D (SAQ D) -Internally Validated, Level 1 Service Pr"
+    },
+    {
+      "id": "field:708456d5:SOC2_TYPE2:contract_start_date",
+      "label": "contract_start_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "2024-01-01",
+      "source_excerpt": "For the Period January 1, 2024 to December 31, 2024"
+    },
+    {
+      "id": "field:708456d5:SOC2_TYPE2:contract_end_date",
+      "label": "contract_end_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "2024-12-31",
+      "source_excerpt": "For the Period January 1, 2024 to December 31, 2024"
+    },
+    {
+      "id": "field:708456d5:SOC2_TYPE2:soc2_audit_period_end",
+      "label": "soc2_audit_period_end",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "2024-12-31",
+      "source_excerpt": "For the Period January 1, 2024 to December 31, 2024"
+    },
+    {
+      "id": "field:708456d5:SOC2_TYPE2:soc2_opinion_type",
+      "label": "soc2_opinion_type",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "qualified",
+      "source_excerpt": "In our opinion, except for the matters described in the Trust Services Criteria Exceptions section of this report, which include a material weakness in incident detection controls, the controls stated were not fairly presented in all material respects for the review period."
+    },
+    {
+      "id": "field:708456d5:SOC2_TYPE2:data_categories_processed",
+      "label": "data_categories_processed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813",
+      "value": "[\"card-present transaction clearing\", \"e-commerce transaction clearing\", \"authorization routing\", \"merchant settlement services\"]",
+      "source_excerpt": "The System consists of the infrastructure, software, people, procedures, and data necessary to provide card-present and e-commerce transaction clearing, authorization routing, and merchant settlement services to clients such as Soci\u00e9t\u00e9 G\u00e9n\u00e9rale International S.A.."
+    },
+    {
+      "id": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "label": "core.orchestrator:run_verification_loop",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.orchestrator:dispatch_agent_tool_call",
+      "label": "core.orchestrator:dispatch_agent_tool_call",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.tools:query_vendor_rag",
+      "label": "core.tools:query_vendor_rag",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "fn:708456d5:core.scoring:compute_and_save_score",
+      "label": "core.scoring:compute_and_save_score",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "708456d5-ab05-4eb4-ba09-3641dff82813"
+    },
+    {
+      "id": "vendor:ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "label": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "type": "vendor",
+      "val": 20
+    },
+    {
+      "id": "fn:ab7434f0:core.views:post",
+      "label": "core.views:post",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.tasks:process_vendor_onboarding_pipeline",
+      "label": "core.tasks:process_vendor_onboarding_pipeline",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "label": "core.tasks:parse_and_vectorize_document",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "doc:ab7434f0:MSA",
+      "label": "MSA",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "doc:ab7434f0:PCI_DSS_AOC",
+      "label": "PCI_DSS_AOC",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "doc:ab7434f0:SOC2_TYPE2",
+      "label": "SOC2_TYPE2",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "err:ab7434f0:fn:ab7434f0:core.tasks:parse_and_vectorize_document:1782076970.045211",
+      "label": "document_conversion_pipeline_failed",
+      "type": "error",
+      "val": 8,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "full_message": "document_conversion_pipeline_failed"
+    },
+    {
+      "id": "fn:ab7434f0:clients.chroma:vectorize_markdown_content",
+      "label": "clients.chroma:vectorize_markdown_content",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.tasks:execute_vendor_compliance_audit",
+      "label": "core.tasks:execute_vendor_compliance_audit",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "label": "core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "label": "core.orchestrator:extract_all_documents",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:backend.vendor_logging:ai",
+      "label": "backend.vendor_logging:ai",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "field:ab7434f0:MSA:contract_start_date",
+      "label": "contract_start_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "2026-02-01",
+      "source_excerpt": "Effective Date: February 1, 2026"
+    },
+    {
+      "id": "field:ab7434f0:MSA:breach_notification_hours",
+      "label": "breach_notification_hours",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "24",
+      "source_excerpt": "the Processor shall notify the Controller via security-alerts@socgen.com within twenty-four (24) hours of initial discovery."
+    },
+    {
+      "id": "field:ab7434f0:MSA:data_return_deadline_days",
+      "label": "data_return_deadline_days",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "30",
+      "source_excerpt": "Upon termination or expiry of the MSA, or at any time upon the Controller's request, the Processor shall, at the Controller's choice, return or securely delete all Personal Data and certify in writing that it has done so, except to the extent retention is required by applicable law."
+    },
+    {
+      "id": "field:ab7434f0:MSA:subprocessors_disclosed",
+      "label": "subprocessors_disclosed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "[\"Google Cloud Platform\", \"Snowflake Data Cloud\"]",
+      "source_excerpt": "- Google Cloud Platform, Region: europe-west1 (Belgium), for secure cloud infrastructure and data hosting.\n- Snowflake Data Cloud, Region: EU (Frankfurt), for data warehousing and reconciliation analytics."
+    },
+    {
+      "id": "field:ab7434f0:MSA:data_categories_processed",
+      "label": "data_categories_processed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "[\"Retail Banking Customers\", \"Institutional Traders\"]",
+      "source_excerpt": "- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller"
+    },
+    {
+      "id": "field:ab7434f0:MSA:liability_cap_usd",
+      "label": "liability_cap_usd",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "7500000",
+      "source_excerpt": "the total aggregate liability of Provider to Client under this Agreement shall not exceed Seven Million Five Hundred Thousand United States Dollars (USD $7,500,000.00)."
+    },
+    {
+      "id": "field:ab7434f0:MSA:liability_uncapped_for_security_breach",
+      "label": "liability_uncapped_for_security_breach",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "true",
+      "source_excerpt": "The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law."
+    },
+    {
+      "id": "field:ab7434f0:MSA:cert_termination_right",
+      "label": "cert_termination_right",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "true",
+      "source_excerpt": "Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification, ISO 27001, or any other certification required by applicable card schemes or regulatory authorities."
+    },
+    {
+      "id": "field:ab7434f0:PCI_DSS_AOC:pci_assessor_type",
+      "label": "pci_assessor_type",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "independent_qsa",
+      "source_excerpt": "Assessor Title: Senior Qualified Security Assessor\n\nQSA Company / Assessor Entity: Northshore Compliance Assessors Inc. (Independent QSA, PCI SSC Listed)"
+    },
+    {
+      "id": "field:ab7434f0:PCI_DSS_AOC:pci_dss_level",
+      "label": "pci_dss_level",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "value": "1",
+      "source_excerpt": "Annual Validation for Level 1 Service Provider -Independent QSA Assessment"
+    },
+    {
+      "id": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "label": "core.orchestrator:run_verification_loop",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.orchestrator:dispatch_agent_tool_call",
+      "label": "core.orchestrator:dispatch_agent_tool_call",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.tools:search_tavily",
+      "label": "core.tools:search_tavily",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "fn:ab7434f0:core.scoring:compute_and_save_score",
+      "label": "core.scoring:compute_and_save_score",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc"
+    },
+    {
+      "id": "vendor:def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "label": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "type": "vendor",
+      "val": 20
+    },
+    {
+      "id": "fn:def40144:core.views:post",
+      "label": "core.views:post",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.tasks:process_vendor_onboarding_pipeline",
+      "label": "core.tasks:process_vendor_onboarding_pipeline",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "label": "core.tasks:parse_and_vectorize_document",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "doc:def40144:SOC2_TYPE2",
+      "label": "SOC2_TYPE2",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "doc:def40144:MSA",
+      "label": "MSA",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "doc:def40144:PCI_DSS_AOC",
+      "label": "PCI_DSS_AOC",
+      "type": "document",
+      "val": 10,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "err:def40144:fn:def40144:core.tasks:parse_and_vectorize_document:1782077043.990609",
+      "label": "document_conversion_pipeline_failed",
+      "type": "error",
+      "val": 8,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "full_message": "document_conversion_pipeline_failed"
+    },
+    {
+      "id": "fn:def40144:clients.chroma:vectorize_markdown_content",
+      "label": "clients.chroma:vectorize_markdown_content",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.tasks:execute_vendor_compliance_audit",
+      "label": "core.tasks:execute_vendor_compliance_audit",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "label": "core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.orchestrator:extract_all_documents",
+      "label": "core.orchestrator:extract_all_documents",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:backend.vendor_logging:ai",
+      "label": "backend.vendor_logging:ai",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "field:def40144:MSA:contract_start_date",
+      "label": "contract_start_date",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "2026-01-01",
+      "source_excerpt": "Effective Date: January 1, 2026"
+    },
+    {
+      "id": "field:def40144:MSA:breach_notification_hours",
+      "label": "breach_notification_hours",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "24",
+      "source_excerpt": "the Processor shall notify the Controller via security-alerts@socgen.com within twenty-four (24) hours of initial discovery."
+    },
+    {
+      "id": "field:def40144:MSA:data_return_deadline_days",
+      "label": "data_return_deadline_days",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "30",
+      "source_excerpt": "Upon termination or expiry of the MSA, or at any time upon the Controller's request, the Processor shall, at the Controller's choice, return or securely delete all Personal Data and certify in writing that it has done so, except to the extent retention is required by applicable law."
+    },
+    {
+      "id": "field:def40144:MSA:subprocessors_disclosed",
+      "label": "subprocessors_disclosed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "[\"Amazon Web Services (AWS)\", \"Twilio Inc.\"]",
+      "source_excerpt": "- Amazon Web Services (AWS), Region: eu-west-1 (Ireland), for secure cloud infrastructure and data hosting.\n- Twilio Inc., Region: United States, for fraud-alert SMS notifications (no PAN data transmitted)."
+    },
+    {
+      "id": "field:def40144:MSA:data_categories_processed",
+      "label": "data_categories_processed",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "[\"Retail Banking Customers\", \"Institutional Traders\"]",
+      "source_excerpt": "- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller"
+    },
+    {
+      "id": "field:def40144:MSA:liability_cap_usd",
+      "label": "liability_cap_usd",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "5000000",
+      "source_excerpt": "the total aggregate liability of Provider to Client under this Agreement shall not exceed Five Million United States Dollars (USD $5,000,000.00)."
+    },
+    {
+      "id": "field:def40144:MSA:liability_uncapped_for_security_breach",
+      "label": "liability_uncapped_for_security_breach",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "true",
+      "source_excerpt": "The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law."
+    },
+    {
+      "id": "field:def40144:MSA:cert_termination_right",
+      "label": "cert_termination_right",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "true",
+      "source_excerpt": "Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification, ISO 27001, or any other certification required by applicable card schemes or regulatory authorities."
+    },
+    {
+      "id": "field:def40144:PCI_DSS_AOC:pci_assessor_type",
+      "label": "pci_assessor_type",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "independent_qsa",
+      "source_excerpt": "QSA Company / Assessor Entity: Redwood Security Assessors, LLC (Independent QSA, PCI SSC Listed)"
+    },
+    {
+      "id": "field:def40144:PCI_DSS_AOC:pci_dss_level",
+      "label": "pci_dss_level",
+      "type": "field",
+      "val": 4,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "value": "1",
+      "source_excerpt": "Annual Validation for Level 1 Service Provider -Independent QSA Assessment"
+    },
+    {
+      "id": "fn:def40144:core.orchestrator:run_verification_loop",
+      "label": "core.orchestrator:run_verification_loop",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.orchestrator:dispatch_agent_tool_call",
+      "label": "core.orchestrator:dispatch_agent_tool_call",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.tools:query_vendor_rag",
+      "label": "core.tools:query_vendor_rag",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
+    },
+    {
+      "id": "fn:def40144:core.scoring:compute_and_save_score",
+      "label": "core.scoring:compute_and_save_score",
+      "type": "function",
+      "val": 6,
+      "vendor_id": "def40144-a126-4edf-a9f4-86edeed7bf3c"
     }
   ],
   "links": [
     {
-      "source": "vendor:b9bfd356-8190-450a-acd4-da92b51400d3",
-      "target": "fn:core.views:post",
+      "source": "vendor:2c21a4ba-1f34-46cc-ac4f-810d60367637",
+      "target": "fn:2c21a4ba:core.views:post",
       "type": "entry",
       "weight": 1
     },
     {
-      "source": "fn:core.views:post",
-      "target": "fn:core.tasks:process_vendor_onboarding_pipeline",
+      "source": "fn:2c21a4ba:core.views:post",
+      "target": "fn:2c21a4ba:core.tasks:process_vendor_onboarding_pipeline",
       "type": "flow",
       "weight": 1,
       "last_message": "pipeline_initialized"
     },
     {
-      "source": "fn:core.tasks:process_vendor_onboarding_pipeline",
-      "target": "fn:core.tasks:parse_and_vectorize_document",
+      "source": "fn:2c21a4ba:core.tasks:process_vendor_onboarding_pipeline",
+      "target": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
       "type": "flow",
       "weight": 1,
       "last_message": "markdown_extraction_start"
     },
     {
-      "source": "fn:core.tasks:parse_and_vectorize_document",
-      "target": "doc:MSA",
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "doc:2c21a4ba:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "doc:2c21a4ba:MSA",
       "type": "touches",
       "weight": 4
     },
     {
-      "source": "fn:core.tasks:parse_and_vectorize_document",
-      "target": "doc:SOC2_TYPE2",
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "doc:2c21a4ba:PCI_DSS_AOC",
       "type": "touches",
       "weight": 2
     },
     {
-      "source": "fn:core.tasks:parse_and_vectorize_document",
-      "target": "doc:PCI_DSS_AOC",
-      "type": "touches",
-      "weight": 2
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "err:2c21a4ba:fn:2c21a4ba:core.tasks:parse_and_vectorize_document:1782077145.6801",
+      "type": "raises",
+      "weight": 1
     },
     {
-      "source": "fn:core.tasks:parse_and_vectorize_document",
-      "target": "fn:clients.chroma:vectorize_markdown_content",
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "fn:2c21a4ba:clients.chroma:vectorize_markdown_content",
       "type": "flow",
-      "weight": 4,
+      "weight": 3,
       "last_message": "Vectorization finalized. Saved 36 vectors"
     },
     {
-      "source": "fn:clients.chroma:vectorize_markdown_content",
-      "target": "fn:core.tasks:parse_and_vectorize_document",
+      "source": "fn:2c21a4ba:clients.chroma:vectorize_markdown_content",
+      "target": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
       "type": "flow",
-      "weight": 4,
+      "weight": 3,
       "last_message": "vectorization_success"
     },
     {
-      "source": "fn:core.tasks:parse_and_vectorize_document",
-      "target": "fn:core.tasks:execute_vendor_compliance_audit",
+      "source": "fn:2c21a4ba:core.tasks:parse_and_vectorize_document",
+      "target": "fn:2c21a4ba:core.tasks:execute_vendor_compliance_audit",
       "type": "flow",
       "weight": 1,
       "last_message": "parallel_extractions_complete"
     },
     {
-      "source": "fn:core.tasks:execute_vendor_compliance_audit",
-      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "source": "fn:2c21a4ba:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
       "type": "flow",
       "weight": 1,
-      "last_message": "ORCHESTRATOR_START | vendor=Meridian Pay Solution | docs=['MSA', 'PCI_DSS_AOC', "
+      "last_message": "ORCHESTRATOR_START | vendor=Vertex Transact Corp | docs=['MSA', 'PCI_DSS_AOC']"
     },
     {
-      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
-      "target": "fn:core.orchestrator:extract_all_documents",
+      "source": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
       "type": "flow",
       "weight": 1,
-      "last_message": "EXTRACT_START | doc_type=MSA | chars=55182"
+      "last_message": "EXTRACT_START | doc_type=MSA | chars=13591"
     },
     {
-      "source": "fn:core.orchestrator:extract_all_documents",
-      "target": "doc:MSA",
+      "source": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
+      "target": "doc:2c21a4ba:MSA",
       "type": "touches",
       "weight": 2
     },
     {
-      "source": "fn:core.orchestrator:extract_all_documents",
-      "target": "fn:backend.vendor_logging:ai",
+      "source": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
+      "target": "fn:2c21a4ba:backend.vendor_logging:ai",
       "type": "flow",
-      "weight": 3,
-      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": "
+      "weight": 2,
+      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": {\n            \"value\": \"2024-08-01\",\n            \"source_excerpt\": \"Effective Date: August 1, 2024\"\n        },\n        \"breach_notification_hours\": {\n            \"value\": 72,\n            \"source_excerpt\": \"the Processor shall notify the Controller via security-alerts@socgen.com within seventy-two (72) hours of initial discovery.\"\n        },\n        \"data_return_deadline_days\": {\n            \"value\": 30,\n            \"source_excerpt\": \"Client shall remit payment within thirty (30) days of receipt.\"\n        },\n        \"subprocessors_disclosed\": {\n            \"value\": [\n                \"Amazon Web Services (AWS)\",\n                \"DataSphere Analytics Pvt. Ltd.\"\n            ],\n            \"source_excerpt\": \"- Amazon Web Services (AWS), Region: us-east-1 (Virginia), for secure cloud infrastructure and data hosting.\\n- DataSphere Analytics Pvt. Ltd., Region: Mumbai, India, for fraud-screening analytics processing.\"\n        },\n        \"data_categories_processed\": {\n            \"value\": [\n                \"Retail Banking Customers\",\n                \"Institutional Traders of the Controller\"\n            ],\n            \"source_excerpt\": \"- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller\"\n        },\n        \"liability_cap_usd\": {\n            \"value\": 2000000,\n            \"source_excerpt\": \"the total aggregate liability of Provider to Client under this Agreement shall not exceed Two Million United States Dollars (USD $2,000,000.00).\"\n        },\n        \"liability_uncapped_for_security_breach\": {\n            \"value\": true,\n            \"source_excerpt\": \"The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law.\"\n        },\n        \"cert_termination_right\": {\n            \"value\": true,\n            \"source_excerpt\": \"Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current PCI DSS Level 1 certification.\"\n        }\n    }\n}"
     },
     {
-      "source": "fn:backend.vendor_logging:ai",
-      "target": "doc:MSA",
+      "source": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "target": "doc:2c21a4ba:MSA",
       "type": "touches",
       "weight": 1
     },
     {
-      "source": "fn:backend.vendor_logging:ai",
-      "target": "fn:core.orchestrator:extract_all_documents",
-      "type": "flow",
-      "weight": 3,
-      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2026-01-01' | excerpt='Effect"
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:contract_start_date",
+      "type": "extracted",
+      "weight": 1
     },
     {
-      "source": "fn:core.orchestrator:extract_all_documents",
-      "target": "doc:PCI_DSS_AOC",
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:breach_notification_hours",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:data_return_deadline_days",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:subprocessors_disclosed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:data_categories_processed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:liability_cap_usd",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:liability_uncapped_for_security_breach",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:2c21a4ba:MSA",
+      "target": "field:2c21a4ba:MSA:cert_termination_right",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "target": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2024-08-01' | excerpt='Effective Date: August 1, 2024'"
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
+      "target": "doc:2c21a4ba:PCI_DSS_AOC",
       "type": "touches",
       "weight": 2
     },
     {
-      "source": "fn:backend.vendor_logging:ai",
-      "target": "doc:PCI_DSS_AOC",
+      "source": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "target": "doc:2c21a4ba:PCI_DSS_AOC",
       "type": "touches",
       "weight": 1
     },
     {
-      "source": "fn:core.orchestrator:extract_all_documents",
-      "target": "doc:SOC2_TYPE2",
-      "type": "touches",
-      "weight": 2
-    },
-    {
-      "source": "fn:backend.vendor_logging:ai",
-      "target": "doc:SOC2_TYPE2",
-      "type": "touches",
+      "source": "doc:2c21a4ba:PCI_DSS_AOC",
+      "target": "field:2c21a4ba:PCI_DSS_AOC:pci_assessor_type",
+      "type": "extracted",
       "weight": 1
     },
     {
-      "source": "fn:core.orchestrator:extract_all_documents",
-      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "source": "doc:2c21a4ba:PCI_DSS_AOC",
+      "target": "field:2c21a4ba:PCI_DSS_AOC:pci_dss_level",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:extract_all_documents",
+      "target": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
       "type": "flow",
       "weight": 1,
-      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hou"
+      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hours', 'data_return_deadline_days', 'subprocessors_disclosed', 'data_categories_processed', 'liability_cap_usd', 'liability_uncapped_for_security_breach', 'cert_termination_right', 'pci_assessor_type', 'pci_dss_level']"
     },
     {
-      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
-      "target": "fn:core.orchestrator:run_verification_loop",
+      "source": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
       "type": "flow",
       "weight": 1,
       "last_message": "AGENT_STEP_START | step=1/4"
     },
     {
-      "source": "fn:core.orchestrator:run_verification_loop",
-      "target": "fn:backend.vendor_logging:ai",
+      "source": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
+      "target": "fn:2c21a4ba:backend.vendor_logging:ai",
       "type": "flow",
       "weight": 4,
-      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a com"
+      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a commercial bank.\nYou have access to baseline vendor facts extracted from internal contracts and certifications.\nYour job is to determine whether external verification checks are required.\n\nOnly use an external tool when you need to confirm a specific claim or investigate public vulnerabilities.\nDo not run generic web searches. Keep your queries focused and precise.\n\nAvailable tools:\n\n    - query_vendor_rag: Search internal vendor documents. Args: {\"question\": \"<string>\"}\n    - search_xposedornot_breach: Check public breach databases. Args: {\"domain\": \"<vendor domain string e.g. nimbus.com>\"}\n    - search_tavily: Web search for vendor information. Args: {\"query\": \"<search string>\"}\n    - search_serpapi_news: Search Google News. Args: {\"query\": \"<search string>\"}\n    - search_news_breach_signal: Search for breach/bankruptcy news. Args: {\"vendor_name\": \"<vendor name string>\"}\n    - search_sec_edgar: Search SEC public filings. Args: {\"company_name\": \"<company name string>\"}\n    - scrape_public_url_content: Scrape a webpage. Args: {\"target_url\": \"<full URL string>\"}\n    \n\nCurrent extracted facts:\n{\"contract_start_date\": \"2024-08-01\", \"breach_notification_hours\": 72, \"data_return_deadline_days\": 30, \"subprocessors_disclosed\": [\"Amazon Web Services (AWS)\", \"DataSphere Analytics Pvt. Ltd.\"], \"data_categories_processed\": [\"Retail Banking Customers\", \"Institutional Traders of the Controller\"], \"liability_cap_usd\": 2000000, \"liability_uncapped_for_security_breach\": true, \"cert_termination_right\": true, \"pci_assessor_type\": \"self_assessed\", \"pci_dss_level\": 1}\n\nYou MUST return a JSON object with EXACTLY these fields \u2014 no other structure is accepted:\n\n{\n  \"question\": \"<the specific risk question you are investigating this turn>\",\n  \"reason\": \"<why this question matters for the vendor risk profile>\",\n  \"tool\": \"<one tool name from the available tools list, or null if no tool needed>\",\n  \"tool_args\": {<arguments for the tool as key-value pairs, or empty object {} if tool is null>},\n  \"summary\": \"<what you concluded this turn, even if no tool was called>\",\n  \"extracted_fields\": {<any new facts discovered as key-value pairs, or empty object {} if none>},\n  \"continue_loop\": <1 to keep investigating, 0 if all critical checks are complete>\n}\n\nExample of a valid response:\n{\n  \"question\": \"Has this vendor had any public data breaches?\",\n  \"reason\": \"A breach history directly impacts the vendor risk score and may trigger contractual review.\",\n  \"tool\": \"search_xposedornot_breach\",\n  \"tool_args\": {\"domain\": \"nimbus.com\"},\n  \"summary\": \"Checking public breach databases for this vendor domain.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 1\n}\n\nExample of a valid response when no tool is needed:\n{\n  \"question\": \"Are all critical compliance fields verified?\",\n  \"reason\": \"Confirming that extraction phase covered all required risk dimensions.\",\n  \"tool\": null,\n  \"tool_args\": {},\n  \"summary\": \"All critical fields have been extracted and verified. No further checks needed.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 0\n}\n"
     },
     {
-      "source": "fn:backend.vendor_logging:ai",
-      "target": "fn:core.orchestrator:run_verification_loop",
+      "source": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "target": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
       "type": "flow",
       "weight": 8,
-      "last_message": "AGENT_QUESTION | step=1 | question='Does the vendor have a recent SOC 2 audit re"
+      "last_message": "AGENT_QUESTION | step=1 | question='Does the vendor have a public website?'"
     },
     {
-      "source": "fn:core.orchestrator:run_verification_loop",
-      "target": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "source": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
+      "target": "fn:2c21a4ba:core.orchestrator:dispatch_agent_tool_call",
       "type": "flow",
       "weight": 4,
-      "last_message": "TOOL_CALL  | tool=search_tavily | args={\"query\": \"Meridian Pay Solution SOC 2 re"
+      "last_message": "TOOL_CALL  | tool=search_tavily | args={\"query\": \"Vertex Transact Corp website\"}"
     },
     {
-      "source": "fn:core.orchestrator:dispatch_agent_tool_call",
-      "target": "fn:core.tools:search_tavily",
-      "type": "flow",
-      "weight": 2,
-      "last_message": "TOOL_CALL: search_tavily runtime_query='Meridian Pay Solution SOC 2 report 2025'"
-    },
-    {
-      "source": "fn:core.tools:search_tavily",
-      "target": "fn:backend.vendor_logging:ai",
-      "type": "flow",
-      "weight": 2,
-      "last_message": "TOOL_RESULT | tool=search_tavily | status=ok | data={\"tool\": \"tavily\", \"status\":"
-    },
-    {
-      "source": "fn:core.orchestrator:dispatch_agent_tool_call",
-      "target": "fn:core.tools:query_vendor_rag",
-      "type": "flow",
-      "weight": 2,
-      "last_message": "TOOL_CALL: query_vendor_rag contextual_query='SOC 2 report'"
-    },
-    {
-      "source": "fn:core.tools:query_vendor_rag",
-      "target": "fn:backend.vendor_logging:ai",
-      "type": "flow",
-      "weight": 2,
-      "last_message": "TOOL_RESULT | tool=query_vendor_rag | status=ok | data={\"tool\": \"vendor_rag\", \"s"
-    },
-    {
-      "source": "fn:core.orchestrator:run_verification_loop",
-      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "source": "fn:2c21a4ba:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:2c21a4ba:core.tools:search_tavily",
       "type": "flow",
       "weight": 1,
-      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=1"
+      "last_message": "TOOL_CALL: search_tavily runtime_query='Vertex Transact Corp website'"
     },
     {
-      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
-      "target": "fn:core.tasks:execute_vendor_compliance_audit",
+      "source": "fn:2c21a4ba:core.tools:search_tavily",
+      "target": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "TOOL_RESULT | tool=search_tavily | status=ok | data={\"tool\": \"tavily\", \"status\": \"ok\", \"results\": [{\"url\": \"https://www.youtube.com/watch?v=mCLlCymAZvw\", \"title\": \"Vertex: Tax Technology for Commerce and Compliance\", \"content\": \"Vertex: Tax Technology for Commerce and Compliance\\nVertex Inc.\\n3590 subscribers\\n\\n244642 views\\n20 Nov 2020\\nBusiness is changing fast. Every new way to produce, procure, and sell creates tax complexities.\\n\\nVertex Tax Technology helps over 4,000 companies around the world to transact, comply, and grow with confidence. Let us help tackle tax complexity so you can focus on the next opportunity.\\n\\nLearn more: http://vrtx.tax/DsvE30rP17y \\n\\nDiscover cutting edge information about #tax, #compliance, #procurement, #taxtechnology, and more by following and subscribing to the Vertex Inc. YouTube Channel today.\\n\\n\\u2022 Vertex Inc website: http://vrtx.tax/63Ta30rP17G \\n\\u2022 Facebook: https://www.facebook.com/vertexinc1/ \\n\\u2022 Twitter: https://twitter.com/vertexinc \\n\\u2022 Instagram: https://www.instagram.com/lifeatvertex/ \\n\\u2022 LinkedIn: https://www.linkedin.com/company/vertex-inc./\\n\\n\", \"score\": 0.49494705, \"raw_content\": null}, {\"url\": \"https://www.linkedin.com/company/vertex-inc.\", \"title\": \"Vertex Inc. - Together we deliver connected solutions to conquer tax complexity.\", \"content\": \"Overview:\\nThe rapid changes taking place in today\\u2019s global business, technology, and regulatory environments are having a compounding effect on the complexity of indirect tax management and putting more pressure on the corporate tax function than ever before. This complexity demands intelligent solutions that enable businesses to satisfy tax obligations and support growth opportunities. The Trusted Leader in Tax Technology We're Vertex (VERX). A pioneer in tax automation for more than 40 years. We proudly serve over 4,000 customers worldwide with distinction and provide comprehensive tax solutions that enable global businesses to transact, comply and grow with confidence. Our software, content and services address the increasing complexities of global commerce and compliance by reducing friction, enhancing transparency and enabling greater confidence in meeting indirect tax obligations. As a result, our software is ubiquitous within our customers\\u2019 business systems, touching nearly every line item of every transaction that an enterprise can conduct. Our software is fueled by over 300 million data-driven effective tax rules and supports indirect tax compliance in more than 19,000 jurisdictions worldwide. We partner with the world\\u2019s most respected companies and harness their strengths to deliver the best tax technology solution to businesses across the globe. We integrate with key technology partners that span ERP, CRM, procurement, billing, POS and e-commerce platforms. We also work closely with over 50 tax, accounting and consulting firms to provide the integrated tax technology solutions. Our culture is the foundation of everything we do, guided by a common purpose to build trusted relationships at work, in business and in our communities. We strive to be a values-driven employer of choice who attracts, retains and inspires talented professionals to achieve their full potential. We employ over 1,100 full-time professionals today in the US, Europe and Brazil.\\n\\nWebsite: https://www.vertexinc.com/\\nCrunchbase Url: https://www.crunchbase.com/organization/vertex-bfbc?utm_source=linkedin&utm_medium=referral&utm_campaign=linkedin_companies&utm_content=profile_cta_anon&trk=funding_crunchbase\\nLinkedin Url: N/A\\n\\nIndustry:\\nSoftware Development\\n\\nCompany size:\\n1,001-5,000 employees\\n2515 associated members (LinkedIn members who\\u2019ve listed Vertex Inc. as their current workplace on their profile)\\n\\nFounded:\\nN/A\\n\\nFunding:\\nLast Round Date: 2024-05-23T00:00:00.000Z\\nLast Round Type: Post IPO debt\\nTotal Rounds: 1\\nLast Round Raised: US$ 345.0M\\n\\nInvestors:\\nN/A\", \"score\": 0.493043, \"raw_content\": null}, {\"url\": \"https://www.vertexinc.com\", \"title\": \"Vertex Inc.: Tax Technology Software & Solutions for Businesses\", \"content\": \"# AI-powered global tax compliance. An enterprise platform that automates tax compliance across your global commerce transactions. Vertex provides enterprise tax compliance solutions built for global tax and finance teams managing complexity across multiple ERP systems. Vertex brings tax determination, e-invoicing, compliance reporting, and trusted tax data together in one connected platform so you can automate indirect tax obligations and manage compliance with confidence, end to end. Screenshot of the Vertex Platform Dashboard with callouts for Copilot, e-Invoicing, and Compliance Details. Learn how medicines company, Novartis, use Vertex with SAP S/4HANA to simplify compliance and drive performance. * How LEGO Put the Pieces Together to Simplify Tax. How LEGO Put the Pieces Together to Simplify Sales TaxView Story. Connect AI to your compliance workflows to:. Reduce manual tax effort and improve global tax calculations and compliance with AI agents. ## How Ford Scaled Global Tax Compliance with Vertex. ## Put the power of Vertex to work for you.\", \"score\": 0.3236371, \"raw_content\": null}, {\"url\": \"https://marketplace.workday.com/en-US/pages/partner-profile?vendor=0fd40ae7-fd55-4774-b512-9d7b09706b69\", \"title\": \"Workday Marketplace | Workday\", \"content\": \"# Vertex, Inc. Command your future with a trusted name in tax technology that is 40+ years in the making. Vertex, Inc. is a trusted global provider of indirect tax software and solutions. The company\\u2019s mission is to deliver the most trusted tax technology enabling global businesses to transact, comply and grow with confidence. ## Vertex for Workday. An out of the box pre-built integration that connects Workday Financial Management to the Vertex e-Invoicing platform. Streamlining compliance business processes with real-time, continuous transaction control (CTC) for e-Invoicing mandates across an ever-changing list of countries in a single solution. Vertex, Inc. is a partner in the Industry Accelerator program. Workday recognizes Vertex, Inc. as a leader of industry-specific deployments with leading practice expertise and industry persona solutions to accelerate a customer's time to value and has proven success in supporting digital transformation. ### Workday Select Partner.\", \"score\": 0.24480098, \"raw_content\": null}, {\"url\": \"https://www.vertexinc.com/solutions/tax-type/sales-use-tax\", \"title\": \"Sales & Use Tax Software for Automation & Compliance | Vertex Inc.\", \"content\": \"# Sales & Use Tax Software Solutions. Simplify compliance, reduce audit risk, and boost efficiency with scalable, cloud-based sales and use tax software from Vertex. Hero Background Solutions Sales and Use Tax. ## Sales and Use Tax Software that Scales with your Business. Vertex automates your entire sales and use tax process, from real-time tax determination to exemption certificate management, returns, and reporting. ## Automate the Sales and Use Tax Lifecycle. Use our sales and use tax compliance software to gain insights to reduce audit risk and costs. Whether you're using a cloud ERP or custom system, our **sales tax software** scales with your business. Take advantage of automated tools and outsourcing services to collect, track, and store exemption certificates to reduce audit risk and streamline internal operations. ### Featured sales and use tax software solutions. * ## Vertex Sales & Use Tax Compliance Service. Learn about end-to-end sales tax compliance outsourcing services from sales tax returns generation, to filing and payment.\", \"score\": 0.16257967, \"raw_content\": null}]}"
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:2c21a4ba:core.tools:search_news_breach_signal",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_CALL: search_news_breach_signal targeted_target=Vertex Transact Corp."
+    },
+    {
+      "source": "fn:2c21a4ba:core.tools:search_news_breach_signal",
+      "target": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_RESULT | tool=search_news_breach_signal | status=ok | data={\"tool\": \"gnews\", \"status\": \"ok\", \"articles\": []}"
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:2c21a4ba:core.tools:search_xposedornot_breach",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "TOOL_CALL: search_xposedornot_breach target_domain=vertextransact.com"
+    },
+    {
+      "source": "fn:2c21a4ba:core.tools:search_xposedornot_breach",
+      "target": "fn:2c21a4ba:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "TOOL_RESULT | tool=search_xposedornot_breach | status=ok | data={\"tool\": \"xposedornot\", \"status\": \"ok\", \"breaches_found\": 0, \"raw_data\": {\"BreachMetrics\": null, \"BreachesSummary\": {\"site\": \"\"}, \"ExposedBreaches\": null, \"ExposedPastes\": null, \"PasteMetrics\": null, \"PastesSummary\": {\"cnt\": 0, \"domain\": \"\", \"tmpstmp\": \"\"}}}"
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:run_verification_loop",
+      "target": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=0"
+    },
+    {
+      "source": "fn:2c21a4ba:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:2c21a4ba:core.tasks:execute_vendor_compliance_audit",
       "type": "flow",
       "weight": 1,
       "last_message": "orchestrator_complete"
     },
     {
-      "source": "fn:core.tasks:execute_vendor_compliance_audit",
-      "target": "fn:core.scoring:compute_and_save_score",
+      "source": "fn:2c21a4ba:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:2c21a4ba:core.scoring:compute_and_save_score",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "SCORING_START: vendor=Vertex Transact Corp"
+    },
+    {
+      "source": "vendor:708456d5-ab05-4eb4-ba09-3641dff82813",
+      "target": "fn:708456d5:core.views:post",
+      "type": "entry",
+      "weight": 1
+    },
+    {
+      "source": "fn:708456d5:core.views:post",
+      "target": "fn:708456d5:core.tasks:process_vendor_onboarding_pipeline",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "pipeline_initialized"
+    },
+    {
+      "source": "fn:708456d5:core.tasks:process_vendor_onboarding_pipeline",
+      "target": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "markdown_extraction_start"
+    },
+    {
+      "source": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "target": "doc:708456d5:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "target": "doc:708456d5:MSA",
+      "type": "touches",
+      "weight": 4
+    },
+    {
+      "source": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "target": "doc:708456d5:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "target": "fn:708456d5:clients.chroma:vectorize_markdown_content",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "Vectorization finalized. Saved 14 vectors"
+    },
+    {
+      "source": "fn:708456d5:clients.chroma:vectorize_markdown_content",
+      "target": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "vectorization_success"
+    },
+    {
+      "source": "fn:708456d5:core.tasks:parse_and_vectorize_document",
+      "target": "fn:708456d5:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "parallel_extractions_complete"
+    },
+    {
+      "source": "fn:708456d5:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "ORCHESTRATOR_START | vendor=Ashford Clearing Networks | docs=['MSA', 'PCI_DSS_AOC', 'SOC2_TYPE2']"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "EXTRACT_START | doc_type=MSA | chars=14878"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "target": "doc:708456d5:MSA",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "target": "fn:708456d5:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": {\n            \"value\": \"2023-03-01\",\n            \"source_excerpt\": \"Effective Date: March 1, 2023\"\n        },\n        \"breach_notification_hours\": {\n            \"value\": 120,\n            \"source_excerpt\": \"the Processor shall notify the Controller via security-alerts@socgen.com within five (5) business days of initial discovery.\"\n        },\n        \"data_return_deadline_days\": {\n            \"value\": 60,\n            \"source_excerpt\": \"For the duration of the MSA and for a period not exceeding sixty (60) days after termination or expiry thereof, unless otherwise instructed by the Controller\"\n        },\n        \"subprocessors_disclosed\": {\n            \"value\": [\n                \"Amazon Web Services (AWS)\",\n                \"QuickServe BPO Solutions\"\n            ],\n            \"source_excerpt\": \"- Amazon Web Services (AWS), Region: us-east-1 (Virginia), for secure cloud infrastructure and data hosting.\\n-  QuickServe  BPO  Solutions,  Region:  Manila,  Philippines,  for  Tier-1  customer  support  and  chargeback  case handling, with access to transaction metadata.\"\n        },\n        \"data_categories_processed\": {\n            \"value\": [\n                \"Retail Banking Customers\",\n                \"Institutional Traders\"\n            ],\n            \"source_excerpt\": \"- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller\"\n        },\n        \"liability_cap_usd\": {\n            \"value\": 1000000,\n            \"source_excerpt\": \"the total aggregate liability of Provider to Client under this Agreement shall not exceed One Million United States Dollars (USD $1,000,000.00).\"\n        },\n        \"liability_uncapped_for_security_breach\": {\n            \"value\": true,\n            \"source_excerpt\": \"The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law.\"\n        },\n        \"cert_termination_right\": {\n            \"value\": true,\n            \"source_excerpt\": \"Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification.\"\n        },\n        \"pci_dss_level\": {\n            \"value\": 1,\n            \"source_excerpt\": \"Provider's PCI DSS attestation (dated February 25, 2025) has not been renewed within the standard one-year validity window, and Client has not yet exercised this termination right.\"\n        }\n    }\n}"
+    },
+    {
+      "source": "fn:708456d5:backend.vendor_logging:ai",
+      "target": "doc:708456d5:MSA",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:contract_start_date",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:breach_notification_hours",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:data_return_deadline_days",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:subprocessors_disclosed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:data_categories_processed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:liability_cap_usd",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:liability_uncapped_for_security_breach",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:cert_termination_right",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:MSA",
+      "target": "field:708456d5:MSA:pci_dss_level",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:708456d5:backend.vendor_logging:ai",
+      "target": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2023-03-01' | excerpt='Effective Date: March 1, 2023'"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "target": "doc:708456d5:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:708456d5:backend.vendor_logging:ai",
+      "target": "doc:708456d5:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:PCI_DSS_AOC",
+      "target": "field:708456d5:PCI_DSS_AOC:pci_assessor_type",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:PCI_DSS_AOC",
+      "target": "field:708456d5:PCI_DSS_AOC:pci_dss_level",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "target": "doc:708456d5:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:708456d5:backend.vendor_logging:ai",
+      "target": "doc:708456d5:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:SOC2_TYPE2",
+      "target": "field:708456d5:SOC2_TYPE2:contract_start_date",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:SOC2_TYPE2",
+      "target": "field:708456d5:SOC2_TYPE2:contract_end_date",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:SOC2_TYPE2",
+      "target": "field:708456d5:SOC2_TYPE2:soc2_audit_period_end",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:SOC2_TYPE2",
+      "target": "field:708456d5:SOC2_TYPE2:soc2_opinion_type",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:708456d5:SOC2_TYPE2",
+      "target": "field:708456d5:SOC2_TYPE2:data_categories_processed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:extract_all_documents",
+      "target": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hours', 'data_return_deadline_days', 'subprocessors_disclosed', 'data_categories_processed', 'liability_cap_usd', 'liability_uncapped_for_security_breach', 'cert_termination_right', 'pci_dss_level', 'pci_assessor_type', 'contract_end_date', 'soc2_audit_period_end', 'soc2_opinion_type']"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "AGENT_STEP_START | step=1/4"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "target": "fn:708456d5:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a commercial bank.\nYou have access to baseline vendor facts extracted from internal contracts and certifications.\nYour job is to determine whether external verification checks are required.\n\nOnly use an external tool when you need to confirm a specific claim or investigate public vulnerabilities.\nDo not run generic web searches. Keep your queries focused and precise.\n\nAvailable tools:\n\n    - query_vendor_rag: Search internal vendor documents. Args: {\"question\": \"<string>\"}\n    - search_xposedornot_breach: Check public breach databases. Args: {\"domain\": \"<vendor domain string e.g. nimbus.com>\"}\n    - search_tavily: Web search for vendor information. Args: {\"query\": \"<search string>\"}\n    - search_serpapi_news: Search Google News. Args: {\"query\": \"<search string>\"}\n    - search_news_breach_signal: Search for breach/bankruptcy news. Args: {\"vendor_name\": \"<vendor name string>\"}\n    - search_sec_edgar: Search SEC public filings. Args: {\"company_name\": \"<company name string>\"}\n    - scrape_public_url_content: Scrape a webpage. Args: {\"target_url\": \"<full URL string>\"}\n    \n\nCurrent extracted facts:\n{\"contract_start_date\": \"2023-03-01\", \"breach_notification_hours\": 120, \"data_return_deadline_days\": 60, \"subprocessors_disclosed\": [\"Amazon Web Services (AWS)\", \"QuickServe BPO Solutions\"], \"data_categories_processed\": [\"Retail Banking Customers\", \"Institutional Traders\"], \"liability_cap_usd\": 1000000, \"liability_uncapped_for_security_breach\": true, \"cert_termination_right\": true, \"pci_dss_level\": 1, \"pci_assessor_type\": \"self_assessed\", \"contract_end_date\": \"2024-12-31\", \"soc2_audit_period_end\": \"2024-12-31\", \"soc2_opinion_type\": \"qualified\"}\n\nYou MUST return a JSON object with EXACTLY these fields \u2014 no other structure is accepted:\n\n{\n  \"question\": \"<the specific risk question you are investigating this turn>\",\n  \"reason\": \"<why this question matters for the vendor risk profile>\",\n  \"tool\": \"<one tool name from the available tools list, or null if no tool needed>\",\n  \"tool_args\": {<arguments for the tool as key-value pairs, or empty object {} if tool is null>},\n  \"summary\": \"<what you concluded this turn, even if no tool was called>\",\n  \"extracted_fields\": {<any new facts discovered as key-value pairs, or empty object {} if none>},\n  \"continue_loop\": <1 to keep investigating, 0 if all critical checks are complete>\n}\n\nExample of a valid response:\n{\n  \"question\": \"Has this vendor had any public data breaches?\",\n  \"reason\": \"A breach history directly impacts the vendor risk score and may trigger contractual review.\",\n  \"tool\": \"search_xposedornot_breach\",\n  \"tool_args\": {\"domain\": \"nimbus.com\"},\n  \"summary\": \"Checking public breach databases for this vendor domain.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 1\n}\n\nExample of a valid response when no tool is needed:\n{\n  \"question\": \"Are all critical compliance fields verified?\",\n  \"reason\": \"Confirming that extraction phase covered all required risk dimensions.\",\n  \"tool\": null,\n  \"tool_args\": {},\n  \"summary\": \"All critical fields have been extracted and verified. No further checks needed.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 0\n}\n"
+    },
+    {
+      "source": "fn:708456d5:backend.vendor_logging:ai",
+      "target": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 8,
+      "last_message": "AGENT_QUESTION | step=1 | question='Does the vendor have a SOC 2 audit opinion?'"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "target": "fn:708456d5:core.orchestrator:dispatch_agent_tool_call",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_CALL  | tool=query_vendor_rag | args={\"question\": \"What is the SOC 2 audit opinion type?\"}"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:708456d5:core.tools:query_vendor_rag",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_CALL: query_vendor_rag contextual_query='What is the SOC 2 audit opinion type?'"
+    },
+    {
+      "source": "fn:708456d5:core.tools:query_vendor_rag",
+      "target": "fn:708456d5:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_RESULT | tool=query_vendor_rag | status=ok | data={\"tool\": \"vendor_rag\", \"status\": \"ok\", \"chunks\": [{\"text\": \"SOC 2 Type II Report on Management's Description of a Service Organization's System and the Suitability of the Design and Operating Effectiveness of Controls\", \"metadata\": {\"chunk_index\": 0, \"source_document_type\": \"SOC2_TYPE2\"}}, {\"text\": \"## 8. AUDITS\", \"metadata\": {\"chunk_index\": 22, \"source_document_type\": \"MSA\"}}, {\"text\": \"In our opinion, except for the matters described in the Trust Services Criteria Exceptions section of this report, which include a material weakness in incident detection controls, the controls stated were not fairly presented in all material respects for the review period.\", \"metadata\": {\"chunk_index\": 8, \"source_document_type\": \"SOC2_TYPE2\"}}, {\"text\": \"| Independent Auditor     | Coastal Ridge Assurance LLP                         |\\n|-------------------------|-----------------------------------------------------|\\n| Service Organization    | Ashford Clearing Networks LLC                       |\\n| System Under Evaluation | Card-Present and E-Commerce Clearing Infrastructure |\", \"metadata\": {\"source_document_type\": \"SOC2_TYPE2\", \"chunk_index\": 2}}]}"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_verification_loop",
+      "target": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=2"
+    },
+    {
+      "source": "fn:708456d5:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:708456d5:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "orchestrator_complete"
+    },
+    {
+      "source": "fn:708456d5:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:708456d5:core.scoring:compute_and_save_score",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "SCORING_START: vendor=Ashford Clearing Networks"
+    },
+    {
+      "source": "vendor:ab7434f0-b3f1-410e-ac40-cdf5f6cd59dc",
+      "target": "fn:ab7434f0:core.views:post",
+      "type": "entry",
+      "weight": 1
+    },
+    {
+      "source": "fn:ab7434f0:core.views:post",
+      "target": "fn:ab7434f0:core.tasks:process_vendor_onboarding_pipeline",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "pipeline_initialized"
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:process_vendor_onboarding_pipeline",
+      "target": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "markdown_extraction_start"
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "doc:ab7434f0:MSA",
+      "type": "touches",
+      "weight": 4
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "doc:ab7434f0:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "doc:ab7434f0:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "err:ab7434f0:fn:ab7434f0:core.tasks:parse_and_vectorize_document:1782076970.045211",
+      "type": "raises",
+      "weight": 1
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "fn:ab7434f0:clients.chroma:vectorize_markdown_content",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "Vectorization finalized. Saved 36 vectors"
+    },
+    {
+      "source": "fn:ab7434f0:clients.chroma:vectorize_markdown_content",
+      "target": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "vectorization_success"
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:parse_and_vectorize_document",
+      "target": "fn:ab7434f0:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "parallel_extractions_complete"
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "ORCHESTRATOR_START | vendor=Cascade Settlement Group | docs=['MSA', 'PCI_DSS_AOC']"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "EXTRACT_START | doc_type=MSA | chars=13949"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "target": "doc:ab7434f0:MSA",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "target": "fn:ab7434f0:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": {\n            \"value\": \"2026-02-01\",\n            \"source_excerpt\": \"Effective Date: February 1, 2026\"\n        },\n        \"breach_notification_hours\": {\n            \"value\": 24,\n            \"source_excerpt\": \"the Processor shall notify the Controller via security-alerts@socgen.com within twenty-four (24) hours of initial discovery.\"\n        },\n        \"data_return_deadline_days\": {\n            \"value\": 30,\n            \"source_excerpt\": \"Upon termination or expiry of the MSA, or at any time upon the Controller's request, the Processor shall, at the Controller's choice, return or securely delete all Personal Data and certify in writing that it has done so, except to the extent retention is required by applicable law.\"\n        },\n        \"subprocessors_disclosed\": {\n            \"value\": [\n                \"Google Cloud Platform\",\n                \"Snowflake Data Cloud\"\n            ],\n            \"source_excerpt\": \"- Google Cloud Platform, Region: europe-west1 (Belgium), for secure cloud infrastructure and data hosting.\\n- Snowflake Data Cloud, Region: EU (Frankfurt), for data warehousing and reconciliation analytics.\"\n        },\n        \"data_categories_processed\": {\n            \"value\": [\n                \"Retail Banking Customers\",\n                \"Institutional Traders\"\n            ],\n            \"source_excerpt\": \"- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller\"\n        },\n        \"liability_cap_usd\": {\n            \"value\": 7500000,\n            \"source_excerpt\": \"the total aggregate liability of Provider to Client under this Agreement shall not exceed Seven Million Five Hundred Thousand United States Dollars (USD $7,500,000.00).\"\n        },\n        \"liability_uncapped_for_security_breach\": {\n            \"value\": true,\n            \"source_excerpt\": \"The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law.\"\n        },\n        \"cert_termination_right\": {\n            \"value\": true,\n            \"source_excerpt\": \"Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification, ISO 27001, or any other certification required by applicable card schemes or regulatory authorities.\"\n        }\n    }\n}"
+    },
+    {
+      "source": "fn:ab7434f0:backend.vendor_logging:ai",
+      "target": "doc:ab7434f0:MSA",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:contract_start_date",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:breach_notification_hours",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:data_return_deadline_days",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:subprocessors_disclosed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:data_categories_processed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:liability_cap_usd",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:liability_uncapped_for_security_breach",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:MSA",
+      "target": "field:ab7434f0:MSA:cert_termination_right",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:ab7434f0:backend.vendor_logging:ai",
+      "target": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2026-02-01' | excerpt='Effective Date: February 1, 2026'"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "target": "doc:ab7434f0:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:ab7434f0:backend.vendor_logging:ai",
+      "target": "doc:ab7434f0:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:PCI_DSS_AOC",
+      "target": "field:ab7434f0:PCI_DSS_AOC:pci_assessor_type",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:ab7434f0:PCI_DSS_AOC",
+      "target": "field:ab7434f0:PCI_DSS_AOC:pci_dss_level",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:extract_all_documents",
+      "target": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hours', 'data_return_deadline_days', 'subprocessors_disclosed', 'data_categories_processed', 'liability_cap_usd', 'liability_uncapped_for_security_breach', 'cert_termination_right', 'pci_assessor_type', 'pci_dss_level']"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "AGENT_STEP_START | step=1/4"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "target": "fn:ab7434f0:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a commercial bank.\nYou have access to baseline vendor facts extracted from internal contracts and certifications.\nYour job is to determine whether external verification checks are required.\n\nOnly use an external tool when you need to confirm a specific claim or investigate public vulnerabilities.\nDo not run generic web searches. Keep your queries focused and precise.\n\nAvailable tools:\n\n    - query_vendor_rag: Search internal vendor documents. Args: {\"question\": \"<string>\"}\n    - search_xposedornot_breach: Check public breach databases. Args: {\"domain\": \"<vendor domain string e.g. nimbus.com>\"}\n    - search_tavily: Web search for vendor information. Args: {\"query\": \"<search string>\"}\n    - search_serpapi_news: Search Google News. Args: {\"query\": \"<search string>\"}\n    - search_news_breach_signal: Search for breach/bankruptcy news. Args: {\"vendor_name\": \"<vendor name string>\"}\n    - search_sec_edgar: Search SEC public filings. Args: {\"company_name\": \"<company name string>\"}\n    - scrape_public_url_content: Scrape a webpage. Args: {\"target_url\": \"<full URL string>\"}\n    \n\nCurrent extracted facts:\n{\"contract_start_date\": \"2026-02-01\", \"breach_notification_hours\": 24, \"data_return_deadline_days\": 30, \"subprocessors_disclosed\": [\"Google Cloud Platform\", \"Snowflake Data Cloud\"], \"data_categories_processed\": [\"Retail Banking Customers\", \"Institutional Traders\"], \"liability_cap_usd\": 7500000, \"liability_uncapped_for_security_breach\": true, \"cert_termination_right\": true, \"pci_assessor_type\": \"independent_qsa\", \"pci_dss_level\": 1}\n\nYou MUST return a JSON object with EXACTLY these fields \u2014 no other structure is accepted:\n\n{\n  \"question\": \"<the specific risk question you are investigating this turn>\",\n  \"reason\": \"<why this question matters for the vendor risk profile>\",\n  \"tool\": \"<one tool name from the available tools list, or null if no tool needed>\",\n  \"tool_args\": {<arguments for the tool as key-value pairs, or empty object {} if tool is null>},\n  \"summary\": \"<what you concluded this turn, even if no tool was called>\",\n  \"extracted_fields\": {<any new facts discovered as key-value pairs, or empty object {} if none>},\n  \"continue_loop\": <1 to keep investigating, 0 if all critical checks are complete>\n}\n\nExample of a valid response:\n{\n  \"question\": \"Has this vendor had any public data breaches?\",\n  \"reason\": \"A breach history directly impacts the vendor risk score and may trigger contractual review.\",\n  \"tool\": \"search_xposedornot_breach\",\n  \"tool_args\": {\"domain\": \"nimbus.com\"},\n  \"summary\": \"Checking public breach databases for this vendor domain.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 1\n}\n\nExample of a valid response when no tool is needed:\n{\n  \"question\": \"Are all critical compliance fields verified?\",\n  \"reason\": \"Confirming that extraction phase covered all required risk dimensions.\",\n  \"tool\": null,\n  \"tool_args\": {},\n  \"summary\": \"All critical fields have been extracted and verified. No further checks needed.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 0\n}\n"
+    },
+    {
+      "source": "fn:ab7434f0:backend.vendor_logging:ai",
+      "target": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 7,
+      "last_message": "AGENT_QUESTION | step=1 | question='Does Cascade Settlement Group have a public website?'"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "target": "fn:ab7434f0:core.orchestrator:dispatch_agent_tool_call",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "TOOL_CALL  | tool=search_tavily | args={\"query\": \"Cascade Settlement Group website\"}"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:ab7434f0:core.tools:search_tavily",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "TOOL_CALL: search_tavily runtime_query='Cascade Settlement Group website'"
+    },
+    {
+      "source": "fn:ab7434f0:core.tools:search_tavily",
+      "target": "fn:ab7434f0:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "TOOL_RESULT | tool=search_tavily | status=ok | data={\"tool\": \"tavily\", \"status\": \"ok\", \"results\": [{\"url\": \"https://www.cascadesurgicentersettlement.com\", \"title\": \"Hakkila et al. v. Neuromusculoskeletal Center of The Cascades, PC ...\", \"content\": \"Welcome to the Settlement Website for the Cascade Data Incident Settlement. IMPORTANT NOTICE: THE FINAL APPROVAL HEARING HAS BEEN RESCHEDULED FOR FEBRUARY 11\", \"score\": 0.60694176, \"raw_content\": null}, {\"url\": \"https://www.classaction.org/news/cascade-surgicenter-settlement-offers-cash-data-monitoring-to-end-class-action-over-2023-data-breach\", \"title\": \"Cascade Surgicenter Settlement Offers Cash, Data Monitoring to End Class Action Over 2023 Data Breach\", \"content\": \"The Neuromusculoskeletal Center of the Cascades and the Cascade Surgicenter will offer time and expense reimbursement, medical data monitoring and cash payments to settle a class action lawsuit over an October 2023 data breach. The Cascades class action settlement received preliminary court approval on August 26, 2025 and covers anyone who received notice from the Neuromusculoskeletal Center of the Cascades or Cascade Surgicenter that their personal information was compromised in the data breach, which occurred between October 2 and October 3, 2023. According to the website, Cascade Surgicenter settlement class members who submit a timely, valid claim form will be able to receive medical data monitoring services, up to $500 in reimbursement for documented, out-of-pocket expenses related to the data breach, up to $2,500 in reimbursement for money lost to identity theft or fraud stemming from the data breach, and payment for up to four hours spent dealing with the effects of the data breach, at a rate of $25 per hour.\", \"score\": 0.5911811, \"raw_content\": null}, {\"url\": \"https://pitchbook.com/profiles/investor/62250-13\", \"title\": \"Cascade Settlement Services investment portfolio - PitchBook\", \"content\": \"Founded in 2008, Cascade Settlement Services is a private equity investment firm based in San Francisco, California.\", \"score\": 0.4674539, \"raw_content\": null}, {\"url\": \"https://evictorbook.com/owner/CASCADE%20SETTLEMENT%20SERVICES%20LLC\", \"title\": \"Cascade Settlement Services LLC - Evictorbook\", \"content\": \"Cascade Settlement Services LLC is part of one ownership network with 1107 businesses, such as Abacus Group, 649 property owner addresses, such as 5716\", \"score\": 0.46366343, \"raw_content\": null}, {\"url\": \"https://cascadelivingsettlement.com/contact\", \"title\": \"Contact - Kastel, et al. v. Cascade Living Group Management, LLC\", \"content\": \"Contact \\u00b7 info@CascadeLivingSettlement.com \\u00b7 844-804-5031 \\u00b7 Kasteal, et al. v. Cascade Living Group Management, LLC. Settlement Administrator. P.O. Box 26170.\", \"score\": 0.41151342, \"raw_content\": null}]}"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_verification_loop",
+      "target": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=0"
+    },
+    {
+      "source": "fn:ab7434f0:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:ab7434f0:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "orchestrator_complete"
+    },
+    {
+      "source": "fn:ab7434f0:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:ab7434f0:core.scoring:compute_and_save_score",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "SCORING_START: vendor=Cascade Settlement Group"
+    },
+    {
+      "source": "vendor:def40144-a126-4edf-a9f4-86edeed7bf3c",
+      "target": "fn:def40144:core.views:post",
+      "type": "entry",
+      "weight": 1
+    },
+    {
+      "source": "fn:def40144:core.views:post",
+      "target": "fn:def40144:core.tasks:process_vendor_onboarding_pipeline",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "pipeline_initialized"
+    },
+    {
+      "source": "fn:def40144:core.tasks:process_vendor_onboarding_pipeline",
+      "target": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "markdown_extraction_start"
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "doc:def40144:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "doc:def40144:MSA",
+      "type": "touches",
+      "weight": 4
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "doc:def40144:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "err:def40144:fn:def40144:core.tasks:parse_and_vectorize_document:1782077043.990609",
+      "type": "raises",
+      "weight": 1
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "fn:def40144:clients.chroma:vectorize_markdown_content",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "Vectorization finalized. Saved 36 vectors"
+    },
+    {
+      "source": "fn:def40144:clients.chroma:vectorize_markdown_content",
+      "target": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "vectorization_success"
+    },
+    {
+      "source": "fn:def40144:core.tasks:parse_and_vectorize_document",
+      "target": "fn:def40144:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "parallel_extractions_complete"
+    },
+    {
+      "source": "fn:def40144:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "ORCHESTRATOR_START | vendor=Meridian Pay Solution | docs=['MSA', 'PCI_DSS_AOC']"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:def40144:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "EXTRACT_START | doc_type=MSA | chars=13794"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:extract_all_documents",
+      "target": "doc:def40144:MSA",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:extract_all_documents",
+      "target": "fn:def40144:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": {\n            \"value\": \"2026-01-01\",\n            \"source_excerpt\": \"Effective Date: January 1, 2026\"\n        },\n        \"breach_notification_hours\": {\n            \"value\": 24,\n            \"source_excerpt\": \"the Processor shall notify the Controller via security-alerts@socgen.com within twenty-four (24) hours of initial discovery.\"\n        },\n        \"data_return_deadline_days\": {\n            \"value\": 30,\n            \"source_excerpt\": \"Upon termination or expiry of the MSA, or at any time upon the Controller's request, the Processor shall, at the Controller's choice, return or securely delete all Personal Data and certify in writing that it has done so, except to the extent retention is required by applicable law.\"\n        },\n        \"subprocessors_disclosed\": {\n            \"value\": [\n                \"Amazon Web Services (AWS)\",\n                \"Twilio Inc.\"\n            ],\n            \"source_excerpt\": \"- Amazon Web Services (AWS), Region: eu-west-1 (Ireland), for secure cloud infrastructure and data hosting.\\n- Twilio Inc., Region: United States, for fraud-alert SMS notifications (no PAN data transmitted).\"\n        },\n        \"data_categories_processed\": {\n            \"value\": [\n                \"Retail Banking Customers\",\n                \"Institutional Traders\"\n            ],\n            \"source_excerpt\": \"- 2.1 Categories of Data Subjects: Retail Banking Customers and Institutional Traders of the Controller\"\n        },\n        \"liability_cap_usd\": {\n            \"value\": 5000000,\n            \"source_excerpt\": \"the total aggregate liability of Provider to Client under this Agreement shall not exceed Five Million United States Dollars (USD $5,000,000.00).\"\n        },\n        \"liability_uncapped_for_security_breach\": {\n            \"value\": true,\n            \"source_excerpt\": \"The liability cap shall not apply to: (i) indemnification for gross negligence or willful misconduct; (ii) breach of confidentiality obligations; (iii) willful data security failures, including breaches of PCI DSS, unauthorized access to Core Production Infrastructure, or compromise of Customer Data; or (iv) any liability that cannot be limited by applicable law.\"\n        },\n        \"cert_termination_right\": {\n            \"value\": true,\n            \"source_excerpt\": \"Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification, ISO 27001, or any other certification required by applicable card schemes or regulatory authorities.\"\n        }\n    }\n}"
+    },
+    {
+      "source": "fn:def40144:backend.vendor_logging:ai",
+      "target": "doc:def40144:MSA",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:contract_start_date",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:breach_notification_hours",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:data_return_deadline_days",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:subprocessors_disclosed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:data_categories_processed",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:liability_cap_usd",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:liability_uncapped_for_security_breach",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:MSA",
+      "target": "field:def40144:MSA:cert_termination_right",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:def40144:backend.vendor_logging:ai",
+      "target": "fn:def40144:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2026-01-01' | excerpt='Effective Date: January 1, 2026'"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:extract_all_documents",
+      "target": "doc:def40144:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:def40144:backend.vendor_logging:ai",
+      "target": "doc:def40144:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:PCI_DSS_AOC",
+      "target": "field:def40144:PCI_DSS_AOC:pci_assessor_type",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "doc:def40144:PCI_DSS_AOC",
+      "target": "field:def40144:PCI_DSS_AOC:pci_dss_level",
+      "type": "extracted",
+      "weight": 1
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:extract_all_documents",
+      "target": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hours', 'data_return_deadline_days', 'subprocessors_disclosed', 'data_categories_processed', 'liability_cap_usd', 'liability_uncapped_for_security_breach', 'cert_termination_right', 'pci_assessor_type', 'pci_dss_level']"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:def40144:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "AGENT_STEP_START | step=1/4"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_verification_loop",
+      "target": "fn:def40144:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a commercial bank.\nYou have access to baseline vendor facts extracted from internal contracts and certifications.\nYour job is to determine whether external verification checks are required.\n\nOnly use an external tool when you need to confirm a specific claim or investigate public vulnerabilities.\nDo not run generic web searches. Keep your queries focused and precise.\n\nAvailable tools:\n\n    - query_vendor_rag: Search internal vendor documents. Args: {\"question\": \"<string>\"}\n    - search_xposedornot_breach: Check public breach databases. Args: {\"domain\": \"<vendor domain string e.g. nimbus.com>\"}\n    - search_tavily: Web search for vendor information. Args: {\"query\": \"<search string>\"}\n    - search_serpapi_news: Search Google News. Args: {\"query\": \"<search string>\"}\n    - search_news_breach_signal: Search for breach/bankruptcy news. Args: {\"vendor_name\": \"<vendor name string>\"}\n    - search_sec_edgar: Search SEC public filings. Args: {\"company_name\": \"<company name string>\"}\n    - scrape_public_url_content: Scrape a webpage. Args: {\"target_url\": \"<full URL string>\"}\n    \n\nCurrent extracted facts:\n{\"contract_start_date\": \"2026-01-01\", \"breach_notification_hours\": 24, \"data_return_deadline_days\": 30, \"subprocessors_disclosed\": [\"Amazon Web Services (AWS)\", \"Twilio Inc.\"], \"data_categories_processed\": [\"Retail Banking Customers\", \"Institutional Traders\"], \"liability_cap_usd\": 5000000, \"liability_uncapped_for_security_breach\": true, \"cert_termination_right\": true, \"pci_assessor_type\": \"independent_qsa\", \"pci_dss_level\": 1}\n\nYou MUST return a JSON object with EXACTLY these fields \u2014 no other structure is accepted:\n\n{\n  \"question\": \"<the specific risk question you are investigating this turn>\",\n  \"reason\": \"<why this question matters for the vendor risk profile>\",\n  \"tool\": \"<one tool name from the available tools list, or null if no tool needed>\",\n  \"tool_args\": {<arguments for the tool as key-value pairs, or empty object {} if tool is null>},\n  \"summary\": \"<what you concluded this turn, even if no tool was called>\",\n  \"extracted_fields\": {<any new facts discovered as key-value pairs, or empty object {} if none>},\n  \"continue_loop\": <1 to keep investigating, 0 if all critical checks are complete>\n}\n\nExample of a valid response:\n{\n  \"question\": \"Has this vendor had any public data breaches?\",\n  \"reason\": \"A breach history directly impacts the vendor risk score and may trigger contractual review.\",\n  \"tool\": \"search_xposedornot_breach\",\n  \"tool_args\": {\"domain\": \"nimbus.com\"},\n  \"summary\": \"Checking public breach databases for this vendor domain.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 1\n}\n\nExample of a valid response when no tool is needed:\n{\n  \"question\": \"Are all critical compliance fields verified?\",\n  \"reason\": \"Confirming that extraction phase covered all required risk dimensions.\",\n  \"tool\": null,\n  \"tool_args\": {},\n  \"summary\": \"All critical fields have been extracted and verified. No further checks needed.\",\n  \"extracted_fields\": {},\n  \"continue_loop\": 0\n}\n"
+    },
+    {
+      "source": "fn:def40144:backend.vendor_logging:ai",
+      "target": "fn:def40144:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 8,
+      "last_message": "AGENT_QUESTION | step=1 | question='Does the vendor have a valid PCI DSS certification?'"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_verification_loop",
+      "target": "fn:def40144:core.orchestrator:dispatch_agent_tool_call",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_CALL  | tool=query_vendor_rag | args={\"question\": \"pci dss certification\"}"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:def40144:core.tools:query_vendor_rag",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_CALL: query_vendor_rag contextual_query='pci dss certification'"
+    },
+    {
+      "source": "fn:def40144:core.tools:query_vendor_rag",
+      "target": "fn:def40144:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_RESULT | tool=query_vendor_rag | status=ok | data={\"tool\": \"vendor_rag\", \"status\": \"ok\", \"chunks\": [{\"text\": \"The Service Provider has been found compliant with all applicable PCI-DSS v4.0 requirements for the assessed environment. No compensating controls were required.\", \"metadata\": {\"chunk_index\": 11, \"source_document_type\": \"PCI_DSS_AOC\"}}, {\"text\": \"5.3 Security Certification Termination Right. Client shall have the right to terminate this Agreement immediately for cause, without cure period, if Provider fails to maintain valid and current industry security certifications, including but not limited to PCI DSS Level 1 certification, ISO 27001, or any other certification required by applicable card schemes or regulatory authorities. Upon such termination, Provider shall promptly return or destroy all Customer Data and provide a certification of compliance signed by an officer of Provider.\", \"metadata\": {\"source_document_type\": \"MSA\", \"chunk_index\": 19}}, {\"text\": \"Meridian Pay Solutions LLC confirms that its Real-Time Merchant Acquiring Platform has been assessed against the requirements of PCI-DSS v4.0. The assessment covered all applicable requirements for a service provider handling cardholder data.\", \"metadata\": {\"source_document_type\": \"PCI_DSS_AOC\", \"chunk_index\": 7}}, {\"text\": \"## PAYMENT CARD INDUSTRY (PCI) DATA SECURITY STANDARD\", \"metadata\": {\"source_document_type\": \"PCI_DSS_AOC\", \"chunk_index\": 0}}]}"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_verification_loop",
+      "target": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=0"
+    },
+    {
+      "source": "fn:def40144:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:def40144:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "orchestrator_complete"
+    },
+    {
+      "source": "fn:def40144:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:def40144:core.scoring:compute_and_save_score",
       "type": "flow",
       "weight": 1,
       "last_message": "SCORING_START: vendor=Meridian Pay Solution"

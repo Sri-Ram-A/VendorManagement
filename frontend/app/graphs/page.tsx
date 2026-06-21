@@ -14,6 +14,7 @@ const TYPE_COLOR = {
   vendor: "#7F77DD",   // purple
   function: "#378ADD", // blue
   document: "#1D9E75", // teal
+  field: "#F2A623",    // amber
   error: "#E24B4A",    // red
 };
 
@@ -21,6 +22,7 @@ const TYPE_SIZE = {
   vendor: 14,
   function: 5,
   document: 8,
+  field: 3,
   error: 7,
 };
 
@@ -30,6 +32,7 @@ const TYPE_MEANING = {
   vendor: "Root of one vendor's onboarding run. Every event traces back to this.",
   function: "A module:function in the codebase that logged an event (e.g. core.tasks:parse_and_vectorize_document). Edges between functions show the order control actually passed through them.",
   document: "A document type that was uploaded and processed (MSA, PCI_DSS_AOC, SOC2_TYPE2). Linked to whichever function touched it.",
+  field: "A specific compliance field extracted by the LLM from a document (e.g. breach_notification_hours). Hover to see the extracted value and the exact source text it came from.",
   error: "An ERROR/CRITICAL log line. Linked to the function that raised it, labeled with the failure message.",
 };
 
@@ -37,6 +40,7 @@ export default function VendorPipelineGraph3D({ graphDataUrl = "/graph.json" }) 
   const fgRef = useRef(null);
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [hoverNode, setHoverNode] = useState(null);
+  const [hoverLink, setHoverLink] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | loading | error | ready
 
   const buildGraph = useCallback(() => {
@@ -162,6 +166,31 @@ export default function VendorPipelineGraph3D({ graphDataUrl = "/graph.json" }) 
             {hoverNode.full_message && (
               <p style={{ fontSize: 11.5, color: "#ccc", marginTop: 6, lineHeight: 1.5 }}>{hoverNode.full_message}</p>
             )}
+            {hoverNode.type === "field" && (
+              <div style={{ marginTop: 8 }}>
+                <p style={{ fontSize: 11, color: "#777", margin: "0 0 2px" }}>Extracted value</p>
+                <p style={{ fontSize: 12.5, color: "#fff", margin: "0 0 8px", wordBreak: "break-word" }}>{hoverNode.value}</p>
+                <p style={{ fontSize: 11, color: "#777", margin: "0 0 2px" }}>Source excerpt</p>
+                <p style={{ fontSize: 11.5, color: "#ccc", margin: 0, lineHeight: 1.5, fontStyle: "italic" }}>
+                  "{hoverNode.source_excerpt}"
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {hoverLink && (
+          <div style={{ marginTop: 24, paddingTop: 16, borderTop: "1px solid #2a2a2a" }}>
+            <p style={{ fontSize: 11, color: "#777", margin: "0 0 6px" }}>Selected edge</p>
+            <p style={{ fontSize: 12, color: "#999", margin: "0 0 4px" }}>
+              {(hoverLink.source.label || hoverLink.source)} → {(hoverLink.target.label || hoverLink.target)}
+            </p>
+            <p style={{ fontSize: 11.5, color: "#999", margin: 0 }}>type: {hoverLink.type}</p>
+            {hoverLink.last_message && (
+              <p style={{ fontSize: 11.5, color: "#ccc", marginTop: 6, lineHeight: 1.5, wordBreak: "break-word" }}>
+                {hoverLink.last_message}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -210,6 +239,7 @@ export default function VendorPipelineGraph3D({ graphDataUrl = "/graph.json" }) 
             linkDirectionalArrowRelPos={1}
             linkOpacity={0.4}
             onNodeHover={setHoverNode}
+            onLinkHover={setHoverLink}
             onNodeClick={(node) => {
               const distance = 80;
               const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
