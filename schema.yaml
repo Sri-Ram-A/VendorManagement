@@ -1,0 +1,496 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/analytics/vendors/:
+    get:
+      operationId: analytics_vendors_list
+      description: Returns a clean array containing all registered vendor compliance
+        rows.
+      summary: List vendors
+      tags:
+      - Vendors
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VendorList'
+          description: ''
+  /api/analytics/vendors/{vendor_id}/:
+    get:
+      operationId: analytics_vendors_retrieve
+      description: Fetches the complete compliance ledger, including data categories,
+        legal bounds, and linked document artifacts.
+      summary: Retrieve a vendor compliance profile
+      parameters:
+      - in: path
+        name: vendor_id
+        schema:
+          type: string
+          format: uuid
+        description: The unique database UUID identifying the target vendor record.
+        required: true
+      tags:
+      - Vendors
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorDetail'
+          description: ''
+        '404':
+          description: The specified vendor UUID does not exist.
+  /api/analytics/vendors/{vendor_id}/predict/:
+    get:
+      operationId: analytics_vendors_predict_retrieve
+      description: |-
+        Accepts a vendor_id, looks up the vendor's registry row in the DB,
+        runs feature extraction + trained RandomForest model, returns the prediction.
+      parameters:
+      - in: path
+        name: vendor_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - analytics
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/vendors/ingest:
+    post:
+      operationId: vendors_ingest_create
+      tags:
+      - vendors
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VendorIngestionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VendorIngestionRequest'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponse'
+          description: ''
+components:
+  schemas:
+    AcceptedResponse:
+      type: object
+      properties:
+        vendor_id:
+          type: string
+          format: uuid
+      required:
+      - vendor_id
+    DeclaredDataCategoriesEnum:
+      enum:
+      - PCI_CARDHOLDER_DATA
+      - CUSTOMER_PII
+      - CREDENTIALS_AUTH
+      - FINANCIAL_RECORDS
+      - PUBLIC_MARKETING
+      type: string
+      description: |-
+        * `PCI_CARDHOLDER_DATA` - Credit Card Details / PAN / CVV
+        * `CUSTOMER_PII` - Personally Identifiable Info (Names, Addresses)
+        * `CREDENTIALS_AUTH` - Authentication Hashes / API Tokens
+        * `FINANCIAL_RECORDS` - Corporate Accounting / Trade Ledger Data
+        * `PUBLIC_MARKETING` - Publicly Available Marketing Assets
+    DocumentTypeEnum:
+      enum:
+      - MSA
+      - DPA
+      - SOC2_TYPE2
+      - PCI_DSS_AOC
+      type: string
+      description: |-
+        * `MSA` - Master Services Agreement
+        * `DPA` - Data Processing Addendum
+        * `SOC2_TYPE2` - SOC 2 Type II Compliance Report
+        * `PCI_DSS_AOC` - PCI-DSS Attestation of Compliance
+    ExtractionStatusEnum:
+      enum:
+      - PENDING
+      - SUCCESS
+      - FAILED
+      type: string
+      description: |-
+        * `PENDING` - Pending Engine Queue
+        * `SUCCESS` - Parsed and Validated
+        * `FAILED` - Pipeline Error Processing File
+    StatusEnum:
+      enum:
+      - PENDING_ASSESSMENT
+      - PROCESSING
+      - VERIFIED_GREEN
+      - CONDITIONAL_YELLOW
+      - QUARANTINED_RED
+      type: string
+      description: |-
+        * `PENDING_ASSESSMENT` - Pending Assessment
+        * `PROCESSING` - Processing Ingestion Pipeline
+        * `VERIFIED_GREEN` - Verified Low Risk
+        * `CONDITIONAL_YELLOW` - Conditional Medium Risk
+        * `QUARANTINED_RED` - Critical High Risk Action Required
+    VendorDetail:
+      type: object
+      properties:
+        vendor_id:
+          type: string
+          format: uuid
+          readOnly: true
+        vendor_name:
+          type: string
+          description: Official legal corporate name of the vendor entity.
+          maxLength: 255
+        vendor_type:
+          type: string
+          description: Operational categorization. e.g., 'Cloud Storage Provider'.
+          maxLength: 100
+        business_owner:
+          type: string
+          description: Internal enterprise manager overseeing the relationship.
+          maxLength: 255
+        annual_spend:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        current_risk_score:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        previous_risk_score:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        risk_narrative_summary:
+          type: string
+          nullable: true
+          description: AI-generated audit rationale explaining compliance exceptions
+            or structural defects.
+        declared_data_categories:
+          description: List of asset classes intended to be shared with this vendor.
+        declared_systems_accessed:
+          description: List of targeted system logical endpoints the vendor can access.
+        extracted_legal_bounds:
+          description: "\n            - contract_end_date, contract_start_date (ISO
+            strings)\n            - breach_notification_hours (integer numbers)\n
+            \           - data_return_deadline_days (integer numbers)\n            -
+            subprocessors_disclosed (array of text strings)\n            - data_categories_processed
+            (array of text strings)\n            - liability_cap_usd (numeric float/integer
+            value)\n            - liability_uncapped_for_security_breach (boolean)\n
+            \           - cert_termination_right (boolean)\n            - soc2_opinion_type
+            (\"qualified\" or \"unqualified\")\n            - soc2_audit_period_end
+            (ISO string)\n            - pci_dss_level (integer or string value)\n
+            \           - pci_assessor_type (\"independent_qsa\" or \"self_assessed\")\n
+            \           "
+        execution_trace_log:
+          type: string
+          format: uri
+          nullable: true
+          description: Relative path to the latest audit trace log file for this vendor.
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorDocument'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - business_owner
+      - created_at
+      - documents
+      - updated_at
+      - vendor_id
+      - vendor_name
+      - vendor_type
+    VendorDocument:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+          readOnly: true
+        document_type:
+          $ref: '#/components/schemas/DocumentTypeEnum'
+        extraction_status:
+          $ref: '#/components/schemas/ExtractionStatusEnum'
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_expired:
+          type: boolean
+          readOnly: true
+      required:
+      - document_id
+      - document_type
+      - is_expired
+      - uploaded_at
+    VendorIngestionRequest:
+      type: object
+      properties:
+        vendor_name:
+          type: string
+          minLength: 1
+          description: Official legal corporate name of the vendor entity.
+          maxLength: 255
+        vendor_type:
+          type: string
+          minLength: 1
+          description: Operational categorization. e.g., 'Cloud Storage Provider'.
+          maxLength: 100
+        business_owner:
+          type: string
+          minLength: 1
+          description: Internal enterprise manager overseeing the relationship.
+          maxLength: 255
+        annual_spend:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        declared_data_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeclaredDataCategoriesEnum'
+        declared_systems_accessed:
+          type: string
+          minLength: 1
+        documents:
+          type: array
+          items:
+            type: string
+            format: binary
+          writeOnly: true
+          description: 'Upload files simultaneously. File names must contain structural
+            keywords to match types correctly: ''MSA'' for contracts, ''DPA'' for
+            privacy guidelines, ''SOC'' for audits, or ''PCI''/''AOC'' for processing
+            compliance.'
+      required:
+      - business_owner
+      - documents
+      - vendor_name
+      - vendor_type
+    VendorList:
+      type: object
+      properties:
+        vendor_id:
+          type: string
+          format: uuid
+          readOnly: true
+        vendor_name:
+          type: string
+          description: Official legal corporate name of the vendor entity.
+          maxLength: 255
+        vendor_type:
+          type: string
+          description: Operational categorization. e.g., 'Cloud Storage Provider'.
+          maxLength: 100
+        business_owner:
+          type: string
+          description: Internal enterprise manager overseeing the relationship.
+          maxLength: 255
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        current_risk_score:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        previous_risk_score:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - business_owner
+      - created_at
+      - updated_at
+      - vendor_id
+      - vendor_name
+      - vendor_type
