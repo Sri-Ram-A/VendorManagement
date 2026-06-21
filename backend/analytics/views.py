@@ -1,99 +1,69 @@
 # filepath: backend/analytics/views.py
-from loguru import logger
-from rest_framework.views import APIView
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework import status
-from drf_spectacular.utils import extend_schema
-
-from core.models import Vendor
-
-
-class VendorListView(APIView):
-    """Returns all vendors with their current risk status and score."""
-
-    @extend_schema(responses={200: dict})
-    def get(self, request: Request) -> Response:
-        logger.debug("VendorListView: fetching all vendor records.")
-        vendors = Vendor.objects.all().order_by("-created_at")
-
-        payload = [
-            {
-                "vendor_id": str(v.vendor_id),
-                "vendor_name": v.vendor_name,
-                "vendor_type": v.vendor_type,
-                "business_owner": v.business_owner,
-                "status": v.status,
-                "current_risk_score": float(v.current_risk_score),
-                "previous_risk_score": float(v.previous_risk_score),
-                "created_at": v.created_at.isoformat(),
-                "updated_at": v.updated_at.isoformat(),
-            }
-            for v in vendors
-        ]
-
-        return Response({"count": len(payload), "vendors": payload}, status=status.HTTP_200_OK)
-
-
-class VendorDetailView(APIView):
-    """Returns full compliance profile for a single vendor."""
-
-    @extend_schema(responses={200: dict})
-    def get(self, request: Request, vendor_id) -> Response:
-        logger.debug(f"VendorDetailView: fetching vendor {vendor_id}")
-
-        try:
-            v = Vendor.objects.get(pk=vendor_id)
-        except Vendor.DoesNotExist:
-            return Response({"error": "Vendor not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        # Build document list
-        documents = [
-            {
-                "document_id": str(doc.document_id),
-                "document_type": doc.document_type,
-                "extraction_status": doc.extraction_status,
-                "uploaded_at": doc.uploaded_at.isoformat(),
-                "is_expired": doc.is_expired,
-            }
-            for doc in v.documents.all()
-        ]
-
-        payload = {
-            "vendor_id": str(v.vendor_id),
-            "vendor_name": v.vendor_name,
-            "vendor_type": v.vendor_type,
-            "business_owner": v.business_owner,
-            "annual_spend": float(v.annual_spend) if v.annual_spend else None,
-            "status": v.status,
-            "current_risk_score": float(v.current_risk_score),
-            "previous_risk_score": float(v.previous_risk_score),
-            "risk_narrative_summary": v.risk_narrative_summary,
-            "declared_data_categories": v.declared_data_categories,
-            "declared_systems_accessed": v.declared_systems_accessed,
-            "extracted_legal_bounds": v.extracted_legal_bounds,
-            "execution_trace_log": v.execution_trace_log,
-            "documents": documents,
-            "created_at": v.created_at.isoformat(),
-            "updated_at": v.updated_at.isoformat(),
-        }
-
-        return Response(payload, status=status.HTTP_200_OK)
-    
-# filepath: backend/analytics/views.py  (add to the existing file, do not touch VendorListView/VendorDetailView)
-import os
 import joblib
 import pandas as pd
 from pathlib import Path
-from django.conf import settings
 from loguru import logger
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
+from drf_spectacular.types import OpenApiTypes
+from django.conf import settings
 
+from core.models import Vendor
+from .serializer import VendorListSerializer, VendorDetailSerializer
 from analytics.models import VendorRegistry
+
+
+@extend_schema(tags=["Vendors"])
+class VendorListView(APIView):
+    """Returns all vendors with their current risk status and score."""
+
+    @extend_schema(
+        summary="List vendors",
+        description="Returns a clean array containing all registered vendor compliance rows.",
+        responses={status.HTTP_200_OK: VendorListSerializer(many=True)},
+    )
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        queryset = Vendor.objects.all().order_by("-created_at")
+        serializer = VendorListSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=["Vendors"])
+class VendorDetailView(APIView):
+    """Returns full compliance profile for a single vendor."""
+
+    @extend_schema(
+        summary="Retrieve a vendor compliance profile",
+        description="Fetches the complete compliance ledger, including data categories, legal bounds, and linked document artifacts.",
+        # Parameters match the exact URL keyword argument name
+        parameters=[
+            OpenApiParameter(
+                name="vendor_id",
+                type=OpenApiTypes.UUID,
+                location=OpenApiParameter.PATH,
+                description="The unique database UUID identifying the target vendor record.",
+            )
+        ],
+        responses={
+            status.HTTP_200_OK: VendorDetailSerializer,
+            status.HTTP_404_NOT_FOUND: OpenApiResponse(
+                description="The specified vendor UUID does not exist."
+            ),
+        },
+    )
+    def get(self, request: Request, vendor_id: str, *args, **kwargs) -> Response:
+        # Pre-fetching documents keeps database execution down to a single hit
+        vendor = get_object_or_404(
+            Vendor.objects.prefetch_related("documents"),
+            vendor_id=vendor_id,
+        )
+        serializer = VendorDetailSerializer(vendor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # ---- Load model artifacts once at module import time (not per-request) ----
 ML_MODELS_DIR = Path(settings.BASE_DIR) / "analytics" / "ml_models"
@@ -109,17 +79,27 @@ def build_features_simple(df: pd.DataFrame) -> pd.DataFrame:
     out = pd.DataFrame()
 
     out["is_recent_breach"] = (df["breach_status"] == "Recent_Breach_12mo").astype(int)
-    out["is_under_investigation"] = (df["breach_status"] == "Under_Investigation").astype(int)
-    out["is_historical_breach"] = (df["breach_status"] == "Historical_Breach").astype(int)
+    out["is_under_investigation"] = (
+        df["breach_status"] == "Under_Investigation"
+    ).astype(int)
+    out["is_historical_breach"] = (df["breach_status"] == "Historical_Breach").astype(
+        int
+    )
 
-    out["scope_high_sensitivity"] = df["data_access_scope"].isin(
-        ["Customer_PII", "Financial_Data", "All_Systems"]).astype(int)
-    out["scope_low_sensitivity"] = df["data_access_scope"].isin(
-        ["Internal_Data", "Public_Data"]).astype(int)
+    out["scope_high_sensitivity"] = (
+        df["data_access_scope"]
+        .isin(["Customer_PII", "Financial_Data", "All_Systems"])
+        .astype(int)
+    )
+    out["scope_low_sensitivity"] = (
+        df["data_access_scope"].isin(["Internal_Data", "Public_Data"]).astype(int)
+    )
 
     out["risk_score"] = df["risk_score"].astype(float)
     out["risk_high"] = (df["risk_score"] >= 81).astype(int)
-    out["risk_elevated"] = ((df["risk_score"] >= 66) & (df["risk_score"] <= 80)).astype(int)
+    out["risk_elevated"] = ((df["risk_score"] >= 66) & (df["risk_score"] <= 80)).astype(
+        int
+    )
     out["risk_low"] = (df["risk_score"] <= 65).astype(int)
 
     contract_end = pd.to_datetime(df["contract_end_date"], errors="coerce")
@@ -151,7 +131,8 @@ def build_features_simple(df: pd.DataFrame) -> pd.DataFrame:
     out["pct_certs_expired"] = parsed.apply(lambda x: x[2])
     out["has_expired_cert"] = (out["expired_cert_count"] > 0).astype(int)
     out["all_certs_expired"] = (
-        (out["expired_cert_count"] == out["total_cert_count"]) & (out["total_cert_count"] > 0)
+        (out["expired_cert_count"] == out["total_cert_count"])
+        & (out["total_cert_count"] > 0)
     ).astype(int)
 
     out["annual_spend"] = df["annual_spend"].astype(float)
@@ -172,7 +153,10 @@ class VendorRiskPredictionView(APIView):
         try:
             vendor = VendorRegistry.objects.get(pk=vendor_id)
         except VendorRegistry.DoesNotExist:
-            return Response({"error": "Vendor not found in registry."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Vendor not found in registry."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         vendor_dict = vendor.to_dict()
         row_df = pd.DataFrame([vendor_dict])
