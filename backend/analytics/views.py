@@ -61,7 +61,7 @@ class VendorDetailView(APIView):
             Vendor.objects.prefetch_related("documents"),
             vendor_id=vendor_id,
         )
-        serializer = VendorDetailSerializer(vendor)
+        serializer = VendorDetailSerializer(vendor, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

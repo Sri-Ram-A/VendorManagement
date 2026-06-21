@@ -5,15 +5,23 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { client } from "@/lib/client";
 import type { paths } from "@/types/schema";
-
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area"; // If you use shadcn ScrollArea
 // Pure Shadcn UI Component Imports
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
+import {Button} from "@/components/ui/button";
 // Icons
-import { ChevronLeft, FileText, Brain, Scale, AlertCircle, CheckCircle2, Clock, Terminal, Activity } from "lucide-react";
+import { ChevronLeft, FileText, Brain, Scale, AlertCircle, RefreshCw,CheckCircle2, Clock, Terminal, Activity } from "lucide-react";
 
 // Robust OpenAPI Schema Type Extractions
 type VendorDetail = paths["/api/analytics/vendors/{vendor_id}/"]["get"]["responses"]["200"]["content"]["application/json"];
@@ -33,6 +41,7 @@ function useVendorDetail(vendor_id: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
   useEffect(() => {
     if (!vendor_id) return;
     (async () => {
@@ -47,6 +56,33 @@ function useVendorDetail(vendor_id: string) {
 
   return { vendor, loading, error };
 }
+// Simple colorizer for terminal log files
+function parseLogLine(line: string, index: number) {
+  let colorClass = "text-muted-foreground"; // Default
+
+  if (/error|fail|critical|exception/i.test(line)) {
+    colorClass = "text-destructive font-semibold";
+  } else if (/warn|alert/i.test(line)) {
+    colorClass = "text-amber-500 font-semibold";
+  } else if (/success|ok|pass/i.test(line)) {
+    colorClass = "text-emerald-500 font-semibold";
+  } else if (/info/i.test(line)) {
+    colorClass = "text-sky-400";
+  } else if (/trace|debug/i.test(line)) {
+    colorClass = "text-muted-foreground/60";
+  }
+
+  return (
+    <div key={index} className="font-mono text-[11px] leading-relaxed select-text hover:bg-muted/10 px-2 py-0.5 rounded-sm">
+      <span className="text-muted-foreground/30 mr-3 inline-block w-6 text-right select-none">
+        {index + 1}
+      </span>
+      <span className={colorClass}>{line}</span>
+    </div>
+  );
+}
+
+
 
 function usePrediction(vendor_id: string) {
   const [prediction, setPrediction] = useState<PredictResult | null>(null);
@@ -71,13 +107,29 @@ export default function VendorDetailPage() {
   const vendor_id = String(params?.vendor_id ?? "");
   const { vendor, loading, error } = useVendorDetail(vendor_id);
   const { prediction, loading: predLoading } = usePrediction(vendor_id);
-
+  const [logContent, setLogContent] = useState<string | null>(null);
+  const [fetchingLog, setFetchingLog] = useState(false);
+  const [logError, setLogError] = useState<string | null>(null);
   const legalBounds = (vendor?.extracted_legal_bounds as Record<string, unknown>) ?? {};
   const dataCats = (vendor?.declared_data_categories as string[]) ?? [];
   // Parse systems accessed string into a clean array
   const systems = vendor?.declared_systems_accessed
     ? String(vendor.declared_systems_accessed).split(",").map(s => s.trim()).filter(Boolean)
     : [];
+  const fetchLogFile = async (url: string) => {
+    setFetchingLog(true);
+    setLogError(null);
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Could not read pipeline artifact logs.");
+      const text = await response.text();
+      setLogContent(text);
+    } catch (err: any) {
+      setLogError(err.message || "Failed to stream audit file.");
+    } finally {
+      setFetchingLog(false);
+    }
+  };
 
   if (error) return <div className="p-6 text-destructive font-mono text-sm">❌ {error}</div>;
 
@@ -238,25 +290,71 @@ export default function VendorDetailPage() {
               )}
             </CardContent>
           </Card>
-
           {/* Contract Obligations Layout */}
           <Card className="rounded-md shadow-none border-border lg:col-span-2">
             <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-3 border-b bg-muted/10">
               <Scale size={16} className="text-muted-foreground" />
-              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Extracted Contract Obligations</CardTitle>
+              <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Extracted Contract Obligations
+              </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
               {loading ? (
                 <Skeleton className="h-32 w-full rounded-md" />
               ) : Object.keys(legalBounds).length === 0 ? (
-                <p className="text-xs text-muted-foreground font-mono py-4">No active obligations parsed. Upload corporate records below to invoke pipeline parsing analysis.</p>
+                <p className="text-xs text-muted-foreground font-mono py-4">
+                  No active obligations parsed. Upload corporate records below to invoke pipeline parsing analysis.
+                </p>
               ) : (
                 <dl className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-4">
                   {Object.entries(legalBounds)
-                    .filter(([key]) => key !== "subprocessors_disclosed") // Kept in separate panel below
+                    .filter(([key]) => key !== "subprocessors_disclosed") // Kept in separate dedicated side-panel
                     .map(([key, val]) => {
-                      const display = typeof val === "boolean" ? (val ? "True" : "False") : String(val ?? "—");
-                      const isWarning = (key === "liability_uncapped_for_security_breach" && val === true) || (key === "soc2_opinion_type" && val === "qualified");
+                      // 1. Resolve hidden or nested "[object Object]" instances
+                      let cleanVal: any = val;
+                      if (typeof val === "object" && val !== null) {
+                        // Unpack typical nested field properties like { value: ... } or { display: ... } if generated by the backend
+                        cleanVal = (val as any).value ?? (val as any).display ?? JSON.stringify(val);
+                      }
+
+                      // 2. Parse out text if it arrives as an unparsed raw stringified JSON primitive
+                      if (typeof cleanVal === "string" && (cleanVal.startsWith("{") || cleanVal.startsWith("["))) {
+                        try {
+                          const parsed = JSON.parse(cleanVal);
+                          cleanVal = parsed.value ?? parsed;
+                        } catch (e) {
+                          // Keep original string if fallback parsing errors out
+                        }
+                      }
+
+                      // 3. Set up validation rendering paths
+                      let display = "—";
+                      const isBoolean = typeof cleanVal === "boolean" || cleanVal === "true" || cleanVal === "false";
+
+                      if (isBoolean) {
+                        display = cleanVal === true || cleanVal === "true" ? "True" : "False";
+                      } else if (Array.isArray(cleanVal)) {
+                        display = cleanVal.join(", ");
+                      } else if (cleanVal !== undefined && cleanVal !== null) {
+                        display = String(cleanVal);
+                      }
+
+                      // 4. Clean up timestamp variables safely
+                      const isDateKey = key.includes("date") || key.includes("end");
+                      if (isDateKey && display !== "—") {
+                        const parsedDate = Date.parse(display);
+                        if (!isNaN(parsedDate)) {
+                          display = new Date(parsedDate).toLocaleDateString();
+                        } else {
+                          // Try falling back to raw value if parse fails to prevent "Invalid Date" output string crashes
+                          display = String(cleanVal);
+                        }
+                      }
+
+                      // 5. Highlight structural system anomalies
+                      const isWarning =
+                        (key === "liability_uncapped_for_security_breach" && (cleanVal === true || cleanVal === "true")) ||
+                        (key === "soc2_opinion_type" && String(cleanVal).toLowerCase() === "qualified");
 
                       return (
                         <div key={key} className="border-b border-border pb-2">
@@ -264,9 +362,10 @@ export default function VendorDetailPage() {
                             {key.replace(/_/g, " ")}
                           </dt>
                           <dd className={`text-sm font-mono mt-1 font-semibold tracking-tight ${isWarning ? "text-destructive" : "text-foreground"}`}>
-                            {key.includes("date") || key.includes("end") ? new Date(display).toLocaleDateString() : display}
-                            {key.includes("hours") && " hrs"}
-                            {key.includes("days") && " days"}
+                            {display}
+                            {key.includes("hours") && display !== "—" && " hrs"}
+                            {key.includes("days") && display !== "—" && " days"}
+                            {key.includes("usd") && display !== "—" && !display.startsWith("$") && " USD"}
                           </dd>
                         </div>
                       );
@@ -392,7 +491,7 @@ export default function VendorDetailPage() {
           </CardContent>
         </Card>
 
-        {/* Audit Trace Logs */}
+        {/* Audit Trace Logs Component */}
         {vendor?.execution_trace_log && (
           <Card className="rounded-md shadow-none border-border bg-muted/20">
             <CardContent className="px-4 py-3 flex items-center justify-between text-xs font-mono">
@@ -400,14 +499,53 @@ export default function VendorDetailPage() {
                 <Terminal size={14} />
                 <span>Active Pipeline Trace Reference</span>
               </div>
-              <a
-                href={vendor.execution_trace_log}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sky-500 hover:underline truncate max-w-md"
-              >
-                {vendor.execution_trace_log}
-              </a>
+
+              <Dialog onOpenChange={(open) => open && fetchLogFile(vendor.execution_trace_log!)}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-7 text-xs font-sans rounded-md bg-background shadow-none border-border hover:bg-muted">
+                    Inspect System Logs
+                  </Button>
+                </DialogTrigger>
+
+                <DialogContent className="max-w-4xl max-h-[80vh] rounded-md flex flex-col p-6 border-border bg-[#0D1117] text-slate-100">
+                  <DialogHeader className="border-b border-slate-800 pb-3">
+                    <DialogTitle className="text-sm font-bold tracking-tight text-slate-200 flex items-center gap-2 font-mono">
+                      <Terminal size={16} className="text-sky-400" />
+                      {vendor.execution_trace_log.split("/").pop() || "execution_trace.log"}
+                    </DialogTitle>
+                    <DialogDescription className="text-xs text-slate-400 font-sans">
+                      Asynchronous runtime execution trace mapped onto pipeline task loops.
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="flex-1 min-h-0 bg-[#090D12] border border-slate-800 rounded-md p-4 overflow-hidden mt-4">
+                    {fetchingLog && (
+                      <div className="h-64 flex flex-col items-center justify-center gap-2 font-mono text-xs text-slate-500">
+                        <RefreshCw size={16} className="animate-spin text-sky-500" />
+                        <span>Streaming remote log data bytes...</span>
+                      </div>
+                    )}
+
+                    {logError && (
+                      <div className="h-64 flex items-center justify-center font-mono text-xs text-destructive">
+                        ❌ {logError}
+                      </div>
+                    )}
+
+                    {!fetchingLog && !logError && logContent !== null && (
+                      <ScrollArea className="h-[50vh] pr-2">
+                        <div className="font-mono text-xs selection:bg-sky-500/30 whitespace-pre-wrap selection:text-white">
+                          {logContent.trim() ? (
+                            logContent.split("\n").map((line, idx) => parseLogLine(line, idx))
+                          ) : (
+                            <span className="text-slate-600 italic">Target execution file trace buffer is empty.</span>
+                          )}
+                        </div>
+                      </ScrollArea>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         )}
