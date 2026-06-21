@@ -11,7 +11,7 @@ from django.core.files.uploadedfile import UploadedFile
 from .models import Vendor, VendorDocument
 from .tasks import process_vendor_onboarding_pipeline
 from .serializer import VendorIngestionSerializer
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 
 
 class VendorDocumentIngestionView(APIView):

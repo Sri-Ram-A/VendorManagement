@@ -8,7 +8,7 @@ import uuid
 import chromadb
 from chromadb.utils import embedding_functions
 from django.conf import settings
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 
 
 class VendorVectorStoreManager:

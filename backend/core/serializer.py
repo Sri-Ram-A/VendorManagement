@@ -32,10 +32,14 @@ class VendorIngestionSerializer(serializers.ModelSerializer):
             "declared_data_categories",
             "declared_systems_accessed",
             "documents",
+            "execution_trace_log",  # 1. ADD THIS FIELD TO EXPOSE IT
         ]
         extra_kwargs = {
             "vendor_name": {
                 "validators": []  # Clears UniqueValidator so existing names pass validation
+            },
+            "execution_trace_log": {
+                "read_only": True  # 2. MARK IT AS READ-ONLY FOR READ/DOWNLOAD
             }
         }
 

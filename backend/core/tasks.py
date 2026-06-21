@@ -1,5 +1,7 @@
+# core/tasks.py
 import os
 import uuid
+import json
 from celery import shared_task, chord
 from django.db import transaction
 from django.db.models import QuerySet
@@ -7,7 +9,7 @@ from django.conf import settings
 
 from clients.chroma import get_vector_store
 from clients.docling import get_converter
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 from .models import Vendor, VendorDocument
 from .orchestrator import run_compliance_audit_orchestrator
 from .scoring import compute_and_save_score
@@ -20,19 +22,22 @@ def process_vendor_onboarding_pipeline(vendor_id: str) -> str:
     binary payloads, and triggers a parallel Celery canvas pipeline.
     """
     v_logger = get_vendor_logger(vendor_id)
-    v_logger.info("Initializing multi-stage analysis worker pipeline orchestration.")
+    v_logger.info("pipeline_initialized", stage="orchestration_root", target_vendor_id=vendor_id)
+    
     # 0. Check Vendor is created in the database
     try:
         vendor = Vendor.objects.get(pk=uuid.UUID(vendor_id))
     except Vendor.DoesNotExist:
-        v_logger.critical(f"Exiting : Target vendor UUID {vendor_id} not found.")
+        v_logger.critical("vendor_not_found_abort", target_vendor_id=vendor_id)
         return f"VENDOR_NOT_FOUND: {vendor_id}"
+        
     documents: QuerySet[VendorDocument] = vendor.documents.filter(
         extraction_status=VendorDocument.ExtractionStatus.PENDING
     )
+    
     # 1. Check if uploaded documents extracts
     if not documents.exists():
-        v_logger.debug("No pending document. Transitioning to analysis.")
+        v_logger.debug("no_pending_documents_found", transition="immediate_analysis")
         execute_vendor_compliance_audit.delay(vendor_id)
         return "NO_DOCUMENTS_PENDING"
 
@@ -41,9 +46,9 @@ def process_vendor_onboarding_pipeline(vendor_id: str) -> str:
         parse_and_vectorize_document.s(str(doc.document_id), vendor_id)
         for doc in documents
     ]
-    v_logger.info(f"Spawning fan-out processing for {len(task_signatures)} documents.")
+    v_logger.info("fan_out_spawned", document_count=len(task_signatures), vendor_name=vendor.vendor_name)
 
-    # Execute Chord Canvas pattern: Run all extractions in parallel, then invoke the compliance audit callback
+    # Execute Chord Canvas pattern: Run all extractions in parallel, then invoke compliance callback
     chord(task_signatures)(execute_vendor_compliance_audit.si(vendor_id))
     return f"ORCHESTRATION_DISPATCHED_FOR_VENDOR: {vendor.vendor_id}"
 
@@ -60,7 +65,14 @@ def parse_and_vectorize_document(document_id_str: str, vendor_id: str) -> bool:
         # 0. Check whether document exists in database
         document = VendorDocument.objects.get(pk=uuid.UUID(document_id_str))
         pdf_path = document.file.path
-        v_logger.info(f"Starting markdown extraction for file type {document.document_type} and name {document.file.name}")
+        
+        v_logger.info(
+            "markdown_extraction_start", 
+            doc_type=document.document_type, 
+            doc_name=document.file.name, 
+            doc_id=document_id_str
+        )
+        
         if not os.path.exists(pdf_path):
             raise FileNotFoundError(f"Binary file asset payload missing : {pdf_path}")
 
@@ -81,12 +93,15 @@ def parse_and_vectorize_document(document_id_str: str, vendor_id: str) -> bool:
         with transaction.atomic():
             document.extraction_status = VendorDocument.ExtractionStatus.SUCCESS
             document.save(update_fields=["extraction_status"])
-        v_logger.success(f"Vectorized document type node: {document.document_type}")
+            
+        v_logger.info("vectorization_success", doc_type=document.document_type, doc_id=document_id_str)
         return True
 
     except Exception as error_exception:
-        v_logger.exception(
-            f"Pipeline error caught during document conversion: {str(error_exception)}"
+        v_logger.error(
+            "document_conversion_pipeline_failed", 
+            doc_id=document_id_str, 
+            error=str(error_exception)
         )
         with transaction.atomic():
             doc_record = VendorDocument.objects.filter(
@@ -102,11 +117,12 @@ def parse_and_vectorize_document(document_id_str: str, vendor_id: str) -> bool:
 def execute_vendor_compliance_audit(vendor_id: str) -> str:
     # 1. load the vendor, bail out cleanly if it doesn't exist
     v_logger = get_vendor_logger(vendor_id)
-    v_logger.info("All parallel file extractions complete. Launching LLM inference.")
+    v_logger.info("parallel_extractions_complete", action="launching_llm_inference")
+    
     try:
         vendor = Vendor.objects.get(pk=uuid.UUID(vendor_id))
     except Vendor.DoesNotExist:
-        v_logger.critical("Audit engine aborted: Vendor reference trace lost.")
+        v_logger.critical("audit_engine_aborted", reason="vendor_reference_lost")
         return "VENDOR_NOT_FOUND"
 
     # 2. confirm at least one document parsed successfully
@@ -114,11 +130,12 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
         extraction_status=VendorDocument.ExtractionStatus.SUCCESS
     )
     if not successful_docs.exists():
-        v_logger.error("Zero documentation assets were successfully parsed.")
+        v_logger.error("audit_aborted_no_assets", reason="zero_valid_documents_extracted")
         vendor.status = Vendor.Status.PENDING
         vendor.save(update_fields=["status"])
         return "NO_VALID_DOCUMENTS_EXTRACTED"
-    v_logger.info(f"Processed {successful_docs.count()} docs. Reconstructing markdown.")
+        
+    v_logger.info("reconstructing_markdown", dynamic_doc_count=successful_docs.count())
 
     # 3. flip status to PROCESSING so the dashboard shows work in progress
     vendor.status = Vendor.Status.PROCESSING
@@ -133,11 +150,9 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
         if full_markdown.strip():
             documents_payload[document.document_type] = full_markdown
         else:
-            v_logger.warning(
-                f"SKIP_EMPTY: no chunks found for {document.document_type}"
-            )
+            v_logger.warning("skip_empty_document_chunks", doc_type=document.document_type)
 
-    # 5. hand off to the pure reasoning orchestrator — no ORM/Chroma inside it
+    # 5. hand off to the pure reasoning orchestrator
     result = run_compliance_audit_orchestrator(
         vendor_id=vendor_id,
         vendor_name=vendor.vendor_name,
@@ -145,26 +160,21 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
         existing_bounds=vendor.extracted_legal_bounds,
     )
 
-    # 6. persist the orchestrator's results onto the Vendor row
-    vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
-    vendor.save(update_fields=["extracted_legal_bounds"])
-    v_logger.success(
-        f"ORCHESTRATOR_DONE: fields={len(result['fields_extracted'])} conflicts={len(result['conflicts'])}"
+    # 6. log structured outputs including the raw AI output if necessary
+    v_logger.info(
+        "orchestrator_complete", 
+        fields_extracted_count=len(result.get("fields_extracted", [])), 
+        conflicts_count=len(result.get("conflicts", [])),
+        raw_llm_output=result.get("extracted_legal_bounds")  # Stored straight as native inner object!
     )
 
     # 7. hand off to scoring
     compute_and_save_score.delay(vendor_id)
 
-    # after result = run_compliance_audit_orchestrator(...)
-
-    vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
-
-    # build timestamped filename and save log file
-    v_logger = get_vendor_logger(str(vendor.vendor_id))
+    # 8. Persist and resolve trace path metrics onto the Vendor model row
     relative_log_path = os.path.relpath(v_logger.log_file, settings.MEDIA_ROOT)
     vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
     vendor.execution_trace_log = relative_log_path
     vendor.save(update_fields=["extracted_legal_bounds", "execution_trace_log"])
 
     return f"AUDIT_COMPLETE: fields={len(result['fields_extracted'])}"
-

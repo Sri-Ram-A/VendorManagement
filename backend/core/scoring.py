@@ -17,7 +17,7 @@ from typing import Optional
 from celery import shared_task
 from pydantic import BaseModel
 
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 from clients.cohere import call_cohere
 from core.models import Vendor
 

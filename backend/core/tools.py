@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from django.conf import settings
 from django.core.cache import cache
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 from clients.chroma import get_vector_store
 
 # Conditional import configuration for safe execution environments

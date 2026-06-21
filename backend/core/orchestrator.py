@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Literal, Optional, Any
 from pydantic import BaseModel, Field
 
-from backend.logging import get_vendor_logger
+from backend.vendor_logging import get_vendor_logger
 from clients.cohere import call_cohere
 from core.prompts import EXTRACTION_SYSTEM_PROMPT, AGENT_SYSTEM_PROMPT
 from core.tools import TOOL_REGISTRY

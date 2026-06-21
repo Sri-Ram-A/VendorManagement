@@ -1,0 +1,315 @@
+{
+  "nodes": [
+    {
+      "id": "vendor:b9bfd356-8190-450a-acd4-da92b51400d3",
+      "label": "b9bfd356-8190-450a-acd4-da92b51400d3",
+      "type": "vendor",
+      "val": 20
+    },
+    {
+      "id": "fn:core.views:post",
+      "label": "core.views:post",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.tasks:process_vendor_onboarding_pipeline",
+      "label": "core.tasks:process_vendor_onboarding_pipeline",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.tasks:parse_and_vectorize_document",
+      "label": "core.tasks:parse_and_vectorize_document",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "doc:MSA",
+      "label": "MSA",
+      "type": "document",
+      "val": 10
+    },
+    {
+      "id": "doc:SOC2_TYPE2",
+      "label": "SOC2_TYPE2",
+      "type": "document",
+      "val": 10
+    },
+    {
+      "id": "doc:PCI_DSS_AOC",
+      "label": "PCI_DSS_AOC",
+      "type": "document",
+      "val": 10
+    },
+    {
+      "id": "fn:clients.chroma:vectorize_markdown_content",
+      "label": "clients.chroma:vectorize_markdown_content",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.tasks:execute_vendor_compliance_audit",
+      "label": "core.tasks:execute_vendor_compliance_audit",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "label": "core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.orchestrator:extract_all_documents",
+      "label": "core.orchestrator:extract_all_documents",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:backend.vendor_logging:ai",
+      "label": "backend.vendor_logging:ai",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.orchestrator:run_verification_loop",
+      "label": "core.orchestrator:run_verification_loop",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "label": "core.orchestrator:dispatch_agent_tool_call",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.tools:search_tavily",
+      "label": "core.tools:search_tavily",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.tools:query_vendor_rag",
+      "label": "core.tools:query_vendor_rag",
+      "type": "function",
+      "val": 6
+    },
+    {
+      "id": "fn:core.scoring:compute_and_save_score",
+      "label": "core.scoring:compute_and_save_score",
+      "type": "function",
+      "val": 6
+    }
+  ],
+  "links": [
+    {
+      "source": "vendor:b9bfd356-8190-450a-acd4-da92b51400d3",
+      "target": "fn:core.views:post",
+      "type": "entry",
+      "weight": 1
+    },
+    {
+      "source": "fn:core.views:post",
+      "target": "fn:core.tasks:process_vendor_onboarding_pipeline",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "pipeline_initialized"
+    },
+    {
+      "source": "fn:core.tasks:process_vendor_onboarding_pipeline",
+      "target": "fn:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "markdown_extraction_start"
+    },
+    {
+      "source": "fn:core.tasks:parse_and_vectorize_document",
+      "target": "doc:MSA",
+      "type": "touches",
+      "weight": 4
+    },
+    {
+      "source": "fn:core.tasks:parse_and_vectorize_document",
+      "target": "doc:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:core.tasks:parse_and_vectorize_document",
+      "target": "doc:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:core.tasks:parse_and_vectorize_document",
+      "target": "fn:clients.chroma:vectorize_markdown_content",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "Vectorization finalized. Saved 36 vectors"
+    },
+    {
+      "source": "fn:clients.chroma:vectorize_markdown_content",
+      "target": "fn:core.tasks:parse_and_vectorize_document",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "vectorization_success"
+    },
+    {
+      "source": "fn:core.tasks:parse_and_vectorize_document",
+      "target": "fn:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "parallel_extractions_complete"
+    },
+    {
+      "source": "fn:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "ORCHESTRATOR_START | vendor=Meridian Pay Solution | docs=['MSA', 'PCI_DSS_AOC', "
+    },
+    {
+      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "EXTRACT_START | doc_type=MSA | chars=55182"
+    },
+    {
+      "source": "fn:core.orchestrator:extract_all_documents",
+      "target": "doc:MSA",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:core.orchestrator:extract_all_documents",
+      "target": "fn:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "EXTRACT_LLM_RAW | doc_type=MSA\n{\n    \"fields\": {\n        \"contract_start_date\": "
+    },
+    {
+      "source": "fn:backend.vendor_logging:ai",
+      "target": "doc:MSA",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:backend.vendor_logging:ai",
+      "target": "fn:core.orchestrator:extract_all_documents",
+      "type": "flow",
+      "weight": 3,
+      "last_message": "EXTRACT_FIELD | field=contract_start_date | value='2026-01-01' | excerpt='Effect"
+    },
+    {
+      "source": "fn:core.orchestrator:extract_all_documents",
+      "target": "doc:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:backend.vendor_logging:ai",
+      "target": "doc:PCI_DSS_AOC",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:core.orchestrator:extract_all_documents",
+      "target": "doc:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 2
+    },
+    {
+      "source": "fn:backend.vendor_logging:ai",
+      "target": "doc:SOC2_TYPE2",
+      "type": "touches",
+      "weight": 1
+    },
+    {
+      "source": "fn:core.orchestrator:extract_all_documents",
+      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_1_DONE | fields_extracted=['contract_start_date', 'breach_notification_hou"
+    },
+    {
+      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "AGENT_STEP_START | step=1/4"
+    },
+    {
+      "source": "fn:core.orchestrator:run_verification_loop",
+      "target": "fn:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "AGENT_LLM_SYSTEM_PROMPT\n\nYou are an automated vendor risk investigator for a com"
+    },
+    {
+      "source": "fn:backend.vendor_logging:ai",
+      "target": "fn:core.orchestrator:run_verification_loop",
+      "type": "flow",
+      "weight": 8,
+      "last_message": "AGENT_QUESTION | step=1 | question='Does the vendor have a recent SOC 2 audit re"
+    },
+    {
+      "source": "fn:core.orchestrator:run_verification_loop",
+      "target": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "type": "flow",
+      "weight": 4,
+      "last_message": "TOOL_CALL  | tool=search_tavily | args={\"query\": \"Meridian Pay Solution SOC 2 re"
+    },
+    {
+      "source": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:core.tools:search_tavily",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_CALL: search_tavily runtime_query='Meridian Pay Solution SOC 2 report 2025'"
+    },
+    {
+      "source": "fn:core.tools:search_tavily",
+      "target": "fn:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_RESULT | tool=search_tavily | status=ok | data={\"tool\": \"tavily\", \"status\":"
+    },
+    {
+      "source": "fn:core.orchestrator:dispatch_agent_tool_call",
+      "target": "fn:core.tools:query_vendor_rag",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_CALL: query_vendor_rag contextual_query='SOC 2 report'"
+    },
+    {
+      "source": "fn:core.tools:query_vendor_rag",
+      "target": "fn:backend.vendor_logging:ai",
+      "type": "flow",
+      "weight": 2,
+      "last_message": "TOOL_RESULT | tool=query_vendor_rag | status=ok | data={\"tool\": \"vendor_rag\", \"s"
+    },
+    {
+      "source": "fn:core.orchestrator:run_verification_loop",
+      "target": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "PHASE_2_DONE | agent_steps=4 | total_conflicts=1"
+    },
+    {
+      "source": "fn:core.orchestrator:run_compliance_audit_orchestrator",
+      "target": "fn:core.tasks:execute_vendor_compliance_audit",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "orchestrator_complete"
+    },
+    {
+      "source": "fn:core.tasks:execute_vendor_compliance_audit",
+      "target": "fn:core.scoring:compute_and_save_score",
+      "type": "flow",
+      "weight": 1,
+      "last_message": "SCORING_START: vendor=Meridian Pay Solution"
+    }
+  ]
+}
