@@ -61,4 +61,4 @@ plt.tight_layout()
 plt.show()
 
 print(f"Master Image Canvas Shape: {master_image.shape}")
-print(f"Individual Sub-Box Size: 16x16 pixels per topic")
+print("Individual Sub-Box Size: 16x16 pixels per topic")

@@ -34,7 +34,7 @@ const TYPE_MEANING = {
 };
 
 export default function VendorPipelineGraph3D({ graphDataUrl = "/graph.json" }) {
-  const fgRef = useRef();
+  const fgRef = useRef(null);
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [hoverNode, setHoverNode] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | loading | error | ready
