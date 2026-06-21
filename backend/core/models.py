@@ -62,10 +62,20 @@ class Vendor(models.Model):
         default=dict,
         blank=True,
         help_text=(
-            "Structured contract elements extracted from legal PDFs. Schema contains keys: "
-            "contract_end_date (str/null), pci_assessor_type (str/null), "
-            "soc2_has_qualified_opinion (bool/null), breach_notification_hours (int/null), "
-            "and liability_cap_usd (float/null)."
+            """
+            - contract_end_date, contract_start_date (ISO strings)
+            - breach_notification_hours (integer numbers)
+            - data_return_deadline_days (integer numbers)
+            - subprocessors_disclosed (array of text strings)
+            - data_categories_processed (array of text strings)
+            - liability_cap_usd (numeric float/integer value)
+            - liability_uncapped_for_security_breach (boolean)
+            - cert_termination_right (boolean)
+            - soc2_opinion_type ("qualified" or "unqualified")
+            - soc2_audit_period_end (ISO string)
+            - pci_dss_level (integer or string value)
+            - pci_assessor_type ("independent_qsa" or "self_assessed")
+            """
         ),
     )
 

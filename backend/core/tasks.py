@@ -9,7 +9,7 @@ from clients.docling import get_converter
 from backend.logging import get_vendor_logger
 from .models import Vendor, VendorDocument
 from .orchestrator import run_compliance_audit_orchestrator
-
+from .scoring import compute_and_save_score
 
 @shared_task(name="core.tasks.process_vendor_onboarding_pipeline")
 def process_vendor_onboarding_pipeline(vendor_id: str) -> str:
@@ -98,28 +98,62 @@ def parse_and_vectorize_document(document_id_str: str, vendor_id: str) -> bool:
 
 @shared_task(name="core.tasks.execute_vendor_compliance_audit")
 def execute_vendor_compliance_audit(vendor_id: str) -> str:
+    # 1. load the vendor, bail out cleanly if it doesn't exist
     v_logger = get_vendor_logger(vendor_id)
     v_logger.info("All parallel file extractions complete. Launching LLM inference.")
-
     try:
         vendor = Vendor.objects.get(pk=uuid.UUID(vendor_id))
     except Vendor.DoesNotExist:
         v_logger.critical("Audit engine aborted: Vendor reference trace lost.")
         return "VENDOR_NOT_FOUND"
 
-    successful_docs_count = vendor.documents.filter(
+    # 2. confirm at least one document parsed successfully
+    successful_docs = vendor.documents.filter(
         extraction_status=VendorDocument.ExtractionStatus.SUCCESS
-    ).count()
-    if successful_docs_count == 0:
+    )
+    if not successful_docs.exists():
         v_logger.error("Zero documentation assets were successfully parsed.")
         vendor.status = Vendor.Status.PENDING
         vendor.save(update_fields=["status"])
         return "NO_VALID_DOCUMENTS_EXTRACTED"
+    v_logger.info(f"Processed {successful_docs.count()} docs. Reconstructing markdown.")
 
-    v_logger.info(f"Processed {successful_docs_count} docs. Initializing LLM loops.")
-    result = run_compliance_audit_orchestrator(vendor_id)
-    
-    from core.scoring import compute_and_save_score
+    # 3. flip status to PROCESSING so the dashboard shows work in progress
+    vendor.status = Vendor.Status.PROCESSING
+    vendor.save(update_fields=["status"])
+
+    # 4. fetch + reconstruct markdown for every successfully parsed document 
+    documents_payload = {}
+    for document in successful_docs:
+        full_markdown = get_vector_store().read_document_chunks_in_order(
+            vendor_id, document.document_type
+        )
+        if full_markdown.strip():
+            documents_payload[document.document_type] = full_markdown
+        else:
+            v_logger.warning(
+                f"SKIP_EMPTY: no chunks found for {document.document_type}"
+            )
+
+    # 5. hand off to the pure reasoning orchestrator — no ORM/Chroma inside it
+    result = run_compliance_audit_orchestrator(
+        vendor_id=vendor_id,
+        vendor_name=vendor.vendor_name,
+        documents_payload=documents_payload,
+        existing_bounds=vendor.extracted_legal_bounds,
+    )
+
+    # 6. persist the orchestrator's results onto the Vendor row
+    vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
+    vendor.execution_trace_log = (
+        vendor.execution_trace_log + "\n\n" + result["trace_log_append"]
+    )
+    vendor.save(update_fields=["extracted_legal_bounds", "execution_trace_log"])
+    v_logger.success(
+        f"ORCHESTRATOR_DONE: fields={len(result['fields_extracted'])} conflicts={len(result['conflicts'])}"
+    )
+
+    # 7. hand off to scoring
     compute_and_save_score.delay(vendor_id)
 
     return f"AUDIT_COMPLETE: fields={len(result['fields_extracted'])}"

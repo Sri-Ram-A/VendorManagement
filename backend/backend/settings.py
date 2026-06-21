@@ -20,6 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Define persistent storage location vectors on local disk arrays
 CHROMA_DATA_PATH = str(BASE_DIR)
 
+SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY", None)
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", None)
+GNEWS_API_KEY = os.getenv("GNEWS_API_KEY", None)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 

@@ -76,6 +76,24 @@ class VendorVectorStoreManager:
         )
         v_logger.info(f"Vectorization finalized. Saved {len(cleaned_chunks)} vectors")
 
+    def read_document_chunks_in_order(self, vendor_id: str, document_type: str) -> str:
+        """
+        Reads back every chunk belonging to one document type from this vendor's
+        collection, sorted by chunk_index, and joins them into one markdown string.
+        Returns an empty string if no chunks exist for this document type.
+        """
+        collection = self.get_vendor_collection(vendor_id)
+        doc_data = collection.get(where={"source_document_type": document_type})
+        chunks_with_idx = [
+            (meta.get("chunk_index", 0), text)
+            for text, meta in zip(
+                doc_data.get("documents", []), doc_data.get("metadatas", [])
+            )
+        ]
+        chunks_with_idx.sort(key=lambda pair: pair[0])
+
+        return "\n\n".join(text for _, text in chunks_with_idx)
+
 
 _vector_store = None
 
