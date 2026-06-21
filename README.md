@@ -9,6 +9,8 @@
 [![ML Pipeline](https://img.shields.io/badge/ML--Core-XGBoost%20%2B%20Convolutional%20Autoencoder-orange.svg)](https://xgboost.readthedocs.io/)
 
 ![Intro](images/intro.png)
+![Intro](images/2dgraph.png)
+
 <p align="center">
   <img src="images/home.png" width="49%" />
   <img src="images/logs.png" width="49%" />
