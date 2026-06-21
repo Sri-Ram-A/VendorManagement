@@ -236,7 +236,7 @@ def run_single_agent_turn(
         tool_descriptions=tool_descriptions, existing_facts=facts_summary
     )
 
-    log.ai(f"AGENT_LLM_SYSTEM_PROMPT\n{system_prompt}")
+    # log.ai(f"AGENT_LLM_SYSTEM_PROMPT\n{system_prompt}")
 
     raw_response = call_cohere(
         system_prompt=system_prompt,

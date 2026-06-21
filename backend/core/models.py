@@ -10,11 +10,11 @@ class Vendor(models.Model):
     """
 
     class Status(models.TextChoices):
-        PENDING = "PENDING_ASSESSMENT", "Pending Assessment"
+        PENDING = "PENDING", "Pending Assessment"
         PROCESSING = "PROCESSING", "Processing Ingestion Pipeline"
-        GREEN = "VERIFIED_GREEN", "Verified Low Risk"
-        YELLOW = "CONDITIONAL_YELLOW", "Conditional Medium Risk"
-        RED = "QUARANTINED_RED", "Critical High Risk Action Required"
+        GREEN = "VERIFIED", "Verified Low Risk"
+        YELLOW = "CONDITIONAL", "Conditional Medium Risk"
+        RED = "QUARANTINED", "Critical High Risk Action Required"
 
     class DataCategory(models.TextChoices):
         PCI = "PCI_CARDHOLDER_DATA", "Credit Card Details / PAN / CVV"
@@ -44,8 +44,6 @@ class Vendor(models.Model):
     status = models.CharField(
         max_length=30, choices=Status.choices, default=Status.PENDING
     )
-
-    # User-Declared Boundaries (Stored as JSON arrays for cross-database portability)
     declared_data_categories = models.JSONField(
         default=list,
         blank=True,
@@ -56,8 +54,6 @@ class Vendor(models.Model):
         blank=True,
         help_text="List of targeted system logical endpoints the vendor can access.",
     )
-
-    # Extracted Legal Reality (Populated dynamically via Docling + Cohere Engine)
     extracted_legal_bounds = models.JSONField(
         default=dict,
         blank=True,
@@ -78,8 +74,6 @@ class Vendor(models.Model):
             """
         ),
     )
-
-    # Monitored Live Technical Infrastructure Footprint (Populated via System Configuration Scans)
     discovered_infrastructure = models.JSONField(
         default=list,
         blank=True,
@@ -90,15 +84,12 @@ class Vendor(models.Model):
             "]"
         ),
     )
-
     execution_trace_log = models.FileField(
-        upload_to="",  # path is set manually in tasks.py
+        upload_to="", 
         null=True,
         blank=True,
         help_text="Relative path to the latest audit trace log file for this vendor.",
     )
-
-    # Analytical Scoring Cache Metrics
     current_risk_score = models.DecimalField(
         max_digits=5, decimal_places=2, default=0.00
     )
@@ -122,7 +113,7 @@ class Vendor(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.vendor_name} [{self.get_status_display()}] - Risk: {self.current_risk_score}"
+        return f"{self.vendor_id} | {self.vendor_name} | {self.get_status_display()} | - Risk: {self.current_risk_score}"
 
 
 def vendor_document_path_resolver(instance, filename: str) -> str:

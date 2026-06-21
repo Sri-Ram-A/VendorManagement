@@ -10,27 +10,31 @@ from django.core.files.uploadedfile import UploadedFile
 
 from .models import Vendor, VendorDocument
 from .tasks import process_vendor_onboarding_pipeline
-from .serializer import VendorIngestionSerializer
+from .serializer import (
+    VendorIngestionRequestSerializer,
+    VendorIngestionResponseSerializer,
+)
 from backend.vendor_logging import get_vendor_logger
 
 
 class VendorDocumentIngestionView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-    serializer_class = VendorIngestionSerializer
+    serializer_class = VendorIngestionRequestSerializer
 
     @extend_schema(
-        request=VendorIngestionSerializer,
+        operation_id="vendor-ingestion",
+        summary="Create vendor assessment",
+        description="Uploads documents and starts asynchronous compliance analysis.",
+        request=VendorIngestionRequestSerializer,
         responses={
-            201: inline_serializer(
-                name="AcceptedResponse", fields={"vendor_id": serializers.UUIDField()}
-            )
+            201: VendorIngestionResponseSerializer,
         },
     )
     def post(self, request: Request) -> Response:
         logger.debug("Recieved multipart third-party onboarding gateway validation.")
 
         # 0. Validate the payload
-        serializer = VendorIngestionSerializer(data=request.data)
+        serializer = VendorIngestionRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         validated_data = serializer.validated_data
@@ -80,11 +84,11 @@ class VendorDocumentIngestionView(APIView):
         v_logger.info("Task passed on to Asynchronous Celery queue task managers.")
         process_vendor_onboarding_pipeline.delay(vendor_id=str(vendor.vendor_id))
 
-        return Response(
+        response = VendorIngestionResponseSerializer(
             {
                 "message": "Vendor profile initiated. Document extraction queued in background tasks.",
                 "vendor_id": vendor.vendor_id,
                 "current_status": vendor.status,
-            },
-            status=status.HTTP_201_CREATED,
+            }
         )
+        return Response(response.data, status=status.HTTP_201_CREATED)

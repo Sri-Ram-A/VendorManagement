@@ -15,7 +15,7 @@ export interface paths {
          * List vendors
          * @description Returns a clean array containing all registered vendor compliance rows.
          */
-        get: operations["analytics_vendors_list"];
+        get: operations["vendor_list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -35,7 +35,7 @@ export interface paths {
          * Retrieve a vendor compliance profile
          * @description Fetches the complete compliance ledger, including data categories, legal bounds, and linked document artifacts.
          */
-        get: operations["analytics_vendors_retrieve"];
+        get: operations["vendor_detail"];
         put?: never;
         post?: never;
         delete?: never;
@@ -52,10 +52,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Accepts a vendor_id, looks up the vendor's registry row in the DB,
-         *     runs feature extraction + trained RandomForest model, returns the prediction.
+         * Predict vendor anomaly risk
+         * @description Runs the anomaly model for a vendor registry record and returns the predicted class plus class probabilities.
          */
-        get: operations["analytics_vendors_predict_retrieve"];
+        get: operations["vendor_risk_prediction"];
         put?: never;
         post?: never;
         delete?: never;
@@ -95,7 +95,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["vendors_ingest_create"];
+        /**
+         * Create vendor assessment
+         * @description Uploads documents and starts asynchronous compliance analysis.
+         */
+        post: operations["vendor-ingestion"];
         delete?: never;
         options?: never;
         head?: never;
@@ -106,10 +110,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AcceptedResponse: {
-            /** Format: uuid */
-            vendor_id: string;
-        };
+        /**
+         * @description * `PENDING` - Pending Assessment
+         *     * `PROCESSING` - Processing Ingestion Pipeline
+         *     * `VERIFIED` - Verified Low Risk
+         *     * `CONDITIONAL` - Conditional Medium Risk
+         *     * `QUARANTINED` - Critical High Risk Action Required
+         * @enum {string}
+         */
+        CurrentStatusEnum: "PENDING" | "PROCESSING" | "VERIFIED" | "CONDITIONAL" | "QUARANTINED";
         /**
          * @description * `PCI_CARDHOLDER_DATA` - Credit Card Details / PAN / CVV
          *     * `CUSTOMER_PII` - Personally Identifiable Info (Names, Addresses)
@@ -127,6 +136,10 @@ export interface components {
          * @enum {string}
          */
         DocumentTypeEnum: "MSA" | "DPA" | "SOC2_TYPE2" | "PCI_DSS_AOC";
+        ErrorResponse: {
+            detail?: string;
+            error?: string;
+        };
         /**
          * @description * `PENDING` - Pending Engine Queue
          *     * `SUCCESS` - Parsed and Validated
@@ -135,17 +148,23 @@ export interface components {
          */
         ExtractionStatusEnum: "PENDING" | "SUCCESS" | "FAILED";
         /**
-         * @description * `PENDING_ASSESSMENT` - Pending Assessment
+         * @description * `PENDING` - Pending Assessment
          *     * `PROCESSING` - Processing Ingestion Pipeline
-         *     * `VERIFIED_GREEN` - Verified Low Risk
-         *     * `CONDITIONAL_YELLOW` - Conditional Medium Risk
-         *     * `QUARANTINED_RED` - Critical High Risk Action Required
+         *     * `VERIFIED` - Verified Low Risk
+         *     * `CONDITIONAL` - Conditional Medium Risk
+         *     * `QUARANTINED` - Critical High Risk Action Required
          * @enum {string}
          */
-        StatusEnum: "PENDING_ASSESSMENT" | "PROCESSING" | "VERIFIED_GREEN" | "CONDITIONAL_YELLOW" | "QUARANTINED_RED";
+        StatusEnum: "PENDING" | "PROCESSING" | "VERIFIED" | "CONDITIONAL" | "QUARANTINED";
         VendorDetail: {
             /** Format: uuid */
             readonly vendor_id: string;
+            readonly status: components["schemas"]["StatusEnum"];
+            readonly declared_data_categories: components["schemas"]["DeclaredDataCategoriesEnum"][];
+            readonly declared_systems_accessed: string[];
+            readonly documents: components["schemas"]["VendorDocument"][];
+            /** Format: uri */
+            readonly execution_trace_log: string;
             /** @description Official legal corporate name of the vendor entity. */
             vendor_name: string;
             /** @description Operational categorization. e.g., 'Cloud Storage Provider'. */
@@ -154,17 +173,6 @@ export interface components {
             business_owner: string;
             /** Format: decimal */
             annual_spend?: string | null;
-            status?: components["schemas"]["StatusEnum"];
-            /** Format: decimal */
-            current_risk_score?: string;
-            /** Format: decimal */
-            previous_risk_score?: string;
-            /** @description AI-generated audit rationale explaining compliance exceptions or structural defects. */
-            risk_narrative_summary?: string | null;
-            /** @description List of asset classes intended to be shared with this vendor. */
-            declared_data_categories?: unknown;
-            /** @description List of targeted system logical endpoints the vendor can access. */
-            declared_systems_accessed?: unknown;
             /**
              * @description - contract_end_date, contract_start_date (ISO strings)
              *                 - breach_notification_hours (integer numbers)
@@ -181,11 +189,18 @@ export interface components {
              */
             extracted_legal_bounds?: unknown;
             /**
-             * Format: uri
-             * @description Relative path to the latest audit trace log file for this vendor.
+             * @description Array of live discovered endpoint configurations. Expected structure:
+             *     [
+             *       {'system_name': 'prod-db-01', 'data_sensitivity': 'PCI_HIGH_CRITICALITY'}
+             *     ]
              */
-            execution_trace_log?: string | null;
-            readonly documents: components["schemas"]["VendorDocument"][];
+            discovered_infrastructure?: unknown;
+            /** Format: decimal */
+            current_risk_score?: string;
+            /** Format: decimal */
+            previous_risk_score?: string;
+            /** @description AI-generated audit rationale explaining compliance exceptions or structural defects. */
+            risk_narrative_summary?: string | null;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
@@ -194,13 +209,13 @@ export interface components {
         VendorDocument: {
             /** Format: uuid */
             readonly document_id: string;
-            document_type: components["schemas"]["DocumentTypeEnum"];
-            extraction_status?: components["schemas"]["ExtractionStatusEnum"];
+            readonly document_type: components["schemas"]["DocumentTypeEnum"];
+            readonly extraction_status: components["schemas"]["ExtractionStatusEnum"];
             /** Format: date-time */
             readonly uploaded_at: string;
             readonly is_expired: boolean;
         };
-        VendorIngestionRequest: {
+        VendorIngestionRequestRequest: {
             /** @description Official legal corporate name of the vendor entity. */
             vendor_name: string;
             /** @description Operational categorization. e.g., 'Cloud Storage Provider'. */
@@ -214,6 +229,12 @@ export interface components {
             /** @description Upload files simultaneously. File names must contain structural keywords to match types correctly: 'MSA' for contracts, 'DPA' for privacy guidelines, 'SOC' for audits, or 'PCI'/'AOC' for processing compliance. */
             documents: string[];
         };
+        VendorIngestionResponse: {
+            message: string;
+            /** Format: uuid */
+            vendor_id: string;
+            current_status: components["schemas"]["CurrentStatusEnum"];
+        };
         VendorList: {
             /** Format: uuid */
             readonly vendor_id: string;
@@ -223,7 +244,7 @@ export interface components {
             vendor_type: string;
             /** @description Internal enterprise manager overseeing the relationship. */
             business_owner: string;
-            status?: components["schemas"]["StatusEnum"];
+            readonly status: components["schemas"]["StatusEnum"];
             /** Format: decimal */
             current_risk_score?: string;
             /** Format: decimal */
@@ -232,6 +253,17 @@ export interface components {
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        VendorRiskPredictionResponse: {
+            vendor_id: string;
+            vendor_name: string;
+            is_anomaly: boolean;
+            anomaly_type: string;
+            /** Format: double */
+            confidence: number;
+            all_probs: {
+                [key: string]: number;
+            };
         };
     };
     responses: never;
@@ -242,7 +274,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    analytics_vendors_list: {
+    vendor_list: {
         parameters: {
             query?: never;
             header?: never;
@@ -259,9 +291,17 @@ export interface operations {
                     "application/json": components["schemas"]["VendorList"][];
                 };
             };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
     };
-    analytics_vendors_retrieve: {
+    vendor_detail: {
         parameters: {
             query?: never;
             header?: never;
@@ -286,15 +326,26 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
             };
         };
     };
-    analytics_vendors_predict_retrieve: {
+    vendor_risk_prediction: {
         parameters: {
             query?: never;
             header?: never;
             path: {
+                /** @description Vendor registry UUID. */
                 vendor_id: string;
             };
             cookie?: never;
@@ -306,9 +357,25 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: unknown;
-                    };
+                    "application/json": components["schemas"]["VendorRiskPredictionResponse"];
+                };
+            };
+            /** @description Vendor not found in registry. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected model or inference failure. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
         };
@@ -346,7 +413,7 @@ export interface operations {
             };
         };
     };
-    vendors_ingest_create: {
+    "vendor-ingestion": {
         parameters: {
             query?: never;
             header?: never;
@@ -355,8 +422,8 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["VendorIngestionRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["VendorIngestionRequest"];
+                "multipart/form-data": components["schemas"]["VendorIngestionRequestRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["VendorIngestionRequestRequest"];
             };
         };
         responses: {
@@ -365,7 +432,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AcceptedResponse"];
+                    "application/json": components["schemas"]["VendorIngestionResponse"];
                 };
             };
         };

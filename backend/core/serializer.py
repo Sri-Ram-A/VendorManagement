@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import Vendor
 
 
-class VendorIngestionSerializer(serializers.ModelSerializer):
+class VendorIngestionRequestSerializer(serializers.ModelSerializer):
     declared_data_categories = serializers.ListField(
         child=serializers.ChoiceField(choices=Vendor.DataCategory.choices),
         required=False,
@@ -16,9 +16,7 @@ class VendorIngestionSerializer(serializers.ModelSerializer):
         write_only=True,
         required=True,
         help_text=(
-            "Upload files simultaneously. File names must contain structural keywords "
-            "to match types correctly: 'MSA' for contracts, 'DPA' for privacy guidelines, "
-            "'SOC' for audits, or 'PCI'/'AOC' for processing compliance."
+            "Upload files simultaneously. File names must contain structural keywords to match types correctly: 'MSA' for contracts, 'DPA' for privacy guidelines, 'SOC' for audits, or 'PCI'/'AOC' for processing compliance."
         ),
     )
 
@@ -46,7 +44,6 @@ class VendorIngestionSerializer(serializers.ModelSerializer):
     def validate_declared_systems_accessed(self, value):
         if value in ("", None):
             return []
-
         # 1. Attempt to parse it as a native JSON array first
         try:
             parsed = json.loads(value)
@@ -65,3 +62,11 @@ class VendorIngestionSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError(
             "Must be a valid JSON array or a comma-separated string."
         )
+
+
+class VendorIngestionResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+    vendor_id = serializers.UUIDField()
+    current_status = serializers.ChoiceField(
+    choices=Vendor.Status.choices
+)

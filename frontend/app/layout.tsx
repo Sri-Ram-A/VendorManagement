@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Cormorant_Garamond, DM_Sans, Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Display / heading font — editorial, refined, high contrast
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Body font — geometric, clean, highly legible
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+
 
 export const metadata: Metadata = {
   title: "Vanguard Vendor Management Platform",
@@ -24,27 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      suppressHydrationWarning // Prevents minor next-themes hydration log warnings
-    >
-      <body className="h-full bg-background text-foreground antialiased selection:bg-sky-500/20">
+    <html lang="en" suppressHydrationWarning className={cn(cormorant.variable, "font-sans", geist.variable)}>
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen w-screen overflow-hidden">
-            {/* Content Panel Control Frame */}
-            <div className="flex-1 flex flex-col min-w-0 bg-background relative">
-              {/* Floating sidebar collapse/expand trigger handles */}
-              <main className="flex-1 overflow-y-auto outline-none">
-                {children}
-              </main>
-            </div>
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

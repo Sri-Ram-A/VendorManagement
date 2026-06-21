@@ -5,6 +5,6 @@ urlpatterns = [
     path(
         "vendors/ingest",
         views.VendorDocumentIngestionView.as_view(),
-        name="vendor-ingestion-gateway",
+        name="vendor-ingestion",
     ),
 ]

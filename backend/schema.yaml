@@ -5,7 +5,7 @@ info:
 paths:
   /api/analytics/vendors/:
     get:
-      operationId: analytics_vendors_list
+      operationId: vendor_list
       description: Returns a clean array containing all registered vendor compliance
         rows.
       summary: List vendors
@@ -22,9 +22,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/VendorList'
           description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/analytics/vendors/{vendor_id}/:
     get:
-      operationId: analytics_vendors_retrieve
+      operationId: vendor_detail
       description: Fetches the complete compliance ledger, including data categories,
         legal bounds, and linked document artifacts.
       summary: Retrieve a vendor compliance profile
@@ -48,21 +54,33 @@ paths:
                 $ref: '#/components/schemas/VendorDetail'
           description: ''
         '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
           description: The specified vendor UUID does not exist.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/analytics/vendors/{vendor_id}/predict/:
     get:
-      operationId: analytics_vendors_predict_retrieve
-      description: |-
-        Accepts a vendor_id, looks up the vendor's registry row in the DB,
-        runs feature extraction + trained RandomForest model, returns the prediction.
+      operationId: vendor_risk_prediction
+      description: Runs the anomaly model for a vendor registry record and returns
+        the predicted class plus class probabilities.
+      summary: Predict vendor anomaly risk
       parameters:
       - in: path
         name: vendor_id
         schema:
           type: string
+          format: uuid
+        description: Vendor registry UUID.
         required: true
       tags:
-      - analytics
+      - Analytics
       security:
       - {}
       responses:
@@ -70,9 +88,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties: {}
+                $ref: '#/components/schemas/VendorRiskPredictionResponse'
           description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Vendor not found in registry.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unexpected model or inference failure.
   /api/schema/:
     get:
       operationId: schema_retrieve
@@ -220,17 +249,19 @@ paths:
           description: ''
   /api/vendors/ingest:
     post:
-      operationId: vendors_ingest_create
+      operationId: vendor-ingestion
+      description: Uploads documents and starts asynchronous compliance analysis.
+      summary: Create vendor assessment
       tags:
       - vendors
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VendorIngestionRequest'
+              $ref: '#/components/schemas/VendorIngestionRequestRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VendorIngestionRequest'
+              $ref: '#/components/schemas/VendorIngestionRequestRequest'
         required: true
       security:
       - {}
@@ -239,18 +270,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AcceptedResponse'
+                $ref: '#/components/schemas/VendorIngestionResponse'
           description: ''
 components:
   schemas:
-    AcceptedResponse:
-      type: object
-      properties:
-        vendor_id:
-          type: string
-          format: uuid
-      required:
-      - vendor_id
+    CurrentStatusEnum:
+      enum:
+      - PENDING
+      - PROCESSING
+      - VERIFIED
+      - CONDITIONAL
+      - QUARANTINED
+      type: string
+      description: |-
+        * `PENDING` - Pending Assessment
+        * `PROCESSING` - Processing Ingestion Pipeline
+        * `VERIFIED` - Verified Low Risk
+        * `CONDITIONAL` - Conditional Medium Risk
+        * `QUARANTINED` - Critical High Risk Action Required
     DeclaredDataCategoriesEnum:
       enum:
       - PCI_CARDHOLDER_DATA
@@ -277,6 +314,13 @@ components:
         * `DPA` - Data Processing Addendum
         * `SOC2_TYPE2` - SOC 2 Type II Compliance Report
         * `PCI_DSS_AOC` - PCI-DSS Attestation of Compliance
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        error:
+          type: string
     ExtractionStatusEnum:
       enum:
       - PENDING
@@ -289,24 +333,47 @@ components:
         * `FAILED` - Pipeline Error Processing File
     StatusEnum:
       enum:
-      - PENDING_ASSESSMENT
+      - PENDING
       - PROCESSING
-      - VERIFIED_GREEN
-      - CONDITIONAL_YELLOW
-      - QUARANTINED_RED
+      - VERIFIED
+      - CONDITIONAL
+      - QUARANTINED
       type: string
       description: |-
-        * `PENDING_ASSESSMENT` - Pending Assessment
+        * `PENDING` - Pending Assessment
         * `PROCESSING` - Processing Ingestion Pipeline
-        * `VERIFIED_GREEN` - Verified Low Risk
-        * `CONDITIONAL_YELLOW` - Conditional Medium Risk
-        * `QUARANTINED_RED` - Critical High Risk Action Required
+        * `VERIFIED` - Verified Low Risk
+        * `CONDITIONAL` - Conditional Medium Risk
+        * `QUARANTINED` - Critical High Risk Action Required
     VendorDetail:
       type: object
       properties:
         vendor_id:
           type: string
           format: uuid
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        declared_data_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeclaredDataCategoriesEnum'
+          readOnly: true
+        declared_systems_accessed:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorDocument'
+          readOnly: true
+        execution_trace_log:
+          type: string
+          format: uri
           readOnly: true
         vendor_name:
           type: string
@@ -325,8 +392,24 @@ components:
           format: decimal
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           nullable: true
-        status:
-          $ref: '#/components/schemas/StatusEnum'
+        extracted_legal_bounds:
+          description: "\n            - contract_end_date, contract_start_date (ISO
+            strings)\n            - breach_notification_hours (integer numbers)\n
+            \           - data_return_deadline_days (integer numbers)\n            -
+            subprocessors_disclosed (array of text strings)\n            - data_categories_processed
+            (array of text strings)\n            - liability_cap_usd (numeric float/integer
+            value)\n            - liability_uncapped_for_security_breach (boolean)\n
+            \           - cert_termination_right (boolean)\n            - soc2_opinion_type
+            (\"qualified\" or \"unqualified\")\n            - soc2_audit_period_end
+            (ISO string)\n            - pci_dss_level (integer or string value)\n
+            \           - pci_assessor_type (\"independent_qsa\" or \"self_assessed\")\n
+            \           "
+        discovered_infrastructure:
+          description: |-
+            Array of live discovered endpoint configurations. Expected structure:
+            [
+              {'system_name': 'prod-db-01', 'data_sensitivity': 'PCI_HIGH_CRITICALITY'}
+            ]
         current_risk_score:
           type: string
           format: decimal
@@ -340,32 +423,6 @@ components:
           nullable: true
           description: AI-generated audit rationale explaining compliance exceptions
             or structural defects.
-        declared_data_categories:
-          description: List of asset classes intended to be shared with this vendor.
-        declared_systems_accessed:
-          description: List of targeted system logical endpoints the vendor can access.
-        extracted_legal_bounds:
-          description: "\n            - contract_end_date, contract_start_date (ISO
-            strings)\n            - breach_notification_hours (integer numbers)\n
-            \           - data_return_deadline_days (integer numbers)\n            -
-            subprocessors_disclosed (array of text strings)\n            - data_categories_processed
-            (array of text strings)\n            - liability_cap_usd (numeric float/integer
-            value)\n            - liability_uncapped_for_security_breach (boolean)\n
-            \           - cert_termination_right (boolean)\n            - soc2_opinion_type
-            (\"qualified\" or \"unqualified\")\n            - soc2_audit_period_end
-            (ISO string)\n            - pci_dss_level (integer or string value)\n
-            \           - pci_assessor_type (\"independent_qsa\" or \"self_assessed\")\n
-            \           "
-        execution_trace_log:
-          type: string
-          format: uri
-          nullable: true
-          description: Relative path to the latest audit trace log file for this vendor.
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/VendorDocument'
-          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -377,7 +434,11 @@ components:
       required:
       - business_owner
       - created_at
+      - declared_data_categories
+      - declared_systems_accessed
       - documents
+      - execution_trace_log
+      - status
       - updated_at
       - vendor_id
       - vendor_name
@@ -390,9 +451,13 @@ components:
           format: uuid
           readOnly: true
         document_type:
-          $ref: '#/components/schemas/DocumentTypeEnum'
+          allOf:
+          - $ref: '#/components/schemas/DocumentTypeEnum'
+          readOnly: true
         extraction_status:
-          $ref: '#/components/schemas/ExtractionStatusEnum'
+          allOf:
+          - $ref: '#/components/schemas/ExtractionStatusEnum'
+          readOnly: true
         uploaded_at:
           type: string
           format: date-time
@@ -403,9 +468,10 @@ components:
       required:
       - document_id
       - document_type
+      - extraction_status
       - is_expired
       - uploaded_at
-    VendorIngestionRequest:
+    VendorIngestionRequestRequest:
       type: object
       properties:
         vendor_name:
@@ -450,6 +516,20 @@ components:
       - documents
       - vendor_name
       - vendor_type
+    VendorIngestionResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        vendor_id:
+          type: string
+          format: uuid
+        current_status:
+          $ref: '#/components/schemas/CurrentStatusEnum'
+      required:
+      - current_status
+      - message
+      - vendor_id
     VendorList:
       type: object
       properties:
@@ -470,7 +550,9 @@ components:
           description: Internal enterprise manager overseeing the relationship.
           maxLength: 255
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
         current_risk_score:
           type: string
           format: decimal
@@ -490,7 +572,34 @@ components:
       required:
       - business_owner
       - created_at
+      - status
       - updated_at
       - vendor_id
       - vendor_name
       - vendor_type
+    VendorRiskPredictionResponse:
+      type: object
+      properties:
+        vendor_id:
+          type: string
+        vendor_name:
+          type: string
+        is_anomaly:
+          type: boolean
+        anomaly_type:
+          type: string
+        confidence:
+          type: number
+          format: double
+        all_probs:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+      - all_probs
+      - anomaly_type
+      - confidence
+      - is_anomaly
+      - vendor_id
+      - vendor_name

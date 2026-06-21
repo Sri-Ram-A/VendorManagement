@@ -1,8 +1,10 @@
 # filepath: backend/analytics/views.py
 import joblib
+import numpy as np
 import pandas as pd
 from pathlib import Path
 from loguru import logger
+from typing import Protocol, cast
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.request import Request
@@ -13,8 +15,38 @@ from drf_spectacular.types import OpenApiTypes
 from django.conf import settings
 
 from core.models import Vendor
-from .serializer import VendorListSerializer, VendorDetailSerializer
-from analytics.models import VendorRegistry
+from .serializer import (
+    VendorListSerializer,
+    VendorDetailSerializer,
+    ErrorResponseSerializer,
+    VendorRiskPredictionResponseSerializer,
+)
+from .models import VendorRegistry
+
+
+# Load model artifacts once at module import time (not per-request)
+ML_MODELS_DIR = Path(settings.BASE_DIR) / "analytics" / "ml_models"
+
+
+class ProbabilisticClassifier(Protocol):
+    classes_: np.ndarray
+
+    def predict(self, X: pd.DataFrame) -> np.ndarray: ...
+    def predict_proba(self, X: pd.DataFrame) -> np.ndarray: ...
+
+
+_rf_model = cast(
+    ProbabilisticClassifier,
+    joblib.load(ML_MODELS_DIR / "vendor_anomaly_model.pkl"),
+)
+_label_encoder = cast(
+    object,
+    joblib.load(ML_MODELS_DIR / "label_encoder.pkl"),
+)
+_feature_names = cast(
+    list[str],
+    joblib.load(ML_MODELS_DIR / "feature_names.pkl"),
+)
 
 
 @extend_schema(tags=["Vendors"])
@@ -22,13 +54,19 @@ class VendorListView(APIView):
     """Returns all vendors with their current risk status and score."""
 
     @extend_schema(
+        operation_id="vendor_list",
         summary="List vendors",
         description="Returns a clean array containing all registered vendor compliance rows.",
-        responses={status.HTTP_200_OK: VendorListSerializer(many=True)},
+        responses={
+            status.HTTP_200_OK: VendorListSerializer(many=True),
+            status.HTTP_500_INTERNAL_SERVER_ERROR: ErrorResponseSerializer,
+        },
     )
     def get(self, request: Request, *args, **kwargs) -> Response:
         queryset = Vendor.objects.all().order_by("-created_at")
-        serializer = VendorListSerializer(queryset, many=True)
+        serializer = VendorListSerializer(
+            queryset, many=True, context={"request": request}
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -37,9 +75,9 @@ class VendorDetailView(APIView):
     """Returns full compliance profile for a single vendor."""
 
     @extend_schema(
+        operation_id="vendor_detail",
         summary="Retrieve a vendor compliance profile",
         description="Fetches the complete compliance ledger, including data categories, legal bounds, and linked document artifacts.",
-        # Parameters match the exact URL keyword argument name
         parameters=[
             OpenApiParameter(
                 name="vendor_id",
@@ -51,26 +89,19 @@ class VendorDetailView(APIView):
         responses={
             status.HTTP_200_OK: VendorDetailSerializer,
             status.HTTP_404_NOT_FOUND: OpenApiResponse(
-                description="The specified vendor UUID does not exist."
+                response=ErrorResponseSerializer,
+                description="The specified vendor UUID does not exist.",
             ),
+            status.HTTP_500_INTERNAL_SERVER_ERROR: ErrorResponseSerializer,
         },
     )
     def get(self, request: Request, vendor_id: str, *args, **kwargs) -> Response:
-        # Pre-fetching documents keeps database execution down to a single hit
         vendor = get_object_or_404(
             Vendor.objects.prefetch_related("documents"),
             vendor_id=vendor_id,
         )
         serializer = VendorDetailSerializer(vendor, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# ---- Load model artifacts once at module import time (not per-request) ----
-ML_MODELS_DIR = Path(settings.BASE_DIR) / "analytics" / "ml_models"
-
-_rf_model = joblib.load(ML_MODELS_DIR / "vendor_anomaly_model.pkl")
-_label_encoder = joblib.load(ML_MODELS_DIR / "label_encoder.pkl")
-_feature_names = joblib.load(ML_MODELS_DIR / "feature_names.pkl")
 
 
 def build_features_simple(df: pd.DataFrame) -> pd.DataFrame:
@@ -140,13 +171,37 @@ def build_features_simple(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+@extend_schema(tags=["Analytics"])
 class VendorRiskPredictionView(APIView):
     """
     Accepts a vendor_id, looks up the vendor's registry row in the DB,
     runs feature extraction + trained RandomForest model, returns the prediction.
     """
 
-    @extend_schema(responses={200: dict})
+    @extend_schema(
+        operation_id="vendor_risk_prediction",
+        summary="Predict vendor anomaly risk",
+        description="Runs the anomaly model for a vendor registry record and returns the predicted class plus class probabilities.",
+        parameters=[
+            OpenApiParameter(
+                name="vendor_id",
+                type=OpenApiTypes.UUID,
+                location=OpenApiParameter.PATH,
+                description="Vendor registry UUID.",
+            )
+        ],
+        responses={
+            200: VendorRiskPredictionResponseSerializer,
+            404: OpenApiResponse(
+                response=ErrorResponseSerializer,
+                description="Vendor not found in registry.",
+            ),
+            500: OpenApiResponse(
+                response=ErrorResponseSerializer,
+                description="Unexpected model or inference failure.",
+            ),
+        },
+    )
     def get(self, request: Request, vendor_id) -> Response:
         logger.debug(f"VendorRiskPredictionView: predicting for vendor {vendor_id}")
 

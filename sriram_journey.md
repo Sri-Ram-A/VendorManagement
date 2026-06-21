@@ -36,8 +36,15 @@ If you cannot immediately regenerate your protos, some other possible workaround
     opentelemetry-proto \
     opentelemetry-exporter-otlp-proto-grpc
 
+python manage.py spectacular --file schema.yaml
 npm install -D openapi-typescript
 npm install openapi-fetch
-npx openapi-typescript /home/srirama/Documents/sr_proj/VendorManagement/schema.yaml -o ./src/types/schema.ts
+npx openapi-typescript /home/srirama/Documents/sr_proj/VendorManagement/backend/schema.yaml -o ./types/schema.ts
 
 24097cd2-e08c-4f04-97ad-497ae74c686d
+
+micromamba activate pytorch
+cd backend
+python manage.py runserver
+podman start redis-cc
+celery -A backend worker -l info
