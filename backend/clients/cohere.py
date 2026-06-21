@@ -12,7 +12,6 @@ def call_cohere(
     client = cohere.ClientV2(api_key=settings.COHERE_API_KEY)
 
     model = "command-r-plus-08-2024" if force_json else "command-a-reasoning-08-2025"
-
     kwargs = dict(
         model=model,
         messages=[

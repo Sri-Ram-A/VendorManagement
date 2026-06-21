@@ -33,23 +33,31 @@ class VendorIngestionSerializer(serializers.ModelSerializer):
             "declared_systems_accessed",
             "documents",
         ]
-    def validate_declared_systems_accessed(self, value):
-            if value in ("", None):
-                return []
-                
-            # 1. Attempt to parse it as a native JSON array first
-            try:
-                parsed = json.loads(value)
-                if isinstance(parsed, list):
-                    return parsed
-            except (json.JSONDecodeError, TypeError):
-                # If JSON decoding fails, gracefully fall back to parsing it as a comma-separated string
-                pass
+        extra_kwargs = {
+            "vendor_name": {
+                "validators": []  # Clears UniqueValidator so existing names pass validation
+            }
+        }
 
-            # 2. Comma-separated string parsing path
-            if isinstance(value, str):
-                # Split by commas and strip out accidental whitespace
-                cleaned_list = [item.strip() for item in value.split(",") if item.strip()]
-                return cleaned_list
-                
-            raise serializers.ValidationError("Must be a valid JSON array or a comma-separated string.")
+    def validate_declared_systems_accessed(self, value):
+        if value in ("", None):
+            return []
+
+        # 1. Attempt to parse it as a native JSON array first
+        try:
+            parsed = json.loads(value)
+            if isinstance(parsed, list):
+                return parsed
+        except (json.JSONDecodeError, TypeError):
+            # If JSON decoding fails, gracefully fall back to parsing it as a comma-separated string
+            pass
+
+        # 2. Comma-separated string parsing path
+        if isinstance(value, str):
+            # Split by commas and strip out accidental whitespace
+            cleaned_list = [item.strip() for item in value.split(",") if item.strip()]
+            return cleaned_list
+
+        raise serializers.ValidationError(
+            "Must be a valid JSON array or a comma-separated string."
+        )

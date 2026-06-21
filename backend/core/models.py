@@ -91,11 +91,11 @@ class Vendor(models.Model):
         ),
     )
 
-    # Interactive Knowledge Graph Execution Trace Log Store
-    execution_trace_log = models.TextField(
-        default="",
+    execution_trace_log = models.FileField(
+        upload_to="",  # path is set manually in tasks.py
+        null=True,
         blank=True,
-        help_text="Stores machine-readable Obsidian-style log strings to generate UI dependency flow graphs.",
+        help_text="Relative path to the latest audit trace log file for this vendor.",
     )
 
     # Analytical Scoring Cache Metrics
@@ -126,13 +126,8 @@ class Vendor(models.Model):
 
 
 def vendor_document_path_resolver(instance, filename: str) -> str:
-    """
-    Computes a clean, standardized storage pathway for uploaded compliance evidence.
-    Format: compliance_vault/Vendor_Name/Document_Type/[unique_uuid]_filename.pdf
-    """
-    clean_vendor_name = instance.vendor.vendor_name.replace(" ", "_")
     unique_prefix = uuid.uuid4().hex[:12]
-    return f"compliance_vault/{clean_vendor_name}/{instance.document_type}/{unique_prefix}_{filename}"
+    return f"{instance.vendor.vendor_id}/docs/{unique_prefix}_{filename}"
 
 
 class VendorDocument(models.Model):

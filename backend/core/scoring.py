@@ -453,26 +453,13 @@ def compute_and_save_score(vendor_id: str) -> dict:
     vendor.status = risk_band
     vendor.risk_narrative_summary = narrative
 
-    # 7. Append a scoring trace block to the execution log — keeps the audit trail in one place
-    trace_block = (
-        f"\n\n## Scoring run — {datetime.utcnow().isoformat()}\n"
-        f"Total: {total_score:.2f} ({risk_band})\n"
-        f"Previous: {vendor.previous_risk_score} -> Current: {vendor.current_risk_score}\n"
-        + "\n".join(
-            f"- [{r['category']}] {r['reason']} (+{r['points']:.0f})"
-            for r in all_fired_rules
-        )
-    )
-    vendor.execution_trace_log = vendor.execution_trace_log + trace_block
-
-    # 8. Persist everything in one save
+    # 7. Persist everything in one save
     vendor.save(
         update_fields=[
             "previous_risk_score",
             "current_risk_score",
             "status",
             "risk_narrative_summary",
-            "execution_trace_log",
         ]
     )
     v_logger.success(

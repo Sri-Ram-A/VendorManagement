@@ -3,6 +3,7 @@ import uuid
 from celery import shared_task, chord
 from django.db import transaction
 from django.db.models import QuerySet
+from django.conf import settings
 
 from clients.chroma import get_vector_store
 from clients.docling import get_converter
@@ -10,6 +11,7 @@ from backend.logging import get_vendor_logger
 from .models import Vendor, VendorDocument
 from .orchestrator import run_compliance_audit_orchestrator
 from .scoring import compute_and_save_score
+
 
 @shared_task(name="core.tasks.process_vendor_onboarding_pipeline")
 def process_vendor_onboarding_pipeline(vendor_id: str) -> str:
@@ -58,7 +60,7 @@ def parse_and_vectorize_document(document_id_str: str, vendor_id: str) -> bool:
         # 0. Check whether document exists in database
         document = VendorDocument.objects.get(pk=uuid.UUID(document_id_str))
         pdf_path = document.file.path
-        v_logger.info(f"Starting markdown extraction for {document.file.name}")
+        v_logger.info(f"Starting markdown extraction for file type {document.document_type} and name {document.file.name}")
         if not os.path.exists(pdf_path):
             raise FileNotFoundError(f"Binary file asset payload missing : {pdf_path}")
 
@@ -122,7 +124,7 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
     vendor.status = Vendor.Status.PROCESSING
     vendor.save(update_fields=["status"])
 
-    # 4. fetch + reconstruct markdown for every successfully parsed document 
+    # 4. fetch + reconstruct markdown for every successfully parsed document
     documents_payload = {}
     for document in successful_docs:
         full_markdown = get_vector_store().read_document_chunks_in_order(
@@ -145,10 +147,7 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
 
     # 6. persist the orchestrator's results onto the Vendor row
     vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
-    vendor.execution_trace_log = (
-        vendor.execution_trace_log + "\n\n" + result["trace_log_append"]
-    )
-    vendor.save(update_fields=["extracted_legal_bounds", "execution_trace_log"])
+    vendor.save(update_fields=["extracted_legal_bounds"])
     v_logger.success(
         f"ORCHESTRATOR_DONE: fields={len(result['fields_extracted'])} conflicts={len(result['conflicts'])}"
     )
@@ -156,4 +155,16 @@ def execute_vendor_compliance_audit(vendor_id: str) -> str:
     # 7. hand off to scoring
     compute_and_save_score.delay(vendor_id)
 
+    # after result = run_compliance_audit_orchestrator(...)
+
+    vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
+
+    # build timestamped filename and save log file
+    v_logger = get_vendor_logger(str(vendor.vendor_id))
+    relative_log_path = os.path.relpath(v_logger.log_file, settings.MEDIA_ROOT)
+    vendor.extracted_legal_bounds = result["extracted_legal_bounds"]
+    vendor.execution_trace_log = relative_log_path
+    vendor.save(update_fields=["extracted_legal_bounds", "execution_trace_log"])
+
     return f"AUDIT_COMPLETE: fields={len(result['fields_extracted'])}"
+

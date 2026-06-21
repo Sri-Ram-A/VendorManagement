@@ -38,17 +38,24 @@ class VendorDocumentIngestionView(APIView):
         vendor_name = validated_data["vendor_name"]
 
         # 1. Initialize structural transactional model record state
-        vendor = Vendor.objects.create(
+        vendor, created = Vendor.objects.get_or_create(
             vendor_name=vendor_name,
-            vendor_type=validated_data["vendor_type"],
-            business_owner=validated_data["business_owner"],
-            annual_spend=validated_data.get("annual_spend"),
-            declared_data_categories=validated_data.get("declared_data_categories", []),
-            declared_systems_accessed=validated_data.get(
-                "declared_systems_accessed", []
-            ),
-            status=Vendor.Status.PROCESSING,
+            defaults={
+                "vendor_type": validated_data["vendor_type"],
+                "business_owner": validated_data["business_owner"],
+                "annual_spend": validated_data.get("annual_spend"),
+                "declared_data_categories": validated_data.get(
+                    "declared_data_categories", []
+                ),
+                "declared_systems_accessed": validated_data.get(
+                    "declared_systems_accessed", []
+                ),
+                "status": Vendor.Status.PROCESSING,
+            },
         )
+        if not created:
+            vendor.status = Vendor.Status.PROCESSING
+            vendor.save(update_fields=["status"])
         # Initialize the dynamic contextual logger instance for this vendor path
         v_logger = get_vendor_logger(vendor_id=str(vendor.vendor_id))
         v_logger.info(f"Initialized transactional ledger for vendor: '{vendor_name}'")

@@ -104,7 +104,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": ".md",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -129,7 +129,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 423.5
   },
   "right": {
     "id": "5fc8ad904aff7c72",
@@ -231,7 +231,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 626.5
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -247,23 +247,23 @@
   },
   "active": "9d062b9fe54bca70",
   "lastOpenFiles": [
+    "files/vendor-vault/Meridian Pay Solution/Meridian Pay Solutions.md",
+    "files/vendor-vault/Ashford Clearing Networks/Ashford Clearing Networks.md",
+    "files/vendor-vault/Ashford Clearing Networks/SOC2.pdf",
+    "files/vendor-vault/Ashford Clearing Networks/PCI_DSS.pdf",
+    "files/vendor-vault/Ashford Clearing Networks/MasterServicesAgreement.pdf",
+    "files/vendor-vault/Ashford Clearing Networks/Data_Processing_Addendum.pdf",
+    "files/vendor-vault/Helios/soc2.pdf",
+    "gemini-scribe/Scheduled-Tasks/Runs",
+    "gemini-scribe/Background-Tasks",
+    "gemini-scribe/Agent-Sessions",
     "files/vendor-vault/Helios/Helios.md",
     "files/vendor-vault/Helios/msa.pdf",
-    "files/vendor-vault/Helios/soc2.pdf",
     "files/vendor-vault/vendor1/vendor1.md",
     "files/vendor-vault/vendor1/Data_Processing_Addendum.pdf",
-    "files/vendor-vault/vendor1/MasterServicesAgreement.pdf",
-    "files/vendor-vault/Helios/dpa.pdf",
     "gemini-scribe/Agent-Sessions/2026-06-21 Vendor Risk and Documentation.md",
     "files/vendor-vault/Vertex Transact Corp/Vertex Transact Corp.md",
-    "files/vendor-vault/Vertex Transact Corp/MasterServicesAgreement.pdf",
-    "files/vendor-vault/Meridian Pay Solution/Meridian Pay Solutions.md",
-    "files/vendor-vault/Meridian Pay Solution/Data_Processing_Addendum.pdf",
     "files/vendor-vault/Cascade Settlement Group/Cascade Settlement Group.md",
-    "files/vendor-vault/Ashford Clearing Networks/Ashford Clearing Networks.md",
-    "files/vendor-vault/Meridian Pay Solution",
-    "files/vendor-vault/Meridian Pay Solution/SOC2.pdf",
-    "files/vendor-vault/Meridian Pay Solution/PCI_DSS.pdf",
     "vendor2/soc2.md",
     "vendor2/pci.md",
     "vendor2/master_agreement.md",
