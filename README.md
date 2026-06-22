@@ -10,11 +10,8 @@
 
 ![Intro](images/intro.png)
 ![Intro](images/2dgraph.png)
-
-<p align="center">
-  <img src="images/home.png" width="49%" />
-  <img src="images/logs.png" width="49%" />
-</p>
+![Intro](images/home.png)
+![Intro](images/logs.png)
 
 ---
 
