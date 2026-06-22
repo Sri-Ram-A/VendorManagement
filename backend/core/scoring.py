@@ -34,9 +34,9 @@ COMPONENT_WEIGHTS = {
 }
 
 BAND_THRESHOLDS = [
-    (80, "QUARANTINED_RED"),
-    (50, "CONDITIONAL_YELLOW"),
-    (0, "VERIFIED_GREEN"),
+    (80, "QUARANTINED"),
+    (50, "CONDITIONAL"),
+    (0, "VERIFIED"),
 ]
 
 ACCESS_WEIGHT_BY_SENSITIVITY = {
@@ -341,7 +341,7 @@ def total_score_to_band(total_score: float) -> str:
     for threshold, band in BAND_THRESHOLDS:
         if total_score >= threshold:
             return band
-    return "VERIFIED_GREEN"
+    return "VERIFIED"
 
 
 # ============================================================
